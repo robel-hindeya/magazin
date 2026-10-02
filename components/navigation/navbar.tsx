@@ -29,6 +29,7 @@ export interface NavbarProps {
 export function Navbar({ user }: NavbarProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const isAdminArea = pathname.startsWith('/admin') || pathname.startsWith('/superadmin');
 
   const handleLogout = async () => {
     try {
@@ -112,17 +113,21 @@ export function Navbar({ user }: NavbarProps) {
 
           {/* Desktop Navigation Links */}
           <nav className="flex items-center space-x-7 font-display font-bold text-sm tracking-wide text-purple-200">
-            <Link
-              href="/users/kids"
-              className={cn(
-                'flex items-center gap-1.5 transition-colors hover:text-yellow-300 hover:-translate-y-0.5 transform',
-                pathname === '/users/kids' || pathname === '/users/kids/magazine' ? 'text-yellow-300 font-black' : ''
-              )}
-            >
-              <BookOpen className="h-3.5 w-3.5 text-amber-400" />
-              Kids
-            </Link>
-            <ParentGateButton variant="navbar-desktop" />
+            {!isAdminArea && (
+              <>
+                <Link
+                  href="/users/kids"
+                  className={cn(
+                    'flex items-center gap-1.5 transition-colors hover:text-yellow-300 hover:-translate-y-0.5 transform',
+                    pathname === '/users/kids' || pathname === '/users/kids/magazine' ? 'text-yellow-300 font-black' : ''
+                  )}
+                >
+                  <BookOpen className="h-3.5 w-3.5 text-amber-400" />
+                  Kids
+                </Link>
+                <ParentGateButton variant="navbar-desktop" />
+              </>
+            )}
 
             {user && (
               <>
@@ -266,22 +271,25 @@ export function Navbar({ user }: NavbarProps) {
           <span className="text-[11px] font-display font-bold">Home</span>
         </Link>
 
-        {/* 2. Kids */}
-        <Link
-          href="/users/kids"
-          className={cn(
-            'flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all',
-            pathname === '/users/kids' || pathname === '/users/kids/magazine'
-              ? 'text-yellow-300 font-black scale-105'
-              : 'text-purple-300 hover:text-white'
-          )}
-        >
-          <BookOpen className="h-5 w-5 mb-0.5" />
-          <span className="text-[11px] font-display font-bold">Kids</span>
-        </Link>
+        {/* 2. Kids & 3. Parents */}
+        {!isAdminArea && (
+          <>
+            <Link
+              href="/users/kids"
+              className={cn(
+                'flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all',
+                pathname === '/users/kids' || pathname === '/users/kids/magazine'
+                  ? 'text-yellow-300 font-black scale-105'
+                  : 'text-purple-300 hover:text-white'
+              )}
+            >
+              <BookOpen className="h-5 w-5 mb-0.5" />
+              <span className="text-[11px] font-display font-bold">Kids</span>
+            </Link>
 
-        {/* 3. Parents (PIN protected) */}
-        <ParentGateButton variant="navbar-mobile" />
+            <ParentGateButton variant="navbar-mobile" />
+          </>
+        )}
 
         {/* 4. Portal (if signed in) or Sign In (if signed out) */}
         {user ? (

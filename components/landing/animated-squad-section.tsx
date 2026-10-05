@@ -195,20 +195,20 @@ export function AnimatedSquadSection() {
     : SQUAD_CHARACTERS.filter((c) => c.category === filter);
 
   return (
-    <section className="w-full bg-gradient-to-b from-[#0b0621] via-[#150d3d] to-[#0b0621] py-24 text-white relative overflow-hidden border-y-4 border-purple-900/60">
+    <section className="w-full bg-white dark:bg-gradient-to-b dark:from-[#0b0621] dark:via-[#150d3d] dark:to-[#0b0621] py-24 text-slate-900 dark:text-white relative overflow-hidden border-y-4 border-slate-200/80 dark:border-purple-900/60 transition-colors">
       {/* Background starlight */}
-      <div className="absolute inset-0 stars-pattern opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 stars-pattern opacity-10 dark:opacity-40 pointer-events-none" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <Badge variant="amber" className="mb-3 text-xs uppercase tracking-wider font-black px-4 py-1">
+          <Badge variant="purple" className="mb-3 text-xs uppercase tracking-wider font-black px-4 py-1">
             Famous Movie Animation Characters
           </Badge>
-          <h2 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
+          <h2 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-slate-900 dark:text-white tracking-tight leading-tight">
             Meet Your Animated Writing Mentors
           </h2>
-          <p className="mt-4 text-base sm:text-xl text-purple-200 font-medium">
+          <p className="mt-4 text-base sm:text-xl text-slate-600 dark:text-purple-200 font-medium">
             Hover your cursor over any movie character to hear their writing advice, unlock their superpowers, and choose your favorite story companion!
           </p>
 
@@ -225,8 +225,8 @@ export function AnimatedSquadSection() {
                 onClick={() => setFilter(tab.id as typeof filter)}
                 className={`px-4 py-2 rounded-2xl text-xs sm:text-sm font-black transition-all cursor-pointer ${
                   filter === tab.id
-                    ? 'bg-yellow-400 text-purple-950 shadow-lg shadow-yellow-400/30 scale-105'
-                    : 'bg-purple-900/60 text-purple-200 hover:bg-purple-800/80 border border-purple-700/50'
+                    ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 scale-105'
+                    : 'bg-slate-100 dark:bg-purple-900/60 text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800/80 border border-slate-200 dark:border-purple-700/50'
                 }`}
               >
                 {tab.label}
@@ -236,40 +236,40 @@ export function AnimatedSquadSection() {
         </div>
 
         {/* Selected Active Companion Banner */}
-        <div className="mb-12 rounded-3xl border-2 border-yellow-400/60 bg-gradient-to-r from-purple-950/90 via-purple-900/80 to-purple-950/90 p-6 sm:p-8 backdrop-blur-md shadow-2xl relative overflow-hidden">
+        <div className="mb-12 rounded-3xl border-2 border-emerald-400 dark:border-emerald-500/60 bg-emerald-50/50 dark:bg-gradient-to-r dark:from-purple-950/90 dark:via-purple-900/80 dark:to-purple-950/90 p-6 sm:p-8 backdrop-blur-md shadow-md dark:shadow-2xl relative overflow-hidden">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-5 sm:gap-6">
-              <div className="relative h-24 w-24 sm:h-28 sm:w-28 shrink-0 rounded-2xl bg-gradient-to-tr from-yellow-400/20 to-purple-400/20 p-2 border-2 border-yellow-400/50 shadow-inner flex items-center justify-center">
+              <div className="relative h-24 w-24 sm:h-28 sm:w-28 shrink-0 rounded-2xl bg-emerald-100/60 dark:bg-purple-900/40 p-2 border-2 border-emerald-400/50 shadow-inner flex items-center justify-center">
                 <Image
                   src={selectedCompanion.image}
                   alt={selectedCompanion.name}
                   fill
                   sizes="120px"
-                  className="object-contain drop-shadow-[0_8px_20px_rgba(251,191,36,0.6)] animate-wiggle"
+                  className="object-contain drop-shadow-[0_8px_20px_rgba(16,185,129,0.5)] animate-wiggle"
                 />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-black text-yellow-300 uppercase tracking-wider">
+                  <span className="text-xs font-black text-emerald-700 dark:text-emerald-300 uppercase tracking-wider">
                     Current Featured Companion
                   </span>
-                  <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
                 </div>
-                <h3 className="font-display font-black text-2xl sm:text-3xl text-white">
+                <h3 className="font-display font-black text-2xl sm:text-3xl text-slate-900 dark:text-white">
                   {selectedCompanion.name}{' '}
-                  <span className="text-sm font-bold text-purple-300">({selectedCompanion.movie})</span>
+                  <span className="text-sm font-bold text-slate-500 dark:text-purple-300">({selectedCompanion.movie})</span>
                 </h3>
-                <p className="text-sm text-yellow-100 font-extrabold mt-1">
+                <p className="text-sm text-slate-700 dark:text-purple-100 font-extrabold mt-1">
                   &ldquo;{selectedCompanion.quote}&rdquo;
                 </p>
-                <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-black text-purple-200">
-                  <span className="bg-purple-900/90 px-2.5 py-1 rounded-full border border-purple-700">
+                <div className="mt-2 flex flex-wrap gap-2 text-[11px] font-black text-slate-700 dark:text-purple-200">
+                  <span className="bg-white dark:bg-purple-900/90 px-2.5 py-1 rounded-full border border-slate-200 dark:border-purple-700 shadow-xs">
                     ⚡ {selectedCompanion.power}
                   </span>
-                  <span className="bg-purple-900/90 px-2.5 py-1 rounded-full border border-purple-700">
+                  <span className="bg-white dark:bg-purple-900/90 px-2.5 py-1 rounded-full border border-slate-200 dark:border-purple-700 shadow-xs">
                     🌟 Imagination {selectedCompanion.stats.imagination}%
                   </span>
-                  <span className="bg-purple-900/90 px-2.5 py-1 rounded-full border border-purple-700">
+                  <span className="bg-white dark:bg-purple-900/90 px-2.5 py-1 rounded-full border border-slate-200 dark:border-purple-700 shadow-xs">
                     📖 Vocab Boost {selectedCompanion.stats.vocabulary}%
                   </span>
                 </div>
@@ -278,9 +278,9 @@ export function AnimatedSquadSection() {
 
             <Link href="/auth/register">
               <Button
-                variant="yellow"
+                variant="emerald"
                 size="lg"
-                className="font-black text-sm px-6 h-12 shadow-xl whitespace-nowrap shrink-0"
+                className="font-black text-sm px-6 h-12 shadow-xl whitespace-nowrap shrink-0 bg-emerald-500 hover:bg-emerald-400 text-slate-950"
               >
                 Write with {selectedCompanion.name} Free
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -303,8 +303,8 @@ export function AnimatedSquadSection() {
                 onClick={() => setSelectedCompanion(char)}
                 className={`relative rounded-3xl border-2 transition-all duration-300 cursor-pointer overflow-visible group ${
                   isSelected
-                    ? 'border-yellow-400 bg-purple-950 shadow-xl shadow-yellow-400/20'
-                    : 'border-purple-800/60 bg-[#160d3d]/90 hover:border-yellow-400/80 hover:bg-[#1f1254] hover:-translate-y-2'
+                    ? 'border-emerald-500 bg-emerald-50/70 dark:bg-purple-950 shadow-xl shadow-emerald-500/20'
+                    : 'border-slate-200 dark:border-purple-800/60 bg-white dark:bg-[#160d3d]/90 hover:border-emerald-400 dark:hover:border-emerald-400/80 hover:bg-slate-50 dark:hover:bg-[#1f1254] hover:-translate-y-2 shadow-sm'
                 }`}
               >
                 {/* Floating Glow Behind Character */}
@@ -323,16 +323,16 @@ export function AnimatedSquadSection() {
                         : 'opacity-0 scale-90 translate-y-2'
                     }`}
                   >
-                    <div className="bg-white text-slate-900 rounded-2xl p-2.5 shadow-2xl border-2 border-yellow-400 text-left relative">
+                    <div className="bg-white text-slate-900 rounded-2xl p-2.5 shadow-2xl border-2 border-emerald-400 text-left relative">
                       <div className="flex items-center gap-1.5 text-[10px] font-black text-purple-700 uppercase">
-                        <MessageCircle className="h-3 w-3 text-yellow-500 fill-yellow-400" />
+                        <MessageCircle className="h-3 w-3 text-emerald-500 fill-emerald-400" />
                         <span>{char.name} Says:</span>
                       </div>
                       <p className="text-[11px] font-extrabold text-slate-800 leading-snug mt-0.5 line-clamp-2">
                         &ldquo;{char.quote}&rdquo;
                       </p>
                       {/* Triangle Pointer */}
-                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-yellow-400" />
+                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-emerald-400" />
                     </div>
                   </div>
 
@@ -347,38 +347,38 @@ export function AnimatedSquadSection() {
                       alt={`${char.name} character cutout`}
                       fill
                       sizes="180px"
-                      className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)]"
+                      className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.3)]"
                     />
                   </div>
 
                   {/* Title & Franchise */}
                   <div className="w-full mt-2">
-                    <span className="text-[10px] uppercase font-black tracking-wider text-yellow-400 block">
+                    <span className="text-[10px] uppercase font-black tracking-wider text-emerald-600 dark:text-emerald-400 block">
                       {char.movie}
                     </span>
-                    <h4 className="font-display font-black text-xl text-white mt-0.5 flex items-center justify-center gap-1.5">
+                    <h4 className="font-display font-black text-xl text-slate-900 dark:text-white mt-0.5 flex items-center justify-center gap-1.5">
                       {char.name}
                       {isSelected && (
-                        <Check className="h-4 w-4 text-yellow-400 inline" />
+                        <Check className="h-4 w-4 text-emerald-500 inline" />
                       )}
                     </h4>
-                    <p className="text-xs text-purple-300 font-bold mt-0.5">
+                    <p className="text-xs text-slate-500 dark:text-purple-300 font-bold mt-0.5">
                       {char.tagline}
                     </p>
                   </div>
 
                   {/* Power Badge */}
                   <div className="mt-3 w-full">
-                    <div className="rounded-xl bg-purple-900/60 border border-purple-700/60 p-2 text-left space-y-1.5">
+                    <div className="rounded-xl bg-slate-50 dark:bg-purple-900/60 border border-slate-200 dark:border-purple-700/60 p-2 text-left space-y-1.5">
                       <div className="flex items-center justify-between text-[10px] font-black">
-                        <span className="text-yellow-300 flex items-center gap-1">
-                          <Zap className="h-3 w-3" /> {char.power}
+                        <span className="text-purple-700 dark:text-purple-300 flex items-center gap-1">
+                          <Zap className="h-3 w-3 text-emerald-500" /> {char.power}
                         </span>
-                        <span className="text-purple-300">{char.stats.adventure}%</span>
+                        <span className="text-slate-500 dark:text-purple-300">{char.stats.adventure}%</span>
                       </div>
-                      <div className="w-full bg-purple-950 rounded-full h-1.5 overflow-hidden">
+                      <div className="w-full bg-slate-200 dark:bg-purple-950 rounded-full h-1.5 overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-yellow-400 to-amber-500 h-full rounded-full transition-all duration-500"
+                          className="bg-gradient-to-r from-emerald-400 to-teal-500 h-full rounded-full transition-all duration-500"
                           style={{ width: `${char.stats.adventure}%` }}
                         />
                       </div>
@@ -391,8 +391,8 @@ export function AnimatedSquadSection() {
                       type="button"
                       className={`w-full py-2 px-3 rounded-xl text-xs font-black transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-yellow-400 text-purple-950 shadow-md font-black'
-                          : 'bg-purple-800/50 hover:bg-yellow-400 hover:text-purple-950 text-purple-200'
+                          ? 'bg-emerald-500 text-white shadow-md font-black'
+                          : 'bg-slate-100 dark:bg-purple-800/50 hover:bg-emerald-500 hover:text-white text-slate-700 dark:text-purple-200'
                       }`}
                     >
                       {isSelected ? 'Selected Companion' : `Pick ${char.name}`}
@@ -406,12 +406,12 @@ export function AnimatedSquadSection() {
 
         {/* Bottom Squad Callout */}
         <div className="mt-14 text-center">
-          <p className="text-sm font-bold text-purple-300">
+          <p className="text-sm font-bold text-slate-600 dark:text-purple-300">
             Every young writer gets to unlock and write alongside their favorite animated movie friends.
           </p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-4">
             <Link href="/auth/register">
-              <Button variant="yellow" size="lg" className="font-black text-sm px-8">
+              <Button variant="emerald" size="lg" className="font-black text-sm px-8 bg-emerald-500 hover:bg-emerald-400 text-slate-950">
                 Create Free Account & Choose Your Mentor &rarr;
               </Button>
             </Link>

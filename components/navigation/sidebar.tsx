@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { PARENT_PIN_COOKIE } from '@/backend/constants/roles';
 import { ParentGateModal } from '@/components/auth/parent-gate-modal';
-import { Lock, BookOpen, User } from 'lucide-react';
+import { Lock, BookOpen, User, Gamepad2, Users } from 'lucide-react';
 
 export interface SidebarItem {
   label: string;
@@ -55,7 +55,9 @@ export function Sidebar({ title, subtitle, items, footer }: SidebarProps) {
   const displaySubtitle = isKidsArea ? undefined : subtitle;
   const displayItems: SidebarItem[] = isKidsArea
     ? [
-        { label: 'Night Zoo Magazine', href: '/users/kids', icon: <BookOpen className="h-4 w-4 text-amber-400" /> },
+        { label: 'Night Zoo Magazine', href: '/users/kids', icon: <BookOpen className="h-4 w-4 text-purple-400" /> },
+        { label: 'Games Arcade', href: '/games', icon: <Gamepad2 className="h-4 w-4 text-emerald-400" /> },
+        { label: 'Community', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
         { label: 'Profile', href: '/users/kids/profile', icon: <User className="h-4 w-4 text-cyan-400" /> },
       ]
     : items.filter((item) => !item.requiresPin || !pathname.startsWith('/users/kids'));

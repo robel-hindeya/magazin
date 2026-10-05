@@ -28,13 +28,15 @@ export default async function RootLayout({
             __html: `
               (function() {
                 try {
-                  var stored = localStorage.getItem('selam-kids-theme');
-                  var isDark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                  var stored = localStorage.getItem('selam-kids-theme-mode');
+                  var isDark = stored === 'dark';
                   if (isDark) {
                     document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
                     document.documentElement.style.colorScheme = 'dark';
                   } else {
                     document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
                     document.documentElement.style.colorScheme = 'light';
                   }
                 } catch (e) {}
@@ -43,7 +45,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-slate-50 dark:bg-[#070314] font-sans antialiased text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
+      <body className="min-h-screen bg-white dark:bg-[#070314] font-sans antialiased text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
         <ThemeProvider>
           <Navbar user={user} />
           <main className="flex-1 flex flex-col pb-16 lg:pb-0">{children}</main>

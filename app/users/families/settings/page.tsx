@@ -80,19 +80,19 @@ export default async function FamilySettingsPage() {
       />
 
       {/* Parental Lock PIN Card */}
-      <Card className="shadow-sm border-2 border-purple-200 bg-gradient-to-r from-purple-50/50 to-white">
+      <Card className="shadow-sm border-2 border-purple-200 dark:border-purple-800/60 bg-gradient-to-r from-purple-50/50 to-white dark:from-purple-950/40 dark:to-[#13092e]">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-purple-950 font-display font-black">
+            <CardTitle className="flex items-center gap-2 text-purple-950 dark:text-purple-200 font-display font-black">
               <span>Parental 4-Digit Security PIN</span>
             </CardTitle>
-            <span className="rounded-full bg-purple-100 text-purple-800 text-[10px] font-black uppercase px-2.5 py-1 border border-purple-200">
+            <span className="rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-800 dark:text-purple-300 text-[10px] font-black uppercase px-2.5 py-1 border border-purple-200 dark:border-purple-700">
               {family.parent_pin ? 'PIN Active' : 'Setup Required'}
             </span>
           </div>
           <CardDescription>
             This 4-digit password protects the Parent Dashboard and family settings. When kids are logged in, they remain safely at{' '}
-            <strong className="text-purple-700">/users/kids</strong> and cannot view the parent hub without this PIN.
+            <strong className="text-purple-700 dark:text-purple-300">/users/kids</strong> and cannot view the parent hub without this PIN.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -111,7 +111,7 @@ export default async function FamilySettingsPage() {
               <p className="text-[11px] text-slate-500 mt-1">Must be exactly 4 numeric digits (0-9).</p>
             </div>
             <div className="flex justify-end">
-              <Button type="submit" variant="yellow" className="font-black text-xs">
+              <Button type="submit" variant="emerald" className="font-black text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950">
                 Save 4-Digit Parent PIN
               </Button>
             </div>
@@ -120,7 +120,7 @@ export default async function FamilySettingsPage() {
       </Card>
 
       {/* Profile Card */}
-      <Card className="shadow-sm">
+      <Card className="shadow-sm border border-slate-200/80 dark:border-purple-800/40 bg-white dark:bg-[#13092e]">
         <CardHeader>
           <CardTitle>Family Details</CardTitle>
           <CardDescription>Household name and primary contact</CardDescription>
@@ -140,14 +140,16 @@ export default async function FamilySettingsPage() {
               placeholder="+1 (555) 000-0000"
             />
             <div className="flex justify-end">
-              <Button type="submit">Save Family Details</Button>
+              <Button type="submit" variant="emerald" className="font-black text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950">
+                Save Family Details
+              </Button>
             </div>
           </form>
         </CardContent>
       </Card>
 
       {/* Add Child Section */}
-      <Card id="add-child" className="shadow-sm border-cyan-200">
+      <Card id="add-child" className="shadow-sm border border-emerald-200 dark:border-emerald-800/50 bg-white dark:bg-[#13092e]">
         <CardHeader>
           <CardTitle>Enroll a Child Explorer</CardTitle>
           <CardDescription>
@@ -187,7 +189,7 @@ export default async function FamilySettingsPage() {
               </div>
             </div>
             <div className="flex justify-end">
-              <Button type="submit" variant="default" className="bg-cyan-600 hover:bg-cyan-700">
+              <Button type="submit" variant="emerald" className="font-black text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950">
                 Enroll Child
               </Button>
             </div>

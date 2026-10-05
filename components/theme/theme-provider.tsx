@@ -15,10 +15,10 @@ interface ThemeContextType {
 
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'selam-kids-theme';
+const STORAGE_KEY = 'selam-kids-theme-mode';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = React.useState<Theme>('system');
+  const [theme, setThemeState] = React.useState<Theme>('light');
   const [resolvedTheme, setResolvedTheme] = React.useState<ResolvedTheme>('light');
   const [mounted, setMounted] = React.useState(false);
 
@@ -27,11 +27,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const root = document.documentElement;
     let effectiveTheme: ResolvedTheme = 'light';
 
-    if (targetTheme === 'system') {
+    if (targetTheme === 'dark') {
+      effectiveTheme = 'dark';
+    } else if (targetTheme === 'system') {
       const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       effectiveTheme = systemDark ? 'dark' : 'light';
     } else {
-      effectiveTheme = targetTheme;
+      effectiveTheme = 'light';
     }
 
     if (effectiveTheme === 'dark') {
@@ -51,23 +53,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setMounted(true);
     try {
       const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-      const initialTheme: Theme = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+      // Default is white (light)
+      const initialTheme: Theme = stored === 'dark' ? 'dark' : 'light';
       setThemeState(initialTheme);
       applyTheme(initialTheme);
     } catch {
-      applyTheme('system');
+      applyTheme('light');
     }
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleSystemChange = () => {
       try {
         const currentStored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-        if (!currentStored || currentStored === 'system') {
+        if (currentStored === 'system') {
           applyTheme('system');
         }
-      } catch {
-        applyTheme('system');
-      }
+      } catch {}
     };
 
     mediaQuery.addEventListener('change', handleSystemChange);

@@ -82,24 +82,24 @@ export function MagazineReaderModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md transition-all animate-in fade-in">
-      <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-[#140c36] border-4 border-amber-400/80 rounded-3xl sm:rounded-4xl shadow-2xl shadow-purple-900/60 overflow-hidden text-white">
+      <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col bg-white dark:bg-[#140c36] border-4 border-slate-200 dark:border-purple-800/80 rounded-3xl sm:rounded-4xl shadow-2xl overflow-hidden text-slate-900 dark:text-white transition-colors">
         
         {/* Header Ribbon */}
-        <div className="relative z-10 flex items-center justify-between px-4 sm:px-6 py-3.5 bg-gradient-to-r from-purple-900 via-indigo-950 to-purple-900 border-b-2 border-amber-400/40">
+        <div className="relative z-10 flex items-center justify-between px-4 sm:px-6 py-3.5 bg-slate-50 dark:bg-gradient-to-r dark:from-purple-900 dark:via-indigo-950 dark:to-purple-900 border-b-2 border-slate-200 dark:border-purple-800/80">
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-tr from-amber-400 to-yellow-300 text-slate-950 shadow-md shadow-amber-400/30">
+            <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-md shadow-emerald-500/30">
               <BookOpen className="h-5 w-5" />
             </span>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-display font-black text-amber-300 text-sm sm:text-base tracking-wide uppercase">
+                <span className="font-display font-black text-emerald-600 dark:text-emerald-400 text-sm sm:text-base tracking-wide uppercase">
                   Night Zoo Magazine • Issue #{magazine.issueNumber}
                 </span>
                 <Badge variant="magic" className="text-[10px] px-2 py-0.5 uppercase tracking-widest hidden sm:inline-flex">
                   {magazine.editionName}
                 </Badge>
               </div>
-              <p className="text-[11px] text-purple-200 font-medium line-clamp-1">
+              <p className="text-[11px] text-slate-500 dark:text-purple-200 font-medium line-clamp-1">
                 {magazine.title}
               </p>
             </div>
@@ -111,7 +111,7 @@ export function MagazineReaderModal({
               className={`p-2 rounded-xl border transition-all ${
                 liked
                   ? 'bg-rose-500 border-rose-400 text-white scale-110 shadow-lg shadow-rose-500/40'
-                  : 'bg-purple-950/60 border-purple-700/60 text-purple-200 hover:text-white'
+                  : 'bg-slate-100 dark:bg-purple-950/60 border-slate-200 dark:border-purple-700/60 text-slate-600 dark:text-purple-200 hover:text-rose-500'
               }`}
               title="Like this Issue"
             >
@@ -120,7 +120,7 @@ export function MagazineReaderModal({
 
             <button
               onClick={onClose}
-              className="p-2 rounded-xl bg-purple-950/80 border border-purple-700/60 hover:bg-rose-600 hover:border-rose-500 text-white transition-all"
+              className="p-2 rounded-xl bg-slate-100 dark:bg-purple-950/80 border border-slate-200 dark:border-purple-700/60 hover:bg-rose-600 hover:border-rose-500 text-slate-700 dark:text-white transition-all"
               title="Close Reader"
             >
               <X className="h-5 w-5" />
@@ -456,7 +456,7 @@ export function MagazineReaderModal({
                           : 'btn-3d-yellow'
                       } gap-2 font-display font-black text-base px-8 py-6 rounded-2xl shadow-xl`}
                     >
-                      <Trophy className="h-5 w-5 text-amber-950" />
+                      <Trophy className="h-5 w-5 text-white" />
                       {orbsClaimed ? '✓ 50 Glowing Orbs Claimed!' : 'Claim +50 Glowing Orbs!'}
                     </Button>
                   </div>
@@ -467,13 +467,13 @@ export function MagazineReaderModal({
         </div>
 
         {/* Footer Navigation Bar */}
-        <div className="relative z-10 flex items-center justify-between px-4 sm:px-8 py-3.5 bg-[#0f0728] border-t-2 border-purple-900/80">
+        <div className="relative z-10 flex items-center justify-between px-4 sm:px-8 py-3.5 bg-white dark:bg-[#0f0728] border-t-2 border-slate-200 dark:border-purple-900/80">
           <Button
             variant="ghost"
             size="sm"
             onClick={handlePrev}
             disabled={currentPageIndex === 0}
-            className="text-purple-300 hover:text-white disabled:opacity-30 gap-1.5"
+            className="text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white disabled:opacity-30 gap-1.5"
           >
             <ChevronLeft className="h-4 w-4" />
             Previous Page
@@ -487,8 +487,8 @@ export function MagazineReaderModal({
                 onClick={() => setCurrentPageIndex(idx)}
                 className={`h-3 rounded-full transition-all ${
                   idx === currentPageIndex
-                    ? 'w-7 bg-amber-400 shadow-md shadow-amber-400/50'
-                    : 'w-3 bg-purple-800 hover:bg-purple-600'
+                    ? 'w-7 bg-emerald-500 shadow-md shadow-emerald-500/50'
+                    : 'w-3 bg-slate-200 dark:bg-purple-800 hover:bg-slate-300 dark:hover:bg-purple-600'
                 }`}
                 title={`Go to Page ${idx + 1}`}
               />
@@ -500,7 +500,7 @@ export function MagazineReaderModal({
             size="sm"
             onClick={handleNext}
             disabled={currentPageIndex === totalPages - 1}
-            className="text-purple-300 hover:text-white disabled:opacity-30 gap-1.5"
+            className="text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white disabled:opacity-30 gap-1.5"
           >
             Next Page
             <ChevronRight className="h-4 w-4" />

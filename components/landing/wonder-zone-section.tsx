@@ -177,20 +177,20 @@ export function WonderZoneSection() {
   return (
     <section
       ref={containerRef}
-      className="relative w-full overflow-hidden bg-[#10072d] text-white py-16 sm:py-24 border-b-4 border-purple-900/60 select-none"
+      className="relative w-full overflow-hidden bg-white dark:bg-[#10072d] text-slate-900 dark:text-white py-16 sm:py-24 border-b-4 border-slate-200/80 dark:border-purple-900/60 select-none transition-colors"
     >
       {/* Background Starry Nebula */}
-      <div className="absolute inset-0 stars-pattern opacity-60 pointer-events-none" />
-      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-600/30 blur-[130px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-10 -right-20 w-96 h-96 bg-pink-600/25 blur-[140px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-amber-500/15 blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute inset-0 stars-pattern opacity-10 dark:opacity-60 pointer-events-none" />
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-600/10 dark:bg-purple-600/30 blur-[130px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-10 -right-20 w-96 h-96 bg-pink-600/10 dark:bg-pink-600/25 blur-[140px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-500/10 dark:bg-emerald-500/15 blur-[160px] rounded-full pointer-events-none" />
 
       {/* Floating coordinates particles */}
       {floatingParticles.map((p) => (
         <div
           key={p.id}
           style={{ left: p.x, top: p.y }}
-          className="absolute z-50 pointer-events-none -translate-x-1/2 -translate-y-1/2 font-display font-black text-sm text-yellow-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] animate-out fade-out slide-out-to-top-8 duration-1000"
+          className="absolute z-50 pointer-events-none -translate-x-1/2 -translate-y-1/2 font-display font-black text-sm text-emerald-600 dark:text-emerald-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] animate-out fade-out slide-out-to-top-8 duration-1000"
         >
           {p.text}
         </div>
@@ -203,31 +203,31 @@ export function WonderZoneSection() {
             ========================================================================= */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-10">
           <div className="text-center md:text-left space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-800 to-indigo-900 px-4 py-1.5 border-2 border-purple-400/50 shadow-md">
-              <Star className="h-4 w-4 text-yellow-300 fill-yellow-300" />
-              <span className="font-display font-black text-xs uppercase tracking-wider text-yellow-300">
+            <div className="inline-flex items-center gap-2 rounded-full bg-purple-100 dark:bg-gradient-to-r dark:from-purple-800 dark:to-indigo-900 px-4 py-1.5 border-2 border-purple-200 dark:border-purple-400/50 shadow-sm">
+              <Star className="h-4 w-4 text-purple-600 dark:text-purple-300 fill-purple-600 dark:fill-purple-300" />
+              <span className="font-display font-black text-xs uppercase tracking-wider text-purple-800 dark:text-purple-200">
                 The Living Creature Playground
               </span>
-              <span className="text-[10px] bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded-full">
+              <span className="text-[10px] bg-emerald-500 text-white font-black px-2 py-0.5 rounded-full">
                 TOUCH & PLAY
               </span>
             </div>
 
-            <h2 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-white tracking-tight leading-tight">
-              Where Words Take <span className="text-yellow-300 underline decoration-pink-500 decoration-wavy decoration-3">Wild Shapes</span>!
+            <h2 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-slate-900 dark:text-white tracking-tight leading-tight">
+              Where Words Take <span className="text-emerald-600 dark:text-emerald-400 underline decoration-purple-500 decoration-wavy decoration-3">Wild Shapes</span>!
             </h2>
-            <p className="text-purple-200 text-sm sm:text-base font-medium">
+            <p className="text-slate-600 dark:text-purple-200 text-sm sm:text-base font-medium">
               Poke the animated companions, pop the floating vocabulary bubbles, and tap the mystery chest to collect hidden glowing orbs!
             </p>
           </div>
 
           {/* Kid Interactive Scoreboard & Sound Toggle */}
           <div className="flex items-center gap-3 shrink-0">
-            <div className="flex items-center gap-2 rounded-2xl bg-slate-950/80 border-2 border-amber-400/70 px-5 py-3 shadow-xl">
-              <Trophy className="h-5 w-5 text-amber-400 fill-amber-400 animate-bounce" />
+            <div className="flex items-center gap-2 rounded-2xl bg-white dark:bg-slate-950/80 border-2 border-emerald-400/80 px-5 py-3 shadow-md dark:shadow-xl">
+              <Trophy className="h-5 w-5 text-emerald-500 fill-emerald-500 animate-bounce" />
               <div>
-                <span className="text-[10px] font-bold text-purple-300 uppercase block">Playground Orbs</span>
-                <span className="font-display font-black text-xl text-yellow-300 leading-none">
+                <span className="text-[10px] font-bold text-slate-500 dark:text-purple-300 uppercase block">Playground Orbs</span>
+                <span className="font-display font-black text-xl text-emerald-600 dark:text-emerald-400 leading-none">
                   {orbsFound} Collected
                 </span>
               </div>
@@ -236,9 +236,9 @@ export function WonderZoneSection() {
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
               title={soundEnabled ? 'Mute Playground Sounds' : 'Turn On Sounds'}
-              className="p-3.5 rounded-2xl bg-purple-950/90 border-2 border-purple-700 hover:border-yellow-400 text-purple-200 hover:text-white transition-all shadow-md active:scale-95"
+              className="p-3.5 rounded-2xl bg-white dark:bg-purple-950/90 border-2 border-slate-200 dark:border-purple-700 hover:border-emerald-400 text-slate-700 dark:text-purple-200 hover:text-emerald-600 dark:hover:text-white transition-all shadow-sm active:scale-95"
             >
-              {soundEnabled ? <Volume2 className="h-5 w-5 text-yellow-300" /> : <VolumeX className="h-5 w-5 text-slate-400" />}
+              {soundEnabled ? <Volume2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400" /> : <VolumeX className="h-5 w-5 text-slate-400" />}
             </button>
           </div>
         </div>
@@ -246,7 +246,7 @@ export function WonderZoneSection() {
         {/* =========================================================================
             THE PLAYGROUND: UNDEFINED MORPHING SHAPES WITH ANIMATED CHARACTERS
             ========================================================================= */}
-        <div className="relative min-h-[580px] sm:min-h-[620px] w-full rounded-4xl bg-gradient-to-b from-[#180a3a]/80 via-[#130730]/90 to-[#0c0422]/95 border-4 border-purple-700/60 p-4 sm:p-8 backdrop-blur-xl shadow-2xl overflow-hidden">
+        <div className="relative min-h-[580px] sm:min-h-[620px] w-full rounded-4xl bg-purple-50/40 dark:bg-gradient-to-b dark:from-[#180a3a]/80 dark:via-[#130730]/90 dark:to-[#0c0422]/95 border-4 border-purple-200 dark:border-purple-700/60 p-4 sm:p-8 backdrop-blur-xl shadow-lg dark:shadow-2xl overflow-hidden">
           
           {/* Subtle grid runes and cosmic sparkles inside */}
           <div className="absolute inset-0 bg-[radial-gradient(#8b5cf6_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none" />
@@ -533,8 +533,8 @@ export function WonderZoneSection() {
               onClick={handleOpenChest}
               className={`btn-3d group relative flex flex-col items-center justify-center p-3 rounded-3xl transition-all duration-300 ${
                 chestOpen
-                  ? 'bg-amber-500/20 border-2 border-yellow-300 scale-105'
-                  : 'bg-purple-950/80 hover:bg-purple-900 border-2 border-amber-400 animate-bounce'
+                  ? 'bg-emerald-500/20 border-2 border-emerald-400 scale-105'
+                  : 'bg-white dark:bg-purple-950/80 hover:bg-slate-50 dark:hover:bg-purple-900 border-2 border-emerald-400 animate-bounce'
               }`}
             >
               <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center">
@@ -542,7 +542,7 @@ export function WonderZoneSection() {
                   {chestOpen ? '💎' : '🎁'}
                 </span>
               </div>
-              <span className="text-[11px] font-display font-black text-yellow-300 tracking-wider">
+              <span className="text-[11px] font-display font-black text-emerald-600 dark:text-emerald-300 tracking-wider">
                 {chestOpen ? '✨ SECRET UNLOCKED! (+25⭐)' : 'TAP TO OPEN MYSTERY CHEST!'}
               </span>
             </button>
@@ -553,16 +553,16 @@ export function WonderZoneSection() {
         {/* =========================================================================
             BOTTOM STRIP: KID INVITATION CTA
             ========================================================================= */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-3xl bg-gradient-to-r from-purple-950/80 via-[#1c0d45] to-purple-950/80 border-2 border-amber-400/50 shadow-xl">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-3xl bg-purple-50/90 dark:bg-gradient-to-r dark:from-purple-950/80 dark:via-[#1c0d45] dark:to-purple-950/80 border-2 border-purple-200 dark:border-purple-800/50 shadow-md dark:shadow-xl">
           <div className="flex items-center gap-3 text-center sm:text-left">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-400 text-slate-950 shadow-md shrink-0">
-              <Star className="h-6 w-6 fill-slate-950" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-md shrink-0">
+              <Star className="h-6 w-6 fill-white" />
             </div>
             <div>
-              <h4 className="font-display font-black text-white text-base">
+              <h4 className="font-display font-black text-slate-900 dark:text-white text-base">
                 Ready to create your own animated character and write legendary tales?
               </h4>
-              <p className="text-xs text-purple-200 font-medium">
+              <p className="text-xs text-slate-600 dark:text-purple-200 font-medium">
                 Choose your companion beast, level up vocabulary, and battle the shadow Grims!
               </p>
             </div>

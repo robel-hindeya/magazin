@@ -147,16 +147,16 @@ export default function ForgotPasswordPage() {
       <div className="absolute inset-0 stars-pattern opacity-60 pointer-events-none" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/20 blur-[130px] rounded-full pointer-events-none" />
 
-      <Card className="relative w-full max-w-md shadow-2xl border-4 border-purple-500/40 bg-[#160b3d]/95 backdrop-blur-xl text-white rounded-4xl">
+      <Card className="relative w-full max-w-md shadow-2xl border-2 border-slate-200/90 dark:border-purple-500/40 bg-white dark:bg-[#160b3d]/95 backdrop-blur-xl text-slate-900 dark:text-white rounded-4xl transition-colors">
         <CardHeader className="text-center space-y-3 pt-8 pb-3">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-tr from-amber-400 to-yellow-300 text-slate-900 shadow-xl shadow-amber-400/30">
-            <ShieldCheck className="h-8 w-8 text-amber-950" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 shadow-xl shadow-emerald-500/20">
+            <ShieldCheck className="h-8 w-8 text-slate-950" />
           </div>
           <div>
-            <CardTitle className="font-display font-black text-3xl tracking-wide text-white drop-shadow">
+            <CardTitle className="font-display font-black text-3xl tracking-wide text-slate-900 dark:text-white drop-shadow-sm">
               {step === 'PHONE' ? 'Forgot Password?' : 'Enter OTP & New Password'}
             </CardTitle>
-            <CardDescription className="text-purple-200 font-medium text-sm mt-1">
+            <CardDescription className="text-slate-500 dark:text-purple-200 font-medium text-sm mt-1">
               {step === 'PHONE'
                 ? 'Enter your phone number to receive an OTP verification code'
                 : `We sent a 6-digit code to ${countryCode} ${phoneNumber}`}
@@ -169,8 +169,8 @@ export default function ForgotPasswordPage() {
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 ring-2 ring-emerald-400/50">
               <CheckCircle2 className="h-10 w-10" />
             </div>
-            <h3 className="font-display font-black text-2xl text-white">Password Updated!</h3>
-            <p className="text-purple-200 text-sm">
+            <h3 className="font-display font-black text-2xl text-slate-900 dark:text-white">Password Updated!</h3>
+            <p className="text-slate-600 dark:text-purple-200 text-sm">
               Logging you into your Selam Kids realm now...
             </p>
           </CardContent>
@@ -179,13 +179,13 @@ export default function ForgotPasswordPage() {
           <form onSubmit={handleSendOtp}>
             <CardContent className="space-y-4 px-6 sm:px-8">
               {error && (
-                <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-950/80 p-3.5 text-xs font-bold text-rose-200 shadow-inner">
+                <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-50 dark:bg-rose-950/80 p-3.5 text-xs font-bold text-rose-700 dark:text-rose-200 shadow-inner">
                   {error}
                 </div>
               )}
 
               <div>
-                <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200 mb-1.5">
+                <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200 mb-1.5">
                   Your Phone Number
                 </label>
                 <div className="flex gap-2">
@@ -193,10 +193,10 @@ export default function ForgotPasswordPage() {
                   <select
                     value={countryCode}
                     onChange={(e) => setCountryCode(e.target.value)}
-                    className="h-12 w-[110px] rounded-2xl border-2 border-purple-700/80 bg-purple-950/70 px-2.5 text-xs font-black text-white focus:border-yellow-400 focus:outline-none cursor-pointer appearance-none text-center shrink-0"
+                    className="h-12 w-[110px] rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 px-2.5 text-xs font-black text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none cursor-pointer appearance-none text-center shrink-0"
                   >
                     {COUNTRY_CODES.map((c) => (
-                      <option key={c.code} value={c.dial} className="bg-[#1b0d47] text-white">
+                      <option key={c.code} value={c.dial} className="bg-white dark:bg-[#1b0d47] text-slate-900 dark:text-white">
                         {c.flag} {c.dial}
                       </option>
                     ))}
@@ -205,19 +205,19 @@ export default function ForgotPasswordPage() {
                   {/* Phone input */}
                   <div className="relative flex-1">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                      <Phone className="h-4 w-4 text-purple-400" />
+                      <Phone className="h-4 w-4 text-purple-500 dark:text-purple-400" />
                     </div>
                     <input
                       type="tel"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       placeholder="912 345 678"
-                      className="w-full h-12 pl-10 pr-3.5 rounded-2xl border-2 border-purple-700/80 bg-purple-950/70 text-sm font-semibold text-white placeholder-purple-400 focus:border-yellow-400 focus:outline-none transition-colors"
+                      className="w-full h-12 pl-10 pr-3.5 rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder-purple-400 focus:border-emerald-500 focus:outline-none transition-colors"
                       required
                     />
                   </div>
                 </div>
-                <p className="mt-1.5 text-[11px] text-purple-300 font-medium">
+                <p className="mt-1.5 text-[11px] text-slate-500 dark:text-purple-300 font-medium">
                   We will send a one-time SMS verification code to your phone.
                 </p>
               </div>
@@ -225,9 +225,9 @@ export default function ForgotPasswordPage() {
               <div className="pt-2">
                 <Button
                   type="submit"
-                  variant="yellow"
+                  variant="emerald"
                   size="lg"
-                  className="w-full h-14 text-base font-black shadow-xl"
+                  className="w-full h-14 text-base font-black shadow-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950"
                   disabled={loading}
                 >
                   {loading ? (
@@ -238,17 +238,17 @@ export default function ForgotPasswordPage() {
                   ) : (
                     <span className="flex items-center gap-2">
                       Send OTP Code
-                      <ArrowRight className="h-5 w-5 text-purple-950" />
+                      <ArrowRight className="h-5 w-5 text-slate-950" />
                     </span>
                   )}
                 </Button>
               </div>
             </CardContent>
 
-            <CardFooter className="flex flex-col space-y-3 pt-2 pb-8 border-t border-purple-800/40 text-center">
+            <CardFooter className="flex flex-col space-y-3 pt-2 pb-8 border-t border-slate-100 dark:border-purple-800/40 text-center">
               <Link
                 href="/auth/login"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-yellow-300 hover:text-yellow-200 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline transition-colors"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 Back to Sign In
@@ -260,18 +260,18 @@ export default function ForgotPasswordPage() {
           <form onSubmit={handleVerifyAndReset}>
             <CardContent className="space-y-4 px-6 sm:px-8">
               {error && (
-                <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-950/80 p-3.5 text-xs font-bold text-rose-200 shadow-inner">
+                <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-50 dark:bg-rose-950/80 p-3.5 text-xs font-bold text-rose-700 dark:text-rose-200 shadow-inner">
                   {error}
                 </div>
               )}
 
               {/* Simulated SMS Alert Banner */}
               {receivedOtp && (
-                <div className="rounded-2xl border-2 border-amber-400/60 bg-amber-400/10 p-3 flex items-center gap-2.5 text-xs font-bold text-yellow-300">
-                  <MessageSquare className="h-5 w-5 text-yellow-400 shrink-0" />
+                <div className="rounded-2xl border-2 border-emerald-400/60 bg-emerald-50 dark:bg-emerald-950/40 p-3 flex items-center gap-2.5 text-xs font-bold text-emerald-800 dark:text-emerald-300">
+                  <MessageSquare className="h-5 w-5 text-emerald-500 dark:text-emerald-400 shrink-0" />
                   <div>
                     <span>SMS Sent! Your Verification Code is: </span>
-                    <strong className="text-yellow-400 font-black text-sm tracking-wider underline">
+                    <strong className="text-emerald-600 dark:text-emerald-400 font-black text-sm tracking-wider underline">
                       {receivedOtp}
                     </strong>
                   </div>
@@ -280,7 +280,7 @@ export default function ForgotPasswordPage() {
 
               {/* 1. OTP Code Input */}
               <div>
-                <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200 mb-1.5">
+                <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200 mb-1.5">
                   6-Digit OTP Code
                 </label>
                 <input
@@ -289,32 +289,32 @@ export default function ForgotPasswordPage() {
                   value={otpCode}
                   onChange={(e) => setOtpCode(e.target.value)}
                   placeholder="e.g. 582910"
-                  className="w-full h-12 rounded-2xl border-2 border-purple-700/80 bg-purple-950/70 text-center font-display font-black text-xl tracking-widest text-yellow-300 placeholder-purple-500 focus:border-yellow-400 focus:outline-none transition-colors"
+                  className="w-full h-12 rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 text-center font-display font-black text-xl tracking-widest text-emerald-600 dark:text-emerald-400 placeholder:text-slate-400 dark:placeholder-purple-500 focus:border-emerald-500 focus:outline-none transition-colors"
                   required
                 />
               </div>
 
               {/* 2. New Password Input */}
               <div>
-                <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200 mb-1.5">
+                <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200 mb-1.5">
                   New Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                    <Lock className="h-4 w-4 text-purple-400" />
+                    <Lock className="h-4 w-4 text-purple-500 dark:text-purple-400" />
                   </div>
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="At least 6 characters"
-                    className="w-full h-12 pl-10 pr-10 rounded-2xl border-2 border-purple-700/80 bg-purple-950/70 text-sm font-semibold text-white placeholder-purple-400 focus:border-yellow-400 focus:outline-none transition-colors"
+                    className="w-full h-12 pl-10 pr-10 rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder-purple-400 focus:border-emerald-500 focus:outline-none transition-colors"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-purple-400 hover:text-white"
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:text-purple-400 dark:hover:text-white"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -322,11 +322,11 @@ export default function ForgotPasswordPage() {
               </div>
 
               {/* Resend OTP */}
-              <div className="flex items-center justify-between text-xs text-purple-300">
+              <div className="flex items-center justify-between text-xs text-slate-500 dark:text-purple-300">
                 <button
                   type="button"
                   onClick={() => setStep('PHONE')}
-                  className="hover:text-yellow-300 underline font-medium"
+                  className="hover:text-emerald-600 dark:hover:text-emerald-400 underline font-medium"
                 >
                   Change phone number
                 </button>
@@ -336,7 +336,7 @@ export default function ForgotPasswordPage() {
                   <button
                     type="button"
                     onClick={handleSendOtp}
-                    className="text-yellow-300 font-bold hover:underline"
+                    className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline"
                   >
                     Resend OTP
                   </button>
@@ -346,9 +346,9 @@ export default function ForgotPasswordPage() {
               <div className="pt-2">
                 <Button
                   type="submit"
-                  variant="yellow"
+                  variant="emerald"
                   size="lg"
-                  className="w-full h-14 text-base font-black shadow-xl"
+                  className="w-full h-14 text-base font-black shadow-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950"
                   disabled={loading}
                 >
                   {loading ? (
@@ -359,17 +359,17 @@ export default function ForgotPasswordPage() {
                   ) : (
                     <span className="flex items-center gap-2">
                       Verify OTP & Login Again
-                      <ArrowRight className="h-5 w-5 text-purple-950" />
+                      <ArrowRight className="h-5 w-5 text-slate-950" />
                     </span>
                   )}
                 </Button>
               </div>
             </CardContent>
 
-            <CardFooter className="flex flex-col space-y-3 pt-2 pb-8 border-t border-purple-800/40 text-center">
+            <CardFooter className="flex flex-col space-y-3 pt-2 pb-8 border-t border-slate-100 dark:border-purple-800/40 text-center">
               <Link
                 href="/auth/login"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-yellow-300 hover:text-yellow-200 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline transition-colors"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 Back to Sign In

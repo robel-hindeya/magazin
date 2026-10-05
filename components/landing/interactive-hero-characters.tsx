@@ -144,7 +144,7 @@ export function InteractiveHeroCharacters() {
                     : 'opacity-0 scale-90 translate-y-2'
                 }`}
               >
-                <div className="bg-white/95 text-slate-900 rounded-2xl p-3 sm:p-4 shadow-2xl border-2 border-yellow-400 backdrop-blur-md relative">
+                <div className="bg-white/95 text-slate-900 rounded-2xl p-3 sm:p-4 shadow-2xl border-2 border-emerald-400 backdrop-blur-md relative">
                   {/* Bubble Pointer Arrow */}
                   <div className="text-[10px] uppercase font-black tracking-wider text-purple-700 flex items-center justify-between mb-1">
                     <span>{char.name}</span>
@@ -153,9 +153,9 @@ export function InteractiveHeroCharacters() {
                   <p className="text-xs font-extrabold text-slate-800 leading-snug">
                     &ldquo;{char.quote}&rdquo;
                   </p>
-                  <div className="mt-1.5 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px] font-black text-amber-600">
+                  <div className="mt-1.5 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px] font-black text-purple-700">
                     <span>Power: {char.power}</span>
-                    <span className="text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full">
+                    <span className="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-full font-bold">
                       Ready!
                     </span>
                   </div>
@@ -164,7 +164,7 @@ export function InteractiveHeroCharacters() {
 
               {/* Small "Hover Me" badge pulse when not hovered */}
               {!isHovered && (
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap bg-purple-900/80 backdrop-blur-xs text-[9px] font-black text-yellow-300 px-2 py-0.5 rounded-full border border-purple-500/40 opacity-0 sm:opacity-85 pointer-events-none shadow-sm transition-opacity">
+                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap bg-purple-900/80 backdrop-blur-xs text-[9px] font-black text-emerald-300 px-2 py-0.5 rounded-full border border-purple-500/40 opacity-0 sm:opacity-85 pointer-events-none shadow-sm transition-opacity">
                   {char.name}
                 </div>
               )}

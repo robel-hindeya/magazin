@@ -16,7 +16,7 @@ export default async function KidsDashboardPage() {
       <PageHeader
         title={`Welcome to the Night Zoo, ${kid.nickname || 'Explorer'}!`}
         actions={
-          <div className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 px-5 py-2.5 text-slate-950 shadow-lg shadow-amber-400/30 font-display font-black text-sm border-2 border-yellow-200">
+          <div className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 px-5 py-2.5 text-slate-950 shadow-lg shadow-emerald-500/20 font-display font-black text-sm border-2 border-emerald-300">
             <Trophy className="h-4 w-4 fill-slate-950" />
             <span>{kid.orbs} Glowing Orbs</span>
           </div>

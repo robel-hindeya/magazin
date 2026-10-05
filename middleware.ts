@@ -5,6 +5,7 @@ import { ROLE_REDIRECTS, ROLES, UserRole } from '@/backend/constants/roles';
 // Define public routes that do not require authentication
 const PUBLIC_PATHS = [
   '/',
+  '/games',
   '/about',
   '/contact',
   '/auth/login',

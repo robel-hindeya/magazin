@@ -3,14 +3,14 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-full font-display font-extrabold tracking-wide transition-all duration-150 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-300 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-full font-display font-extrabold tracking-wide transition-all duration-150 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-400 disabled:pointer-events-none disabled:opacity-50 select-none cursor-pointer',
   {
     variants: {
       variant: {
         default:
-          'btn-3d btn-3d-yellow text-slate-900',
+          'btn-3d btn-3d-purple text-white',
         yellow:
-          'btn-3d btn-3d-yellow text-slate-900',
+          'btn-3d btn-3d-yellow text-white',
         magic:
           'btn-3d btn-3d-purple text-white',
         emerald:
@@ -20,7 +20,7 @@ const buttonVariants = cva(
         cyan:
           'btn-3d btn-3d-cyan text-white',
         amber:
-          'btn-3d btn-3d-yellow text-slate-900',
+          'btn-3d btn-3d-yellow text-white',
         outline:
           'btn-3d btn-3d-white text-slate-800',
         secondary:

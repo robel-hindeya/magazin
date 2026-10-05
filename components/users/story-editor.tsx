@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
-import { Trophy, Send, PenTool, Sparkles, Heart } from 'lucide-react';
+import { Trophy, Send, PenTool, Star, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -107,7 +107,7 @@ export function StoryEditor({
                   : 'bg-purple-50/60 dark:bg-[#1a0e3f] text-slate-700 dark:text-purple-200 border-purple-200/80 dark:border-purple-800/80 hover:bg-purple-100/60 dark:hover:bg-purple-900/50 hover:border-amber-400'
               )}
             >
-              <Sparkles className={cn('h-4 w-4', mode === 'god' ? 'text-slate-950' : 'text-amber-500 dark:text-amber-400')} />
+              <Heart className={cn('h-4 w-4 fill-current', mode === 'god' ? 'text-slate-950' : 'text-purple-400')} />
               <span>Message to God</span>
             </button>
           </div>
@@ -152,8 +152,8 @@ export function StoryEditor({
           )
         ) : (
           <div className="rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 p-4 border-2 border-amber-200 dark:border-amber-800/70 text-xs sm:text-sm text-amber-950 dark:text-amber-200 font-medium shadow-inner">
-            <strong className="text-amber-700 dark:text-amber-300 font-display font-black flex items-center gap-1.5 mb-1">
-              <Sparkles className="h-4 w-4 text-amber-500" />
+            <strong className="text-purple-700 dark:text-purple-300 font-display font-black flex items-center gap-1.5 mb-1">
+              <Heart className="h-4 w-4 text-purple-500 fill-purple-500" />
               Prayer & Reflection Prompt:
             </strong>
             &ldquo;Talk to God: Write what is in your heart today — what you are grateful for, a special prayer for someone you love, your biggest dream, or anything you want to share.&rdquo;
@@ -175,7 +175,7 @@ export function StoryEditor({
                 : "bg-emerald-500 text-white shadow-emerald-500/30"
             )}>
               {reward.category === 'Message to God' ? (
-                <Sparkles className="h-7 w-7 text-slate-950" />
+                <Heart className="h-7 w-7 text-slate-950 fill-rose-500" />
               ) : (
                 <Trophy className="h-7 w-7 text-white" />
               )}

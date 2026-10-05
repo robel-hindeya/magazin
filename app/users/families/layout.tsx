@@ -21,11 +21,11 @@ export default async function FamiliesLayout({
         {/* Friendly banner for kids */}
         <div className="rounded-3xl bg-gradient-to-r from-purple-900/90 to-indigo-950 p-4 text-white flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg border border-purple-500/30">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-2xl bg-amber-400 text-purple-950 flex items-center justify-center font-black">
+            <div className="h-10 w-10 rounded-2xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black">
               <BookOpen className="h-5 w-5" />
             </div>
             <div>
-              <h4 className="font-display font-black text-sm text-yellow-300">
+              <h4 className="font-display font-black text-sm text-emerald-400">
                 Night Zoo Kids Realm
               </h4>
               <p className="text-xs text-purple-200">
@@ -35,7 +35,7 @@ export default async function FamiliesLayout({
           </div>
           <Link
             href="/users/kids"
-            className="shrink-0 flex items-center gap-2 rounded-2xl bg-yellow-400 hover:bg-yellow-300 text-purple-950 px-4 py-2 text-xs font-black transition-all shadow-md active:scale-95"
+            className="shrink-0 flex items-center gap-2 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 text-xs font-black transition-all shadow-md active:scale-95"
           >
             <BookOpen className="h-4 w-4" />
             <span>Go to Kids Portal</span>
@@ -69,7 +69,7 @@ export default async function FamiliesLayout({
         <div className="flex items-center gap-2.5">
           <Link
             href="/users/kids"
-            className="text-xs font-bold text-yellow-300 hover:underline flex items-center gap-1 px-2.5 py-1"
+            className="text-xs font-bold text-emerald-400 hover:underline flex items-center gap-1 px-2.5 py-1"
           >
             <BookOpen className="h-3.5 w-3.5" />
             <span>View Kids Page</span>

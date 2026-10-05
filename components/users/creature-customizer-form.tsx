@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import { Check, ChevronDown, Sparkles } from 'lucide-react';
+import { Check, ChevronDown, Star } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -195,7 +195,7 @@ export function CreatureCustomizerForm({
                   {selectedChar.name}
                 </CardTitle>
                 <span className="inline-flex items-center gap-1 rounded-full bg-purple-100 text-purple-900 dark:bg-purple-900/70 dark:text-purple-200 border border-purple-200 dark:border-purple-700 px-2.5 py-0.5 text-[11px] font-black">
-                  <Sparkles className="h-3 w-3 text-amber-500" />
+                  <Star className="h-3 w-3 text-emerald-500" />
                   {selectedChar.series}
                 </span>
               </div>

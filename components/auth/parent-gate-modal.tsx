@@ -276,7 +276,7 @@ export function ParentGateModal({
       {/* Decorative stars and nebula glow */}
       <div className="absolute inset-0 stars-pattern opacity-40 pointer-events-none" />
       <div className="absolute -top-16 -right-16 w-44 h-44 bg-purple-500/20 blur-3xl rounded-full pointer-events-none" />
-      <div className="absolute -bottom-16 -left-16 w-44 h-44 bg-amber-500/20 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute -bottom-16 -left-16 w-44 h-44 bg-emerald-500/20 blur-3xl rounded-full pointer-events-none" />
 
       {/* Close/Exit to Kids Button */}
       <div className="relative flex items-center justify-between pb-3 border-b border-purple-900/60 mb-5">
@@ -289,14 +289,14 @@ export function ParentGateModal({
               router.push('/users/kids');
             }
           }}
-          className="flex items-center gap-1.5 text-xs font-black text-purple-300 hover:text-yellow-300 transition-colors bg-purple-900/40 px-3 py-1.5 rounded-full border border-purple-800/60"
+          className="flex items-center gap-1.5 text-xs font-black text-purple-300 hover:text-emerald-400 transition-colors bg-purple-900/40 px-3 py-1.5 rounded-full border border-purple-800/60"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Kids Area</span>
         </button>
 
-        <span className="text-[10px] font-black uppercase tracking-widest text-amber-300 bg-amber-400/10 border border-amber-400/30 px-2.5 py-1 rounded-full flex items-center gap-1">
-          <ShieldCheck className="h-3 w-3 text-amber-400" />
+        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300 bg-emerald-400/10 border border-emerald-400/30 px-2.5 py-1 rounded-full flex items-center gap-1">
+          <ShieldCheck className="h-3 w-3 text-emerald-400" />
           Parental Gate
         </span>
 
@@ -314,14 +314,14 @@ export function ParentGateModal({
 
       {/* Icon & Title Header */}
       <div className="relative text-center space-y-2 mb-6">
-        <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-amber-400 p-0.5 shadow-xl shadow-purple-950/60">
+        <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-emerald-400 p-0.5 shadow-xl shadow-purple-950/60">
           <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-[#160a3a]">
             {successMsg ? (
               <Unlock className="h-8 w-8 text-emerald-400 animate-bounce" />
             ) : step === 'setup_first' || step === 'setup_confirm' ? (
-              <KeyRound className="h-8 w-8 text-yellow-300" />
+              <KeyRound className="h-8 w-8 text-emerald-400" />
             ) : (
-              <Lock className="h-8 w-8 text-yellow-300" />
+              <Lock className="h-8 w-8 text-emerald-400" />
             )}
           </div>
         </div>
@@ -359,7 +359,7 @@ export function ParentGateModal({
               className={cn(
                 'flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border-2 text-2xl font-display font-black transition-all duration-200 select-none shadow-inner',
                 isFilled
-                  ? 'border-yellow-400 bg-purple-950/90 text-yellow-300 shadow-md shadow-yellow-400/20 scale-105'
+                  ? 'border-emerald-400 bg-purple-950/90 text-emerald-400 shadow-md shadow-emerald-400/20 scale-105'
                   : isCurrent
                   ? 'border-purple-400 bg-purple-900/60 ring-4 ring-purple-400/20 animate-pulse text-transparent'
                   : 'border-purple-800/80 bg-[#0e0626] text-purple-600'
@@ -369,7 +369,7 @@ export function ParentGateModal({
                 showDigits ? (
                   digitChar
                 ) : (
-                  <span className="block h-3.5 w-3.5 rounded-full bg-yellow-400 shadow-sm" />
+                  <span className="block h-3.5 w-3.5 rounded-full bg-emerald-400 shadow-sm" />
                 )
               ) : isCurrent ? (
                 <span className="block h-2 w-2 rounded-full bg-purple-400/50" />
@@ -404,7 +404,7 @@ export function ParentGateModal({
         <button
           type="button"
           onClick={() => setShowDigits(!showDigits)}
-          className="ml-auto flex items-center gap-1 text-[11px] font-bold text-purple-300 hover:text-yellow-300 transition-colors p-1"
+          className="ml-auto flex items-center gap-1 text-[11px] font-bold text-purple-300 hover:text-emerald-400 transition-colors p-1"
           title={showDigits ? 'Hide PIN numbers' : 'Show PIN numbers'}
         >
           {showDigits ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
@@ -420,7 +420,7 @@ export function ParentGateModal({
             type="button"
             disabled={loading}
             onClick={() => handleDigitPress(digit)}
-            className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-purple-900/40 border border-purple-700/50 text-xl font-display font-black text-white hover:bg-purple-800/70 hover:border-yellow-400/70 active:scale-95 transition-all shadow-md active:bg-yellow-400 active:text-slate-950 cursor-pointer disabled:opacity-50"
+            className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-purple-900/40 border border-purple-700/50 text-xl font-display font-black text-white hover:bg-purple-800/70 hover:border-emerald-400/70 active:scale-95 transition-all shadow-md active:bg-emerald-400 active:text-slate-950 cursor-pointer disabled:opacity-50"
           >
             {digit}
           </button>
@@ -442,7 +442,7 @@ export function ParentGateModal({
           type="button"
           disabled={loading}
           onClick={() => handleDigitPress('0')}
-          className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-purple-900/40 border border-purple-700/50 text-xl font-display font-black text-white hover:bg-purple-800/70 hover:border-yellow-400/70 active:scale-95 transition-all shadow-md active:bg-yellow-400 active:text-slate-950 cursor-pointer disabled:opacity-50"
+          className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-purple-900/40 border border-purple-700/50 text-xl font-display font-black text-white hover:bg-purple-800/70 hover:border-emerald-400/70 active:scale-95 transition-all shadow-md active:bg-emerald-400 active:text-slate-950 cursor-pointer disabled:opacity-50"
         >
           0
         </button>
@@ -472,7 +472,7 @@ export function ParentGateModal({
                 setConfirmPin('');
                 setError(null);
               }}
-              className="text-yellow-300 font-bold hover:underline"
+              className="text-emerald-400 font-bold hover:underline"
             >
               Reset / Change PIN?
             </button>

@@ -95,16 +95,16 @@ export default function RegisterPage() {
       <div className="absolute inset-0 stars-pattern opacity-60 pointer-events-none" />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[550px] h-[550px] bg-purple-600/20 blur-[140px] rounded-full pointer-events-none" />
 
-      <Card className="relative w-full max-w-md shadow-2xl border-4 border-purple-500/40 bg-[#160b3d]/95 backdrop-blur-xl text-white rounded-4xl my-6">
+      <Card className="relative w-full max-w-md shadow-2xl border-2 border-slate-200/90 dark:border-purple-500/40 bg-white dark:bg-[#160b3d]/95 backdrop-blur-xl text-slate-900 dark:text-white rounded-4xl my-6 transition-colors">
         <CardHeader className="text-center space-y-3 pt-8 pb-3">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-tr from-yellow-400 via-amber-300 to-orange-400 text-slate-900 shadow-xl shadow-amber-400/30">
-            <Compass className="h-8 w-8 text-amber-950 animate-pulse" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 shadow-xl shadow-emerald-500/20">
+            <Compass className="h-8 w-8 text-slate-950 animate-pulse" />
           </div>
           <div>
-            <CardTitle className="font-display font-black text-3xl sm:text-4xl tracking-tight text-white drop-shadow">
+            <CardTitle className="font-display font-black text-3xl sm:text-4xl tracking-tight text-slate-900 dark:text-white drop-shadow-sm">
               Create Account
             </CardTitle>
-            <CardDescription className="text-purple-200 font-medium text-sm mt-1">
+            <CardDescription className="text-slate-500 dark:text-purple-200 font-medium text-sm mt-1">
               Join Selam Kids with your phone & username
             </CardDescription>
           </div>
@@ -115,23 +115,23 @@ export default function RegisterPage() {
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 ring-2 ring-emerald-400/50">
               <CheckCircle2 className="h-10 w-10" />
             </div>
-            <h3 className="font-display font-black text-2xl text-white">Account Created!</h3>
-            <p className="text-purple-200 text-sm">
-              Welcome to Selam Kids, <strong className="text-yellow-300">{username}</strong>! Redirecting you to your adventure...
+            <h3 className="font-display font-black text-2xl text-slate-900 dark:text-white">Account Created!</h3>
+            <p className="text-slate-600 dark:text-purple-200 text-sm">
+              Welcome to Selam Kids, <strong className="text-emerald-600 dark:text-emerald-400">{username}</strong>! Redirecting you to your adventure...
             </p>
           </CardContent>
         ) : (
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4 px-6 sm:px-8">
               {(localError || authError) && (
-                <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-950/80 p-3.5 text-xs font-bold text-rose-200 shadow-inner">
+                <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-50 dark:bg-rose-950/80 p-3.5 text-xs font-bold text-rose-700 dark:text-rose-200 shadow-inner">
                   {localError || authError}
                 </div>
               )}
 
               {/* 1. Country Code and Phone Number */}
               <div>
-                <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200 mb-1.5">
+                <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200 mb-1.5">
                   Phone Number
                 </label>
                 <div className="flex gap-2">
@@ -140,10 +140,10 @@ export default function RegisterPage() {
                     <select
                       value={countryCode}
                       onChange={(e) => setCountryCode(e.target.value)}
-                      className="h-12 w-[110px] rounded-2xl border-2 border-purple-700/80 bg-purple-950/70 px-2.5 text-xs font-black text-white focus:border-yellow-400 focus:outline-none cursor-pointer appearance-none text-center"
+                      className="h-12 w-[110px] rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 px-2.5 text-xs font-black text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none cursor-pointer appearance-none text-center"
                     >
                       {COUNTRY_CODES.map((c) => (
-                        <option key={c.code} value={c.dial} className="bg-[#1b0d47] text-white">
+                        <option key={c.code} value={c.dial} className="bg-white dark:bg-[#1b0d47] text-slate-900 dark:text-white">
                           {c.flag} {c.dial}
                         </option>
                       ))}
@@ -153,38 +153,38 @@ export default function RegisterPage() {
                   {/* Phone input */}
                   <div className="relative flex-1">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                      <Phone className="h-4 w-4 text-purple-400" />
+                      <Phone className="h-4 w-4 text-purple-500 dark:text-purple-400" />
                     </div>
                     <input
                       type="tel"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       placeholder="912 345 678"
-                      className="w-full h-12 pl-10 pr-3.5 rounded-2xl border-2 border-purple-700/80 bg-purple-950/70 text-sm font-semibold text-white placeholder-purple-400 focus:border-yellow-400 focus:outline-none transition-colors"
+                      className="w-full h-12 pl-10 pr-3.5 rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder-purple-400 focus:border-emerald-500 focus:outline-none transition-colors"
                       required
                     />
                   </div>
                 </div>
-                <p className="mt-1 text-[11px] text-purple-300 font-medium">
+                <p className="mt-1 text-[11px] text-slate-500 dark:text-purple-300 font-medium">
                   Select your country code and enter your mobile number.
                 </p>
               </div>
 
               {/* 2. Username */}
               <div>
-                <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200 mb-1.5">
+                <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200 mb-1.5">
                   Username
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                    <User className="h-4 w-4 text-purple-400" />
+                    <User className="h-4 w-4 text-purple-500 dark:text-purple-400" />
                   </div>
                   <input
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Choose a username (e.g. leo_star)"
-                    className="w-full h-12 pl-10 pr-3.5 rounded-2xl border-2 border-purple-700/80 bg-purple-950/70 text-sm font-semibold text-white placeholder-purple-400 focus:border-yellow-400 focus:outline-none transition-colors"
+                    className="w-full h-12 pl-10 pr-3.5 rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder-purple-400 focus:border-emerald-500 focus:outline-none transition-colors"
                     required
                   />
                 </div>
@@ -192,25 +192,25 @@ export default function RegisterPage() {
 
               {/* 3. Password */}
               <div>
-                <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200 mb-1.5">
+                <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200 mb-1.5">
                   Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                    <Lock className="h-4 w-4 text-purple-400" />
+                    <Lock className="h-4 w-4 text-purple-500 dark:text-purple-400" />
                   </div>
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="At least 6 characters"
-                    className="w-full h-12 pl-10 pr-10 rounded-2xl border-2 border-purple-700/80 bg-purple-950/70 text-sm font-semibold text-white placeholder-purple-400 focus:border-yellow-400 focus:outline-none transition-colors"
+                    className="w-full h-12 pl-10 pr-10 rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder-purple-400 focus:border-emerald-500 focus:outline-none transition-colors"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-purple-400 hover:text-white"
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:text-purple-400 dark:hover:text-white"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -220,9 +220,9 @@ export default function RegisterPage() {
               <div className="pt-2">
                 <Button
                   type="submit"
-                  variant="yellow"
+                  variant="emerald"
                   size="lg"
-                  className="w-full h-14 text-base font-black shadow-xl"
+                  className="w-full h-14 text-base font-black shadow-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950"
                   disabled={loading}
                 >
                   {loading ? (
@@ -233,19 +233,19 @@ export default function RegisterPage() {
                   ) : (
                     <span className="flex items-center gap-2">
                       Register Now
-                      <ArrowRight className="h-5 w-5 text-purple-950" />
+                      <ArrowRight className="h-5 w-5 text-slate-950" />
                     </span>
                   )}
                 </Button>
               </div>
             </CardContent>
 
-            <CardFooter className="flex flex-col space-y-3 pt-2 pb-8 border-t border-purple-800/40 text-center">
-              <div className="text-xs text-purple-300 font-medium">
+            <CardFooter className="flex flex-col space-y-3 pt-2 pb-8 border-t border-slate-100 dark:border-purple-800/40 text-center">
+              <div className="text-xs text-slate-500 dark:text-purple-300 font-medium">
                 Already have an account?{' '}
                 <Link
                   href="/auth/login"
-                  className="font-black text-yellow-300 hover:underline transition-all"
+                  className="font-black text-emerald-600 dark:text-emerald-400 hover:underline transition-all"
                 >
                   Sign In &rarr;
                 </Link>

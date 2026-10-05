@@ -7,7 +7,7 @@
 :root {
   --font-display: 'Baloo 2', cursive, sans-serif;
   --font-sans: 'Nunito', system-ui, sans-serif;
-  --background: #fdfaf6;
+  --background: #ffffff;
   --foreground: #1c1335;
   --night-dark: #0f0a26;
   --night-deep: #160f38;
@@ -90,19 +90,19 @@ h1, h2, h3, h4, h5, h6, .font-display {
   transform: translateY(3px) !important;
 }
 
-/* Yellow 3D Button (The signature Night Zookeeper Start Trial / CTA) */
+/* Signature Action Button (Secondary color: Emerald Green - NO YELLOW) */
 .btn-3d-yellow {
-  background: #ffcc00;
-  color: #1a0f37;
-  box-shadow: 0 5px 0 #cc9900, 0 8px 15px rgba(204, 153, 0, 0.35);
-  border: 2px solid #ffe680;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  box-shadow: 0 5px 0 #047857, 0 8px 15px rgba(5, 150, 105, 0.35);
+  border: 2px solid #6ee7b7;
 }
 .btn-3d-yellow:hover {
-  background: #ffd633;
-  box-shadow: 0 7px 0 #cc9900, 0 12px 20px rgba(204, 153, 0, 0.45);
+  background: linear-gradient(135deg, #34d399, #10b981);
+  box-shadow: 0 7px 0 #047857, 0 12px 20px rgba(5, 150, 105, 0.45);
 }
 .btn-3d-yellow:active {
-  box-shadow: 0 1px 0 #cc9900, 0 3px 6px rgba(204, 153, 0, 0.3);
+  box-shadow: 0 1px 0 #047857, 0 3px 6px rgba(5, 150, 105, 0.3);
 }
 
 /* Purple 3D Button (Magical Night Realm) */
@@ -231,14 +231,24 @@ h1, h2, h3, h4, h5, h6, .font-display {
   animation: wiggle 1s ease-in-out infinite;
 }
 
-/* Starry Night Sky Background */
+/* Starry Sky Background - Crisp white by default, dark in dark mode */
 .night-sky-bg {
+  background-color: #ffffff;
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(6, 182, 212, 0.07) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.06) 0%, transparent 35%);
+}
+
+.dark .night-sky-bg,
+.night-sky-bg.dark {
   background-color: #0b0621;
   background-image: 
     radial-gradient(circle at 15% 20%, rgba(139, 92, 246, 0.25) 0%, transparent 45%),
     radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.2) 0%, transparent 40%),
     radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.15) 0%, transparent 35%);
+    radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.15) 0%, transparent 35%);
 }
 
 .stars-pattern {

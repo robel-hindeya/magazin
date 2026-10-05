@@ -55,16 +55,16 @@ export default function LoginPage() {
       <div className="absolute inset-0 stars-pattern opacity-60 pointer-events-none" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/20 blur-[130px] rounded-full pointer-events-none" />
 
-      <Card className="relative w-full max-w-md shadow-2xl border-4 border-purple-500/40 bg-[#160b3d]/95 backdrop-blur-xl text-white rounded-4xl">
+      <Card className="relative w-full max-w-md shadow-2xl border-2 border-slate-200/90 dark:border-purple-500/40 bg-white dark:bg-[#160b3d]/95 backdrop-blur-xl text-slate-900 dark:text-white rounded-4xl transition-colors">
         <CardHeader className="text-center space-y-3 pt-8 pb-4">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-tr from-amber-400 to-yellow-300 text-slate-900 shadow-xl shadow-amber-400/30">
-            <Phone className="h-8 w-8 text-amber-950" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 shadow-xl shadow-emerald-500/20">
+            <Phone className="h-8 w-8 text-slate-950" />
           </div>
           <div>
-            <CardTitle className="font-display font-black text-3xl tracking-wide text-white drop-shadow">
+            <CardTitle className="font-display font-black text-3xl tracking-wide text-slate-900 dark:text-white drop-shadow-sm">
               Welcome Back!
             </CardTitle>
-            <CardDescription className="text-purple-200 font-medium text-sm mt-1">
+            <CardDescription className="text-slate-500 dark:text-purple-200 font-medium text-sm mt-1">
               Sign in with your phone number and password
             </CardDescription>
           </div>
@@ -73,19 +73,19 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4 px-6 sm:px-8">
             {(localError || authError) && (
-              <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-950/80 p-3.5 text-xs font-bold text-rose-200 shadow-inner">
+              <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-50 dark:bg-rose-950/80 p-3.5 text-xs font-bold text-rose-700 dark:text-rose-200 shadow-inner">
                 {localError || authError}
               </div>
             )}
 
             {/* Phone Number input */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200">
+              <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
                 Phone Number
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <Phone className="h-4 w-4 text-purple-400" />
+                  <Phone className="h-4 w-4 text-purple-500 dark:text-purple-400" />
                 </div>
                 <input
                   type="tel"
@@ -94,7 +94,7 @@ export default function LoginPage() {
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   required
                   autoComplete="tel"
-                  className="flex h-12 w-full rounded-2xl border-2 border-purple-800 bg-[#0e0626] pl-10 pr-4 text-sm text-white placeholder:text-purple-400/60 focus:border-yellow-400 focus:outline-none focus:ring-4 focus:ring-yellow-400/20 font-medium transition-all"
+                  className="flex h-12 w-full rounded-2xl border-2 border-slate-200 dark:border-purple-800 bg-slate-50 dark:bg-[#0e0626] pl-10 pr-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-400/60 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 font-medium transition-all"
                 />
               </div>
             </div>
@@ -102,19 +102,19 @@ export default function LoginPage() {
             {/* Password input */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200">
+                <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
                   Password
                 </label>
                 <Link
                   href="/auth/forgot-password"
-                  className="text-xs font-bold text-yellow-300 hover:text-yellow-200 hover:underline"
+                  className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
                 >
                   Forgot password?
                 </Link>
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <Lock className="h-4 w-4 text-purple-400" />
+                  <Lock className="h-4 w-4 text-purple-500 dark:text-purple-400" />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -123,12 +123,12 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
-                  className="flex h-12 w-full rounded-2xl border-2 border-purple-800 bg-[#0e0626] pl-10 pr-10 text-sm text-white placeholder:text-purple-400/60 focus:border-yellow-400 focus:outline-none focus:ring-4 focus:ring-yellow-400/20 font-medium transition-all"
+                  className="flex h-12 w-full rounded-2xl border-2 border-slate-200 dark:border-purple-800 bg-slate-50 dark:bg-[#0e0626] pl-10 pr-10 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-400/60 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 font-medium transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-purple-400 hover:text-white"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:text-purple-400 dark:hover:text-white"
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -139,9 +139,9 @@ export default function LoginPage() {
           <CardFooter className="flex flex-col space-y-4 px-6 sm:px-8 pb-8 pt-2">
             <Button
               type="submit"
-              variant="yellow"
+              variant="emerald"
               size="lg"
-              className="w-full h-14 text-base font-black shadow-xl"
+              className="w-full h-14 text-base font-black shadow-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950"
               disabled={loading}
             >
               {loading ? (
@@ -152,16 +152,16 @@ export default function LoginPage() {
               ) : (
                 <span className="flex items-center gap-2">
                   Sign In with Phone
-                  <ArrowRight className="h-5 w-5 text-purple-950" />
+                  <ArrowRight className="h-5 w-5 text-slate-950" />
                 </span>
               )}
             </Button>
 
-            <div className="text-center text-xs text-purple-300 font-medium pt-2 border-t border-purple-800/40 w-full">
+            <div className="text-center text-xs text-slate-500 dark:text-purple-300 font-medium pt-2 border-t border-slate-100 dark:border-purple-800/40 w-full">
               Don&apos;t have an account?{' '}
               <Link
                 href="/auth/register"
-                className="font-black text-yellow-300 hover:underline"
+                className="font-black text-emerald-600 dark:text-emerald-400 hover:underline"
               >
                 Register with Phone &rarr;
               </Link>
@@ -169,14 +169,14 @@ export default function LoginPage() {
 
             {/* Quick Demo Credentials for Fast Testing */}
             <div className="pt-2 w-full">
-              <p className="text-[10px] font-black uppercase tracking-wider text-purple-400 text-center mb-2">
+              <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-purple-400 text-center mb-2">
                 Quick Demo Accounts (Click to Fill):
               </p>
               <div className="grid grid-cols-3 gap-1.5 text-center">
                 <button
                   type="button"
                   onClick={() => handleQuickDemo('+251911111111', 'Password123')}
-                  className="px-2 py-1.5 rounded-xl bg-purple-950/80 border border-purple-700/60 text-[11px] font-bold text-yellow-300 hover:bg-purple-800/80 transition-all cursor-pointer"
+                  className="px-2 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/80 border border-purple-200 dark:border-purple-700/60 text-[11px] font-bold text-purple-700 dark:text-emerald-400 hover:bg-purple-100 transition-all cursor-pointer"
                 >
                   Kid (+251 911...)
                 </button>

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import {
   LogOut,
@@ -11,6 +12,7 @@ import {
   Home,
   User as UserIcon,
   BookOpen,
+  Gamepad2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -86,44 +88,59 @@ export function Navbar({ user }: NavbarProps) {
       {/* =========================================================================
           DESKTOP NAVBAR (Top Header for Large Screens >= 1024px)
           ========================================================================= */}
-      <header className="hidden lg:block sticky top-0 z-50 bg-[#0f0728] border-b-2 border-purple-900/60 shadow-lg shadow-purple-950/40 relative overflow-visible">
-        <div className="absolute inset-0 stars-pattern opacity-40 pointer-events-none" />
-        <div className="absolute -top-12 left-1/4 w-96 h-20 bg-purple-500/20 blur-3xl rounded-full pointer-events-none" />
+      <header className="hidden lg:block sticky top-0 z-50 bg-white/95 dark:bg-[#0f0728] backdrop-blur-md border-b-2 border-slate-200/80 dark:border-purple-900/60 shadow-sm dark:shadow-lg dark:shadow-purple-950/40 relative overflow-visible transition-colors">
+        <div className="absolute inset-0 stars-pattern opacity-10 dark:opacity-40 pointer-events-none" />
+        <div className="absolute -top-12 left-1/4 w-96 h-20 bg-purple-500/10 dark:bg-purple-500/20 blur-3xl rounded-full pointer-events-none" />
 
         <div className="relative flex h-20 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-amber-400 p-0.5 shadow-md shadow-amber-400/20 group-hover:scale-110 transition-transform duration-200">
-              <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-[#160a3a]">
-                <Compass className="h-6 w-6 text-yellow-300" />
-              </div>
+            <div className="relative h-12 w-12 group-hover:scale-110 transition-transform duration-200 shrink-0">
+              <Image
+                src="/images/logo.png"
+                alt="Selam Kids Logo"
+                fill
+                sizes="48px"
+                className="object-contain drop-shadow-[0_4px_12px_rgba(16,185,129,0.25)]"
+                priority
+              />
             </div>
 
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
-                <span className="font-display font-black text-2xl tracking-wide text-white drop-shadow-sm">
-                  Selam<span className="text-yellow-400">Kids</span>
+                <span className="font-display font-black text-2xl tracking-wide text-slate-900 dark:text-white drop-shadow-sm">
+                  Selam<span className="text-emerald-500 dark:text-emerald-400">Kids</span>
                 </span>
               </div>
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-300">
+              <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-600 dark:text-purple-300">
                 Night Zookeeper Realm
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="flex items-center space-x-7 font-display font-bold text-sm tracking-wide text-purple-200">
+          <nav className="flex items-center space-x-7 font-display font-bold text-sm tracking-wide text-slate-600 dark:text-purple-200">
             {!isAdminArea && (
               <>
                 <Link
                   href="/users/kids"
                   className={cn(
-                    'flex items-center gap-1.5 transition-colors hover:text-yellow-300 hover:-translate-y-0.5 transform',
-                    pathname === '/users/kids' || pathname === '/users/kids/magazine' ? 'text-yellow-300 font-black' : ''
+                    'flex items-center gap-1.5 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-y-0.5 transform',
+                    pathname === '/users/kids' || pathname === '/users/kids/magazine' ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
                   )}
                 >
-                  <BookOpen className="h-3.5 w-3.5 text-amber-400" />
+                  <BookOpen className="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400" />
                   Kids
+                </Link>
+                <Link
+                  href="/games"
+                  className={cn(
+                    'flex items-center gap-1.5 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-y-0.5 transform group',
+                    pathname.startsWith('/games') ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
+                  )}
+                >
+                  <Gamepad2 className="h-4 w-4 text-emerald-500 dark:text-emerald-400 group-hover:rotate-12 transition-transform" />
+                  <span>Games</span>
                 </Link>
                 <ParentGateButton variant="navbar-desktop" />
               </>
@@ -138,9 +155,9 @@ export function Navbar({ user }: NavbarProps) {
                         ? '/users/kids'
                         : '/users/teachers'
                     }
-                    className="flex items-center gap-1.5 text-yellow-300 font-extrabold bg-purple-900/60 px-3.5 py-1.5 rounded-full border border-purple-700/60 hover:bg-purple-800/80 transition-all shadow-inner hover:-translate-y-0.5"
+                    className="flex items-center gap-1.5 text-purple-700 dark:text-emerald-400 font-extrabold bg-purple-100 dark:bg-purple-900/60 px-3.5 py-1.5 rounded-full border border-purple-200 dark:border-purple-700/60 hover:bg-purple-200 dark:hover:bg-purple-800/80 transition-all shadow-inner hover:-translate-y-0.5"
                   >
-                    <Compass className="h-4 w-4 text-yellow-300" />
+                    <Compass className="h-4 w-4 text-emerald-500 dark:text-emerald-400" />
                     My Portal
                   </Link>
                 )}
@@ -178,7 +195,7 @@ export function Navbar({ user }: NavbarProps) {
 
                 <Dropdown
                   trigger={
-                    <button className="flex items-center gap-2 rounded-full ring-2 ring-yellow-400 p-0.5 focus:outline-none hover:scale-105 transition-transform cursor-pointer">
+                    <button className="flex items-center gap-2 rounded-full ring-2 ring-emerald-400 p-0.5 focus:outline-none hover:scale-105 transition-transform cursor-pointer">
                       <Avatar
                         fallback={user.fullName || user.email}
                         src={user.avatarUrl}
@@ -203,9 +220,9 @@ export function Navbar({ user }: NavbarProps) {
 
                 <Link href="/auth/register">
                   <Button
-                    variant="yellow"
+                    variant="emerald"
                     size="default"
-                    className="animate-pulse-glow text-xs sm:text-sm font-black tracking-wide"
+                    className="text-xs sm:text-sm font-black tracking-wide"
                   >
                     Start 7 Day Trial
                   </Button>
@@ -219,13 +236,20 @@ export function Navbar({ user }: NavbarProps) {
       {/* =========================================================================
           RESPONSIVE PHONE & TABLET TOP BAR (< 1024px)
           ========================================================================= */}
-      <header className="lg:hidden sticky top-0 z-40 bg-[#0f0728] border-b-2 border-purple-900/60 px-4 sm:px-6 h-14 flex items-center justify-between shadow-md">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-xl bg-purple-900/80 border border-purple-700/60 flex items-center justify-center">
-            <Compass className="h-4 w-4 text-yellow-300" />
+      <header className="lg:hidden sticky top-0 z-40 bg-white/95 dark:bg-[#0f0728] border-b-2 border-slate-200/80 dark:border-purple-900/60 px-4 sm:px-6 h-14 flex items-center justify-between shadow-sm dark:shadow-md transition-colors">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="relative h-9 w-9 shrink-0">
+            <Image
+              src="/images/logo.png"
+              alt="Selam Kids Logo"
+              fill
+              sizes="36px"
+              className="object-contain drop-shadow-sm"
+              priority
+            />
           </div>
-          <span className="font-display font-black text-lg text-white">
-            Selam<span className="text-yellow-400">Kids</span>
+          <span className="font-display font-black text-lg text-slate-900 dark:text-white">
+            Selam<span className="text-emerald-500 dark:text-emerald-400">Kids</span>
           </span>
         </Link>
 
@@ -234,7 +258,7 @@ export function Navbar({ user }: NavbarProps) {
           {user ? (
             <Dropdown
               trigger={
-                <button className="rounded-full ring-2 ring-yellow-400 p-0.5 focus:outline-none cursor-pointer">
+                <button className="rounded-full ring-2 ring-emerald-400 p-0.5 focus:outline-none cursor-pointer">
                   <Avatar
                     fallback={user.fullName || user.email}
                     src={user.avatarUrl}
@@ -258,13 +282,13 @@ export function Navbar({ user }: NavbarProps) {
           RESPONSIVE PHONE & TABLET BOTTOM NAVBAR ("under" navigation < 1024px)
           (Removed "more", "trial", "how it works")
           ========================================================================= */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-[#0f0728]/95 backdrop-blur-xl border-t-2 border-purple-900/70 shadow-2xl px-4 py-1.5 h-16 flex items-center justify-around">
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-[#0f0728]/95 backdrop-blur-xl border-t-2 border-slate-200/80 dark:border-purple-900/70 shadow-2xl px-4 py-1.5 h-16 flex items-center justify-around transition-colors">
         {/* 1. Home */}
         <Link
           href="/"
           className={cn(
             'flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all',
-            pathname === '/' ? 'text-yellow-300 font-black scale-105' : 'text-purple-300 hover:text-white'
+            pathname === '/' ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105' : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
           )}
         >
           <Home className="h-5 w-5 mb-0.5" />
@@ -277,14 +301,27 @@ export function Navbar({ user }: NavbarProps) {
             <Link
               href="/users/kids"
               className={cn(
-                'flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all',
+                'flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all',
                 pathname === '/users/kids' || pathname === '/users/kids/magazine'
-                  ? 'text-yellow-300 font-black scale-105'
-                  : 'text-purple-300 hover:text-white'
+                  ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
+                  : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
               )}
             >
               <BookOpen className="h-5 w-5 mb-0.5" />
               <span className="text-[11px] font-display font-bold">Kids</span>
+            </Link>
+
+            <Link
+              href="/games"
+              className={cn(
+                'flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all',
+                pathname.startsWith('/games')
+                  ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
+                  : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
+              )}
+            >
+              <Gamepad2 className="h-5 w-5 mb-0.5 text-emerald-500 dark:text-emerald-400" />
+              <span className="text-[11px] font-display font-bold">Games</span>
             </Link>
 
             <ParentGateButton variant="navbar-mobile" />
@@ -303,7 +340,7 @@ export function Navbar({ user }: NavbarProps) {
                 ? '/users/kids'
                 : '/users/teachers'
             }
-            className="flex flex-col items-center justify-center py-1 px-3 rounded-xl text-yellow-300 font-black"
+            className="flex flex-col items-center justify-center py-1 px-3 rounded-xl text-emerald-600 dark:text-emerald-400 font-black"
           >
             <Compass className="h-5 w-5 mb-0.5" />
             <span className="text-[11px] font-display font-bold">Portal</span>
@@ -311,7 +348,7 @@ export function Navbar({ user }: NavbarProps) {
         ) : (
           <Link
             href="/auth/login"
-            className="flex flex-col items-center justify-center py-1 px-3 rounded-xl text-purple-300 hover:text-white"
+            className="flex flex-col items-center justify-center py-1 px-3 rounded-xl text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white"
           >
             <UserIcon className="h-5 w-5 mb-0.5" />
             <span className="text-[11px] font-display font-bold">Sign In</span>

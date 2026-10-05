@@ -8,26 +8,26 @@ export default function AboutPage() {
   return (
     <div className="flex flex-col items-center">
       {/* Top Header */}
-      <section className="relative w-full night-sky-bg text-white py-20 px-4 text-center border-b-4 border-purple-900/50 overflow-hidden">
-        <div className="absolute inset-0 stars-pattern opacity-60 pointer-events-none" />
+      <section className="relative w-full night-sky-bg text-slate-900 dark:text-white py-20 px-4 text-center border-b-4 border-slate-200/80 dark:border-purple-900/50 overflow-hidden transition-colors">
+        <div className="absolute inset-0 stars-pattern opacity-20 dark:opacity-60 pointer-events-none" />
 
         <div className="relative mx-auto max-w-4xl space-y-4">
-          <Badge variant="amber" className="mb-2 text-xs font-black">
+          <Badge variant="purple" className="mb-2 text-xs font-black">
             Behind The Realm
           </Badge>
-          <h1 className="font-display font-black text-4xl sm:text-6xl text-white tracking-tight drop-shadow-md">
+          <h1 className="font-display font-black text-4xl sm:text-6xl text-slate-900 dark:text-white tracking-tight drop-shadow-sm">
             Empowering the Next Generation of Storytellers
           </h1>
-          <p className="text-base sm:text-xl text-purple-200 max-w-2xl mx-auto font-medium leading-relaxed">
+          <p className="text-base sm:text-xl text-slate-600 dark:text-purple-200 max-w-2xl mx-auto font-medium leading-relaxed">
             We bring the wonder of creative writing, reading comprehension, and artistic imagination to
             children everywhere, backed by educational pedagogical research and gamified motivation.
           </p>
 
           <div className="pt-4 flex flex-wrap justify-center gap-4">
             <Link href="/auth/register">
-              <Button variant="yellow" size="lg" className="font-black animate-pulse-glow text-base">
+              <Button variant="emerald" size="lg" className="font-black text-base bg-emerald-500 hover:bg-emerald-400 text-slate-950">
                 Join the Adventure
-                <ArrowRight className="ml-2 h-5 w-5 text-purple-900" />
+                <ArrowRight className="ml-2 h-5 w-5 text-slate-950" />
               </Button>
             </Link>
           </div>

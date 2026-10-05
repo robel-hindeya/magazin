@@ -54,16 +54,16 @@ export default function ResetPasswordPage() {
       <div className="absolute inset-0 stars-pattern opacity-60 pointer-events-none" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-600/20 blur-[130px] rounded-full pointer-events-none" />
 
-      <Card className="relative w-full max-w-md shadow-2xl border-4 border-purple-500/40 bg-[#160b3d]/95 backdrop-blur-xl text-white rounded-4xl">
+      <Card className="relative w-full max-w-md shadow-2xl border-2 border-slate-200/90 dark:border-purple-500/40 bg-white dark:bg-[#160b3d]/95 backdrop-blur-xl text-slate-900 dark:text-white rounded-4xl transition-colors">
         <CardHeader className="text-center space-y-3 pt-8 pb-3">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-tr from-amber-400 to-yellow-300 text-slate-900 shadow-xl shadow-amber-400/30">
-            <Shield className="h-8 w-8 text-amber-950" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 shadow-xl shadow-emerald-500/20">
+            <Shield className="h-8 w-8 text-slate-950" />
           </div>
           <div>
-            <CardTitle className="font-display font-black text-3xl tracking-wide text-white drop-shadow">
+            <CardTitle className="font-display font-black text-3xl tracking-wide text-slate-900 dark:text-white drop-shadow-sm">
               Forge New Key
             </CardTitle>
-            <CardDescription className="text-purple-200 font-medium text-sm mt-1">
+            <CardDescription className="text-slate-500 dark:text-purple-200 font-medium text-sm mt-1">
               Set a strong, new password to protect your account
             </CardDescription>
           </div>
@@ -72,13 +72,13 @@ export default function ResetPasswordPage() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4 px-6 sm:px-8">
             {error && (
-              <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-950/80 p-3.5 text-xs font-bold text-rose-200 shadow-inner">
+              <div className="rounded-2xl border-2 border-rose-500/60 bg-rose-50 dark:bg-rose-950/80 p-3.5 text-xs font-bold text-rose-700 dark:text-rose-200 shadow-inner">
                 {error}
               </div>
             )}
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200">
+              <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
                 New Password
               </label>
               <input
@@ -87,12 +87,12 @@ export default function ResetPasswordPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="flex h-12 w-full rounded-2xl border-2 border-purple-800 bg-[#0e0626] px-4 text-sm text-white placeholder:text-purple-400/60 focus:border-yellow-400 focus:outline-none focus:ring-4 focus:ring-yellow-400/20 font-medium transition-all"
+                className="flex h-12 w-full rounded-2xl border-2 border-slate-200 dark:border-purple-800 bg-slate-50 dark:bg-[#0e0626] px-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-400/60 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 font-medium transition-all"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-display font-black uppercase tracking-wider text-purple-200">
+              <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
                 Confirm New Password
               </label>
               <input
@@ -101,7 +101,7 @@ export default function ResetPasswordPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className="flex h-12 w-full rounded-2xl border-2 border-purple-800 bg-[#0e0626] px-4 text-sm text-white placeholder:text-purple-400/60 focus:border-yellow-400 focus:outline-none focus:ring-4 focus:ring-yellow-400/20 font-medium transition-all"
+                className="flex h-12 w-full rounded-2xl border-2 border-slate-200 dark:border-purple-800 bg-slate-50 dark:bg-[#0e0626] px-4 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-400/60 focus:border-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-500/20 font-medium transition-all"
               />
             </div>
           </CardContent>
@@ -109,9 +109,9 @@ export default function ResetPasswordPage() {
           <CardFooter className="px-6 sm:px-8 pb-8 pt-2">
             <Button
               type="submit"
-              variant="yellow"
+              variant="emerald"
               size="lg"
-              className="w-full font-black text-base tracking-wide h-13 animate-pulse-glow"
+              className="w-full font-black text-base tracking-wide h-13 bg-emerald-500 hover:bg-emerald-400 text-slate-950"
               disabled={loading}
             >
               {loading ? 'Securing Vault...' : 'Save & Return to Login'}

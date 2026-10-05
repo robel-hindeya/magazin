@@ -8,17 +8,17 @@ export default function ContactPage() {
   return (
     <div className="flex flex-col items-center">
       {/* Top Header */}
-      <section className="relative w-full night-sky-bg text-white py-16 px-4 text-center border-b-4 border-purple-900/50 overflow-hidden">
-        <div className="absolute inset-0 stars-pattern opacity-60 pointer-events-none" />
+      <section className="relative w-full night-sky-bg text-slate-900 dark:text-white py-16 px-4 text-center border-b-4 border-slate-200/80 dark:border-purple-900/50 overflow-hidden transition-colors">
+        <div className="absolute inset-0 stars-pattern opacity-20 dark:opacity-60 pointer-events-none" />
         <div className="relative mx-auto max-w-3xl space-y-3">
-          <Badge variant="amber" className="mb-2 text-xs font-black gap-1.5">
+          <Badge variant="purple" className="mb-2 text-xs font-black gap-1.5">
             <Mail className="h-3.5 w-3.5" />
             We Are Here To Help
           </Badge>
-          <h1 className="font-display font-black text-4xl sm:text-5xl text-white tracking-tight drop-shadow-md">
+          <h1 className="font-display font-black text-4xl sm:text-5xl text-slate-900 dark:text-white tracking-tight drop-shadow-sm">
             Get in Touch with our Keepers
           </h1>
-          <p className="text-purple-200 text-sm sm:text-base font-medium max-w-xl mx-auto">
+          <p className="text-slate-600 dark:text-purple-200 text-sm sm:text-base font-medium max-w-xl mx-auto">
             Have questions regarding classroom setups, parent plans, tutoring feedback, or platform safety?
           </p>
         </div>
@@ -42,8 +42,8 @@ export default function ContactPage() {
             <p className="text-xs text-slate-500 font-medium mt-1">schools@selamkids.com</p>
           </Card>
 
-          <Card className="text-center p-6 border-2 border-amber-100 rounded-3xl hover:-translate-y-1 transition-all shadow-md bg-white">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-700 mb-3 shadow-inner">
+          <Card className="text-center p-6 border-2 border-cyan-100 rounded-3xl hover:-translate-y-1 transition-all shadow-md bg-white">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 mb-3 shadow-inner">
               <Phone className="h-6 w-6" />
             </div>
             <h4 className="font-display font-black text-slate-900 text-base">Family Advisory</h4>
@@ -69,8 +69,8 @@ export default function ContactPage() {
                 required
               />
             </div>
-            <Button type="button" variant="yellow" size="lg" className="w-full font-black text-base gap-2">
-              <Send className="h-4 w-4 text-purple-900" />
+            <Button type="button" variant="emerald" size="lg" className="w-full font-black text-base gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950">
+              <Send className="h-4 w-4 text-slate-950" />
               Send Message to Keepers
             </Button>
           </form>

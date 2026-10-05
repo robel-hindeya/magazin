@@ -221,14 +221,14 @@ export function FullscreenMagazineReader({
       {/* =========================================================================
           TOP ACTION BAR: Breadcrumbs, 1 FULLSCREEN ICON, and Exit Controls
           ========================================================================= */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-purple-950 via-[#1b0d45] to-purple-950 p-4 sm:p-5 rounded-3xl border-2 border-purple-700/60 shadow-xl text-white">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-purple-950 dark:via-[#1b0d45] dark:to-purple-950 p-4 sm:p-5 rounded-3xl border-2 border-slate-200 dark:border-purple-700/60 shadow-sm dark:shadow-xl text-slate-900 dark:text-white transition-colors">
         
         {/* Left: Back / Breadcrumbs */}
         <div className="flex items-center gap-3">
           {!isFullscreen ? (
             <Link
               href="/users/kids"
-              className="inline-flex items-center gap-2 text-xs font-bold text-yellow-300 hover:text-white bg-purple-900/80 hover:bg-purple-800 px-4 py-2 rounded-2xl border border-purple-700 transition-all"
+              className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-white bg-emerald-50 dark:bg-purple-900/80 hover:bg-emerald-100 px-4 py-2 rounded-2xl border border-emerald-200 dark:border-purple-700 transition-all"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back to Magazines</span>
@@ -625,13 +625,13 @@ export function FullscreenMagazineReader({
       {/* =========================================================================
           PAGE NAVIGATION FOOTER
           ========================================================================= */}
-      <div className="flex items-center justify-between px-4 sm:px-8 py-3.5 bg-[#120835] rounded-3xl border-2 border-purple-800/80 text-white">
+      <div className="flex items-center justify-between px-4 sm:px-8 py-3.5 bg-white dark:bg-[#120835] rounded-3xl border-2 border-slate-200 dark:border-purple-800/80 text-slate-900 dark:text-white shadow-sm transition-colors">
         <Button
           variant="ghost"
           size="sm"
           onClick={handlePrev}
           disabled={currentPageIndex === 0}
-          className="text-purple-300 hover:text-white disabled:opacity-30 gap-1.5"
+          className="text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white disabled:opacity-30 gap-1.5"
         >
           <ChevronLeft className="h-5 w-5" />
           <span className="hidden sm:inline">Previous Page</span>
@@ -648,8 +648,8 @@ export function FullscreenMagazineReader({
               }}
               className={`h-3.5 rounded-full transition-all ${
                 idx === currentPageIndex
-                  ? 'w-8 bg-amber-400 shadow-lg shadow-amber-400/50'
-                  : 'w-3.5 bg-purple-800 hover:bg-purple-600'
+                  ? 'w-8 bg-emerald-500 shadow-lg shadow-emerald-500/50'
+                  : 'w-3.5 bg-slate-200 dark:bg-purple-800 hover:bg-slate-300 dark:hover:bg-purple-600'
               }`}
               title={`Page ${idx + 1}`}
             />
@@ -661,7 +661,7 @@ export function FullscreenMagazineReader({
           size="sm"
           onClick={handleNext}
           disabled={currentPageIndex === totalPages - 1}
-          className="text-purple-300 hover:text-white disabled:opacity-30 gap-1.5"
+          className="text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white disabled:opacity-30 gap-1.5"
         >
           <span className="hidden sm:inline">Next Page</span>
           <ChevronRight className="h-5 w-5" />
@@ -673,30 +673,30 @@ export function FullscreenMagazineReader({
           ========================================================================= */}
       {passcodeModalOpen && (
         <div className="fixed inset-0 z-[10005] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in">
-          <div className="relative w-full max-w-md bg-[#190d45] border-4 border-amber-400 rounded-4xl p-6 sm:p-8 shadow-2xl text-white text-center space-y-5">
+          <div className="relative w-full max-w-md bg-white dark:bg-[#190d45] border-4 border-emerald-400 rounded-4xl p-6 sm:p-8 shadow-2xl text-slate-900 dark:text-white text-center space-y-5 transition-colors">
             <button
               onClick={() => setPasscodeModalOpen(false)}
-              className="absolute top-4 right-4 p-2 rounded-xl bg-purple-900/60 hover:bg-rose-600 text-white"
+              className="absolute top-4 right-4 p-2 rounded-xl bg-slate-100 dark:bg-purple-900/60 hover:bg-rose-600 hover:text-white text-slate-700 dark:text-white"
             >
               <X className="h-5 w-5" />
             </button>
 
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-amber-400 text-slate-950 shadow-xl shadow-amber-400/30">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-500 text-white shadow-xl shadow-emerald-500/30">
               <Lock className="h-8 w-8" />
             </div>
 
             <div>
-              <h3 className="font-display font-black text-2xl sm:text-3xl text-yellow-300">
+              <h3 className="font-display font-black text-2xl sm:text-3xl text-emerald-600 dark:text-emerald-400">
                 Set Secret Reading Code
               </h3>
-              <p className="text-xs text-purple-200 mt-1">
+              <p className="text-xs text-slate-500 dark:text-purple-200 mt-1">
                 Enter your secret password below. When you finish reading, write this code to unlock and exit!
               </p>
             </div>
 
             {/* Display Box */}
-            <div className="bg-slate-950/80 border-2 border-purple-500 rounded-2xl p-4 flex items-center justify-center">
-              <span className="font-mono font-black text-2xl tracking-[0.4em] text-yellow-300">
+            <div className="bg-slate-50 dark:bg-slate-950/80 border-2 border-slate-200 dark:border-purple-500 rounded-2xl p-4 flex items-center justify-center">
+              <span className="font-mono font-black text-2xl tracking-[0.4em] text-emerald-600 dark:text-emerald-400">
                 {enteredPasscode ? enteredPasscode : '1234'}
               </span>
             </div>
@@ -707,7 +707,7 @@ export function FullscreenMagazineReader({
                 <button
                   key={key}
                   onClick={() => handleKeypadPress(key)}
-                  className="btn-3d py-3 rounded-2xl bg-purple-900/80 hover:bg-purple-800 border border-purple-600 font-display font-black text-base text-white active:scale-95 shadow-md"
+                  className="btn-3d py-3 rounded-2xl bg-slate-100 dark:bg-purple-900/80 hover:bg-slate-200 dark:hover:bg-purple-800 border border-slate-200 dark:border-purple-600 font-display font-black text-base text-slate-900 dark:text-white active:scale-95 shadow-md"
                 >
                   {key === 'back' ? '⌫' : key === 'clear' ? 'C' : key}
                 </button>
@@ -716,7 +716,7 @@ export function FullscreenMagazineReader({
 
             <Button
               onClick={handleConfirmSetPasscode}
-              className="btn-3d btn-3d-yellow w-full py-6 font-display font-black text-base rounded-2xl shadow-xl gap-2"
+              className="btn-3d btn-3d-yellow w-full py-6 font-display font-black text-base rounded-2xl shadow-xl gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950"
             >
               <Maximize className="h-5 w-5" />
               Lock Into Fullscreen Reader 🚀
@@ -730,29 +730,29 @@ export function FullscreenMagazineReader({
           ========================================================================= */}
       {exitPasscodeModalOpen && (
         <div className="fixed inset-0 z-[10005] flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in">
-          <div className="relative w-full max-w-md bg-[#190d45] border-4 border-amber-400 rounded-4xl p-6 sm:p-8 shadow-2xl text-white text-center space-y-5">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-tr from-amber-400 to-yellow-300 text-slate-950 shadow-xl shadow-amber-400/30">
+          <div className="relative w-full max-w-md bg-white dark:bg-[#190d45] border-4 border-emerald-400 rounded-4xl p-6 sm:p-8 shadow-2xl text-slate-900 dark:text-white text-center space-y-5 transition-colors">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-500 text-white shadow-xl shadow-emerald-500/30">
               <KeyRound className="h-8 w-8" />
             </div>
 
             <div>
-              <h3 className="font-display font-black text-2xl sm:text-3xl text-yellow-300">
+              <h3 className="font-display font-black text-2xl sm:text-3xl text-emerald-600 dark:text-emerald-400">
                 Write Secret Passcode
               </h3>
-              <p className="text-xs text-purple-200 mt-1">
+              <p className="text-xs text-slate-500 dark:text-purple-200 mt-1">
                 Write your secret code to exit full screen and return to the Magazines Lounge!
               </p>
             </div>
 
             {/* Display Box */}
-            <div className="bg-slate-950/80 border-2 border-purple-500 rounded-2xl p-4 flex items-center justify-center min-h-[58px]">
-              <span className="font-mono font-black text-2xl tracking-[0.4em] text-yellow-300">
+            <div className="bg-slate-50 dark:bg-slate-950/80 border-2 border-slate-200 dark:border-purple-500 rounded-2xl p-4 flex items-center justify-center min-h-[58px]">
+              <span className="font-mono font-black text-2xl tracking-[0.4em] text-emerald-600 dark:text-emerald-400">
                 {enteredPasscode ? enteredPasscode : '____'}
               </span>
             </div>
 
             {passcodeError && (
-              <p className="text-xs font-bold text-rose-300 animate-wiggle">
+              <p className="text-xs font-bold text-rose-500 animate-wiggle">
                 {passcodeError}
               </p>
             )}
@@ -763,7 +763,7 @@ export function FullscreenMagazineReader({
                 <button
                   key={key}
                   onClick={() => handleKeypadPress(key)}
-                  className="btn-3d py-3 rounded-2xl bg-purple-900/80 hover:bg-purple-800 border border-purple-600 font-display font-black text-base text-white active:scale-95 shadow-md"
+                  className="btn-3d py-3 rounded-2xl bg-slate-100 dark:bg-purple-900/80 hover:bg-slate-200 dark:hover:bg-purple-800 border border-slate-200 dark:border-purple-600 font-display font-black text-base text-slate-900 dark:text-white active:scale-95 shadow-md"
                 >
                   {key === 'back' ? '⌫' : key === 'clear' ? 'C' : key}
                 </button>
@@ -774,7 +774,7 @@ export function FullscreenMagazineReader({
             <div className="space-y-2">
               <Button
                 onClick={handleVerifyExitPasscode}
-                className="btn-3d btn-3d-yellow w-full py-6 font-display font-black text-base rounded-2xl shadow-xl gap-2"
+                className="btn-3d btn-3d-yellow w-full py-6 font-display font-black text-base rounded-2xl shadow-xl gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950"
               >
                 <Unlock className="h-5 w-5" />
                 Unlock & Back to Magazines Page
@@ -783,7 +783,7 @@ export function FullscreenMagazineReader({
               <div className="flex items-center justify-between text-xs pt-1 px-1">
                 <button
                   onClick={() => setShowHint(!showHint)}
-                  className="text-purple-300 hover:text-yellow-300 underline flex items-center gap-1"
+                  className="text-slate-500 dark:text-purple-300 hover:text-emerald-600 underline flex items-center gap-1"
                 >
                   <HelpCircle className="h-3.5 w-3.5" />
                   {showHint ? `Secret Code: "${secretPasscode}"` : 'Need a hint?'}
@@ -791,7 +791,7 @@ export function FullscreenMagazineReader({
 
                 <button
                   onClick={() => setExitPasscodeModalOpen(false)}
-                  className="text-purple-300 hover:text-white"
+                  className="text-slate-500 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white"
                 >
                   Keep Reading
                 </button>

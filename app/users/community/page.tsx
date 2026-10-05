@@ -11,6 +11,9 @@ import {
   BookOpen,
   Award,
   Search,
+  ImagePlus,
+  X,
+  CheckCircle2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -27,6 +30,7 @@ interface CommunityPost {
   categoryLabel: string;
   categoryColor: string;
   childInfo?: string;
+  imageUrl?: string;
   likes: number;
   userLiked: boolean;
   commentsCount: number;
@@ -46,6 +50,7 @@ const INITIAL_POSTS: CommunityPost[] = [
     categoryLabel: 'Story Spotlight',
     categoryColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
     childInfo: 'Child: Leo • Grade 3',
+    imageUrl: '/images/characters/simba.png',
     likes: 38,
     userLiked: false,
     commentsCount: 5,
@@ -100,8 +105,24 @@ export default function CommunityPage() {
   const [newTitle, setNewTitle] = React.useState('');
   const [newContent, setNewContent] = React.useState('');
   const [newCategory, setNewCategory] = React.useState<'spotlight' | 'tips' | 'prompts' | 'discussion'>('discussion');
+  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
   const [activeCommentPostId, setActiveCommentPostId] = React.useState<string | null>(null);
   const [commentText, setCommentText] = React.useState('');
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image file size exceeds 5MB limit.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleLike = (postId: string) => {
     setPosts((prev) =>
@@ -130,6 +151,7 @@ export default function CommunityPage() {
       title: newTitle.trim(),
       content: newContent.trim(),
       category: newCategory,
+      imageUrl: imagePreview || undefined,
       categoryLabel:
         newCategory === 'spotlight'
           ? 'Story Spotlight'
@@ -156,6 +178,8 @@ export default function CommunityPage() {
     setPosts([newPostItem, ...posts]);
     setNewTitle('');
     setNewContent('');
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
     setIsPosting(false);
   };
 
@@ -288,12 +312,77 @@ export default function CommunityPage() {
             />
           </div>
 
+          {/* Image Upload Button & Preview */}
+          <div className="space-y-2">
+            <label className="block text-xs font-bold text-slate-600 dark:text-purple-300">
+              Attach Photo or Artwork
+            </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageSelect}
+            />
+
+            {imagePreview ? (
+              <div className="relative rounded-2xl border-2 border-emerald-300 dark:border-emerald-700/60 bg-slate-50 dark:bg-purple-950/40 p-2.5 max-w-sm animate-in fade-in duration-150">
+                <div className="relative w-full h-44 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-purple-900/40">
+                  <img
+                    src={imagePreview}
+                    alt="Upload preview"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex items-center justify-between mt-2 px-1">
+                  <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    Photo Attached
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImagePreview(null);
+                      if (fileInputRef.current) fileInputRef.current.value = '';
+                    }}
+                    className="text-xs font-bold text-rose-500 hover:text-rose-700 dark:text-rose-400 flex items-center gap-1 cursor-pointer transition-colors"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 border-dashed border-purple-200 dark:border-purple-800/80 bg-purple-50/50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 hover:border-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-purple-900/40 text-xs font-bold transition-all cursor-pointer group"
+              >
+                <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
+                  <ImagePlus className="h-4 w-4" />
+                </div>
+                <div className="text-left">
+                  <span className="block font-display font-black text-slate-900 dark:text-white">
+                    Upload Image
+                  </span>
+                  <span className="text-[11px] text-slate-500 dark:text-purple-300/70 font-normal">
+                    Share your young author&apos;s illustration or drawing (PNG, JPG, WebP)
+                  </span>
+                </div>
+              </button>
+            )}
+          </div>
+
           <div className="flex justify-end gap-2 pt-1">
             <Button
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => setIsPosting(false)}
+              onClick={() => {
+                setImagePreview(null);
+                if (fileInputRef.current) fileInputRef.current.value = '';
+                setIsPosting(false);
+              }}
               className="text-xs"
             >
               Cancel
@@ -379,6 +468,17 @@ export default function CommunityPage() {
             <p className="text-sm text-slate-600 dark:text-purple-200/90 leading-relaxed font-medium">
               {post.content}
             </p>
+
+            {post.imageUrl && (
+              <div className="mt-3.5 rounded-2xl overflow-hidden border border-slate-200 dark:border-purple-800/60 bg-slate-50 dark:bg-purple-950/30 max-w-lg">
+                <img
+                  src={post.imageUrl}
+                  alt={post.title}
+                  className="w-full h-auto max-h-96 object-cover rounded-2xl hover:scale-[1.01] transition-transform"
+                  loading="lazy"
+                />
+              </div>
+            )}
 
             {post.childInfo && (
               <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 text-xs font-bold border border-emerald-200 dark:border-emerald-800/50">

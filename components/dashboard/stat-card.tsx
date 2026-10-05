@@ -26,11 +26,11 @@ export function StatCard({
     default: 'bg-purple-100 text-purple-700 shadow-md shadow-purple-200/50',
     magic: 'bg-gradient-to-tr from-purple-600 to-indigo-500 text-white shadow-md shadow-purple-500/30',
     emerald: 'bg-gradient-to-tr from-emerald-500 to-teal-400 text-white shadow-md shadow-emerald-500/30',
-    amber: 'bg-gradient-to-tr from-amber-400 to-yellow-300 text-slate-900 shadow-md shadow-amber-400/30',
+    amber: 'bg-gradient-to-tr from-emerald-500 to-teal-400 text-white shadow-md shadow-emerald-500/30',
   };
 
   return (
-    <Card className="hover:-translate-y-1 hover:shadow-lg transition-all duration-200 border-2 border-slate-100 dark:border-purple-900/60 dark:bg-[#12092e] rounded-3xl">
+    <Card className="hover:-translate-y-1 hover:shadow-lg transition-all duration-200 border-2 border-slate-200 dark:border-purple-900/60 bg-white dark:bg-[#12092e] rounded-3xl">
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>

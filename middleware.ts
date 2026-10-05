@@ -18,6 +18,7 @@ const PUBLIC_PATHS = [
   '/api/auth/register',
   '/api/auth/forgot-password',
   '/api/auth/reset-password',
+  '/api/auth/parent-session',
 ];
 
 export async function middleware(request: NextRequest) {

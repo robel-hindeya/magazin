@@ -38,7 +38,7 @@ export default async function UsersLayout({
     navItems = [
       { label: 'Night Zoo Magazine', href: '/users/kids', icon: <BookOpen className="h-4 w-4 text-purple-400" /> },
       { label: 'Games Arcade', href: '/games', icon: <Gamepad2 className="h-4 w-4 text-emerald-400" /> },
-      { label: 'Community', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
+      { label: 'Family Connect', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
       { label: 'Profile', href: '/users/kids/profile', icon: <User className="h-4 w-4 text-cyan-400" /> },
     ];
   } else if (user.role === ROLES.FAMILY) {
@@ -46,7 +46,7 @@ export default async function UsersLayout({
     navItems = [
       { label: 'Dashboard', href: '/users/families', icon: <Compass className="h-4 w-4 text-emerald-400" /> },
       { label: 'My Children', href: '/users/families?tab=children', icon: <Heart className="h-4 w-4 text-pink-400" /> },
-      { label: 'Community', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
+      { label: 'Family Connect', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
       { label: 'Reading Reports', href: '/users/families?tab=reports', icon: <BarChart3 className="h-4 w-4 text-cyan-400" /> },
       { label: 'Family Plan', href: '/users/families/settings', icon: <Shield className="h-4 w-4 text-indigo-400" /> },
       { label: 'Account Settings', href: '/users/settings', icon: <Settings className="h-4 w-4" /> },
@@ -56,7 +56,7 @@ export default async function UsersLayout({
     navItems = [
       { label: 'Dashboard', href: '/users/teachers', icon: <Compass className="h-4 w-4" /> },
       { label: 'My Students', href: '/users/teachers?tab=students', icon: <Users className="h-4 w-4" /> },
-      { label: 'Community', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
+      { label: 'Family Connect', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
       { label: 'Assignments', href: '/users/teachers?tab=assignments', icon: <FolderOpen className="h-4 w-4" /> },
       { label: 'Curriculum & Rubrics', href: '/users/teachers?tab=curriculum', icon: <BookOpen className="h-4 w-4" /> },
       { label: 'Teacher Profile', href: '/users/teachers/profile', icon: <User className="h-4 w-4" /> },
@@ -67,8 +67,7 @@ export default async function UsersLayout({
     navItems = [
       { label: 'Overview', href: '/users', icon: <Compass className="h-4 w-4" /> },
       { label: 'Kids Area', href: '/users/kids', icon: <BookOpen className="h-4 w-4" /> },
-      { label: 'Families Area', href: '/users/families', icon: <Heart className="h-4 w-4" /> },
-      { label: 'Community', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
+      { label: 'Family Connect', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
       { label: 'Teachers Area', href: '/users/teachers', icon: <GraduationCap className="h-4 w-4" /> },
       { label: 'Settings', href: '/users/settings', icon: <Settings className="h-4 w-4" /> },
     ];

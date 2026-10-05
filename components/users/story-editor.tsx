@@ -103,11 +103,11 @@ export function StoryEditor({
               className={cn(
                 'flex-1 w-full flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl border-2 font-display text-sm font-black transition-all cursor-pointer shadow-sm',
                 mode === 'god'
-                  ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 text-slate-950 border-amber-300 shadow-lg shadow-amber-400/30 scale-[1.02] ring-2 ring-amber-300/60'
-                  : 'bg-purple-50/60 dark:bg-[#1a0e3f] text-slate-700 dark:text-purple-200 border-purple-200/80 dark:border-purple-800/80 hover:bg-purple-100/60 dark:hover:bg-purple-900/50 hover:border-amber-400'
+                  ? 'bg-emerald-500 text-white border-emerald-400 shadow-lg shadow-emerald-500/30 scale-[1.02] ring-2 ring-emerald-300/60'
+                  : 'bg-purple-50/60 dark:bg-[#1a0e3f] text-slate-700 dark:text-purple-200 border-purple-200/80 dark:border-purple-800/80 hover:bg-purple-100/60 dark:hover:bg-purple-900/50 hover:border-emerald-400'
               )}
             >
-              <Heart className={cn('h-4 w-4 fill-current', mode === 'god' ? 'text-slate-950' : 'text-purple-400')} />
+              <Heart className={cn('h-4 w-4 fill-current', mode === 'god' ? 'text-white' : 'text-purple-400')} />
               <span>Message to God</span>
             </button>
           </div>
@@ -119,10 +119,10 @@ export function StoryEditor({
             <div className={cn(
               "h-12 w-12 rounded-2xl flex items-center justify-center shadow-md",
               mode === 'creative'
-                ? "bg-amber-400 text-amber-950 shadow-amber-400/30"
-                : "bg-gradient-to-tr from-amber-400 to-yellow-300 text-slate-950 shadow-amber-400/30"
+                ? "bg-purple-600 text-white shadow-purple-600/30"
+                : "bg-emerald-500 text-white shadow-emerald-500/30"
             )}>
-              {mode === 'creative' ? <PenTool className="h-6 w-6" /> : <Heart className="h-6 w-6 fill-rose-500 text-rose-500" />}
+              {mode === 'creative' ? <PenTool className="h-6 w-6" /> : <Heart className="h-6 w-6 fill-white text-white" />}
             </div>
             <div>
               <h3 className="font-display font-black text-slate-900 dark:text-white text-xl">
@@ -135,7 +135,7 @@ export function StoryEditor({
               </p>
             </div>
           </div>
-          <Badge variant="amber" className="text-xs font-black px-3.5 py-1">
+          <Badge variant="purple" className="text-xs font-black px-3.5 py-1">
             Words: {wordCount}
           </Badge>
         </div>
@@ -151,7 +151,7 @@ export function StoryEditor({
             </div>
           )
         ) : (
-          <div className="rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 p-4 border-2 border-amber-200 dark:border-amber-800/70 text-xs sm:text-sm text-amber-950 dark:text-amber-200 font-medium shadow-inner">
+          <div className="rounded-2xl bg-purple-50/80 dark:bg-purple-950/40 p-4 border-2 border-purple-200 dark:border-purple-800/70 text-xs sm:text-sm text-slate-800 dark:text-purple-200 font-medium shadow-inner">
             <strong className="text-purple-700 dark:text-purple-300 font-display font-black flex items-center gap-1.5 mb-1">
               <Heart className="h-4 w-4 text-purple-500 fill-purple-500" />
               Prayer & Reflection Prompt:
@@ -162,42 +162,22 @@ export function StoryEditor({
 
         {/* Success Celebration Reward Box */}
         {reward && (
-          <div className={cn(
-            "rounded-2xl border-2 p-5 text-center shadow-md animate-bounce",
-            reward.category === 'Message to God'
-              ? "bg-amber-50 dark:bg-amber-950/60 border-amber-300 dark:border-amber-700"
-              : "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700"
-          )}>
-            <div className={cn(
-              "mx-auto flex h-14 w-14 items-center justify-center rounded-2xl shadow-lg mb-2",
-              reward.category === 'Message to God'
-                ? "bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 shadow-amber-500/30"
-                : "bg-emerald-500 text-white shadow-emerald-500/30"
-            )}>
+          <div className="rounded-2xl border-2 p-5 text-center shadow-md animate-bounce bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl shadow-lg mb-2 bg-emerald-500 text-white shadow-emerald-500/30">
               {reward.category === 'Message to God' ? (
-                <Heart className="h-7 w-7 text-slate-950 fill-rose-500" />
+                <Heart className="h-7 w-7 text-white fill-white" />
               ) : (
                 <Trophy className="h-7 w-7 text-white" />
               )}
             </div>
-            <h4 className={cn(
-              "font-display font-black text-xl",
-              reward.category === 'Message to God'
-                ? "text-amber-950 dark:text-amber-100"
-                : "text-emerald-950 dark:text-emerald-100"
-            )}>
+            <h4 className="font-display font-black text-xl text-emerald-950 dark:text-emerald-100">
               {reward.category === 'Message to God'
                 ? 'Amen! Message to God Sent!'
                 : 'Hooray! Story Published!'}
             </h4>
-            <p className={cn(
-              "text-xs sm:text-sm mt-1 font-bold",
-              reward.category === 'Message to God'
-                ? "text-amber-800 dark:text-amber-300"
-                : "text-emerald-800 dark:text-emerald-300"
-            )}>
+            <p className="text-xs sm:text-sm mt-1 font-bold text-emerald-800 dark:text-emerald-300">
               You wrote <strong className="font-black">{reward.words} words</strong> and earned{' '}
-              <strong className="text-amber-600 dark:text-amber-400 font-black">+{reward.orbsEarned} Glowing Orbs!</strong>
+              <strong className="text-emerald-600 dark:text-emerald-400 font-black">+{reward.orbsEarned} Glowing Orbs!</strong>
             </p>
           </div>
         )}

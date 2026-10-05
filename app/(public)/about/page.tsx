@@ -71,38 +71,38 @@ export default function AboutPage() {
         </div>
 
         {/* 3 User Types Highlights */}
-        <div className="rounded-4xl bg-[#120832] p-8 sm:p-12 text-white border-4 border-purple-800/80 shadow-2xl relative overflow-hidden">
-          <div className="absolute inset-0 stars-pattern opacity-40 pointer-events-none" />
+        <div className="rounded-4xl bg-white dark:bg-[#120832] p-8 sm:p-12 text-slate-900 dark:text-white border-4 border-slate-200/90 dark:border-purple-800/80 shadow-xl relative overflow-hidden transition-colors">
+          <div className="absolute inset-0 stars-pattern opacity-10 dark:opacity-40 pointer-events-none" />
           <div className="relative text-center max-w-2xl mx-auto mb-10">
-            <Badge variant="magic" className="mb-3 font-black">
+            <Badge variant="purple" className="mb-3 font-black">
               One Shared Universe
             </Badge>
-            <h2 className="font-display font-black text-3xl sm:text-4xl">
+            <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-900 dark:text-white">
               Built for Families, Schools & Young Authors
             </h2>
           </div>
 
           <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="rounded-3xl bg-purple-950/70 p-6 border-2 border-purple-800/60 backdrop-blur-sm space-y-2">
-              <BookOpen className="h-8 w-8 text-yellow-300 mb-2" />
-              <h4 className="font-display font-black text-xl text-yellow-300">For Kids</h4>
-              <p className="text-xs text-purple-200 font-medium leading-relaxed">
+            <div className="rounded-3xl bg-purple-50/70 dark:bg-purple-950/70 p-6 border-2 border-purple-200/80 dark:border-purple-800/60 backdrop-blur-sm space-y-2">
+              <BookOpen className="h-8 w-8 text-purple-600 dark:text-purple-300 mb-2" />
+              <h4 className="font-display font-black text-xl text-purple-700 dark:text-purple-300">For Kids</h4>
+              <p className="text-xs text-slate-600 dark:text-purple-200 font-medium leading-relaxed">
                 An enchanting game world where writing sentences powers up custom beasts and unlocks magical zoo islands.
               </p>
             </div>
 
-            <div className="rounded-3xl bg-purple-950/70 p-6 border-2 border-purple-800/60 backdrop-blur-sm space-y-2">
-              <Heart className="h-8 w-8 text-pink-300 mb-2" />
-              <h4 className="font-display font-black text-xl text-pink-300">For Parents</h4>
-              <p className="text-xs text-purple-200 font-medium leading-relaxed">
+            <div className="rounded-3xl bg-pink-50/70 dark:bg-purple-950/70 p-6 border-2 border-pink-200/80 dark:border-purple-800/60 backdrop-blur-sm space-y-2">
+              <Heart className="h-8 w-8 text-pink-500 dark:text-pink-300 mb-2" />
+              <h4 className="font-display font-black text-xl text-pink-600 dark:text-pink-300">For Parents</h4>
+              <p className="text-xs text-slate-600 dark:text-purple-200 font-medium leading-relaxed">
                 Guaranteed wholesome screen time with weekly progress digests and real tutor feedback celebration.
               </p>
             </div>
 
-            <div className="rounded-3xl bg-purple-950/70 p-6 border-2 border-purple-800/60 backdrop-blur-sm space-y-2">
-              <GraduationCap className="h-8 w-8 text-emerald-300 mb-2" />
-              <h4 className="font-display font-black text-xl text-emerald-300">For Educators</h4>
-              <p className="text-xs text-purple-200 font-medium leading-relaxed">
+            <div className="rounded-3xl bg-emerald-50/70 dark:bg-purple-950/70 p-6 border-2 border-emerald-200/80 dark:border-purple-800/60 backdrop-blur-sm space-y-2">
+              <GraduationCap className="h-8 w-8 text-emerald-600 dark:text-emerald-300 mb-2" />
+              <h4 className="font-display font-black text-xl text-emerald-700 dark:text-emerald-300">For Educators</h4>
+              <p className="text-xs text-slate-600 dark:text-purple-200 font-medium leading-relaxed">
                 Curriculum-aligned writing prompts, cohort grammar tracking, and interactive gamified student engagement.
               </p>
             </div>

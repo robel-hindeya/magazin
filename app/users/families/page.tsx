@@ -125,7 +125,7 @@ export default async function FamiliesDashboardPage() {
       </div>
 
       {/* =========================================================================
-          COMMUNITY QUICK PROMPT BANNER
+          FAMILY CONNECT QUICK PROMPT BANNER
           ========================================================================= */}
       <div className="rounded-2xl bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-purple-900/30 border border-purple-200 dark:border-purple-800/50 p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-3">
@@ -134,7 +134,7 @@ export default async function FamiliesDashboardPage() {
           </div>
           <div>
             <h4 className="font-display font-black text-sm text-slate-900 dark:text-white">
-              Connect with the Family Community
+              Connect with Families on Family Connect
             </h4>
             <p className="text-xs text-slate-500 dark:text-purple-300/80">
               Discover bedtime writing prompts, reading habits, and young author spotlights.
@@ -148,7 +148,7 @@ export default async function FamiliesDashboardPage() {
             variant="outline"
             className="text-xs font-bold shrink-0 border-purple-300 dark:border-purple-700 text-purple-700 dark:text-purple-200"
           >
-            Visit Community &rarr;
+            Visit Family Connect &rarr;
           </Button>
         </Link>
       </div>

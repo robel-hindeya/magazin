@@ -28,7 +28,10 @@ export default async function RootLayout({
             __html: `
               (function() {
                 try {
-                  var stored = localStorage.getItem('selam-kids-theme-mode');
+                  if (localStorage.getItem('selam-kids-theme-mode') === 'dark') {
+                    localStorage.removeItem('selam-kids-theme-mode');
+                  }
+                  var stored = localStorage.getItem('selam-kids-theme-mode-v2');
                   var isDark = stored === 'dark';
                   if (isDark) {
                     document.documentElement.classList.add('dark');

@@ -329,23 +329,23 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
   }, [isPlaying, highScore, onOrbsEarned, playerWidth]);
 
   return (
-    <div className="w-full max-w-3xl mx-auto rounded-2xl bg-[#140a33] border border-purple-800/50 p-4 sm:p-6 shadow-xl relative text-white">
+    <div className="w-full max-w-3xl mx-auto rounded-2xl bg-white dark:bg-[#140a33] border border-slate-200 dark:border-purple-800/50 p-4 sm:p-6 shadow-xl relative text-slate-900 dark:text-white transition-colors">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-purple-800/40">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-purple-800/40">
         <div className="flex items-center gap-3">
           {onBackToArcade && (
             <button
               onClick={onBackToArcade}
-              className="inline-flex items-center gap-1 text-xs font-bold text-purple-300 hover:text-white px-2.5 py-1.5 rounded-lg bg-purple-900/40 hover:bg-purple-900/70 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1 text-xs font-bold text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 hover:bg-slate-200 dark:hover:bg-purple-900/70 transition-colors cursor-pointer"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> Back
             </button>
           )}
           <div>
-            <h2 className="font-display font-black text-lg sm:text-xl text-white">
+            <h2 className="font-display font-black text-lg sm:text-xl text-slate-900 dark:text-white">
               Orb Catcher
             </h2>
-            <p className="text-xs text-purple-300/80 font-medium">
+            <p className="text-xs text-slate-500 dark:text-purple-300/80 font-medium">
               Catch green orbs & stars, dodge red monsters
             </p>
           </div>
@@ -359,7 +359,7 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
               setIsMuted(muted);
             }}
             title={isMuted ? 'Unmute' : 'Mute'}
-            className="p-1.5 rounded-lg bg-purple-900/40 text-purple-300 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </button>
@@ -368,7 +368,7 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
             <button
               onClick={startGame}
               title="Reset"
-              className="p-1.5 rounded-lg bg-purple-900/40 text-purple-300 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
               <RotateCcw className="h-4 w-4" />
             </button>
@@ -377,34 +377,34 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
       </div>
 
       {/* Minimal Stats */}
-      <div className="flex items-center justify-around py-3 my-3 bg-purple-950/40 rounded-xl border border-purple-900/30 text-xs">
+      <div className="flex items-center justify-around py-3 my-3 bg-slate-50 dark:bg-purple-950/40 rounded-xl border border-slate-200 dark:border-purple-900/30 text-xs">
         <div>
-          <span className="text-purple-400">Score: </span>
-          <strong className="text-emerald-400 font-bold">{score}</strong>
+          <span className="text-slate-500 dark:text-purple-400">Score: </span>
+          <strong className="text-emerald-600 dark:text-emerald-400 font-bold">{score}</strong>
         </div>
         <div>
-          <span className="text-purple-400">Combo: </span>
-          <strong className="text-cyan-400 font-bold">{combo > 1 ? `${combo}x` : '—'}</strong>
+          <span className="text-slate-500 dark:text-purple-400">Combo: </span>
+          <strong className="text-cyan-600 dark:text-cyan-400 font-bold">{combo > 1 ? `${combo}x` : '—'}</strong>
         </div>
         <div className="flex items-center gap-1">
-          <span className="text-purple-400 mr-1">Lives:</span>
+          <span className="text-slate-500 dark:text-purple-400 mr-1">Lives:</span>
           {[1, 2, 3].map((heart) => (
             <Heart
               key={heart}
               className={`h-3.5 w-3.5 ${
-                heart <= lives ? 'text-rose-500 fill-rose-500' : 'text-purple-900 fill-purple-950'
+                heart <= lives ? 'text-rose-500 fill-rose-500' : 'text-slate-200 dark:text-purple-900 fill-slate-200 dark:fill-purple-950'
               }`}
             />
           ))}
         </div>
         <div>
-          <span className="text-purple-400">Best: </span>
-          <strong className="text-emerald-400 font-bold">{highScore}</strong>
+          <span className="text-slate-500 dark:text-purple-400">Best: </span>
+          <strong className="text-emerald-600 dark:text-emerald-400 font-bold">{highScore}</strong>
         </div>
       </div>
 
       {/* Canvas Area */}
-      <div className="relative rounded-xl overflow-hidden border border-purple-800/60 bg-[#0c0522] aspect-[5/3.5] max-h-[380px] mx-auto flex items-center justify-center">
+      <div className="relative rounded-xl overflow-hidden border border-slate-200 dark:border-purple-800/60 bg-[#0c0522] aspect-[5/3.5] max-h-[380px] mx-auto flex items-center justify-center">
         <canvas
           ref={canvasRef}
           width={520}
@@ -415,7 +415,7 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
 
         {/* Start Game Overlay */}
         {!isPlaying && !isGameOver && (
-          <div className="absolute inset-0 bg-[#0c0524]/90 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-10">
+          <div className="absolute inset-0 bg-white/95 dark:bg-[#0c0524]/90 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-10 text-slate-900 dark:text-white">
             <div className="relative w-16 h-16 sm:w-20 sm:h-20 mb-3">
               <Image
                 src="/images/characters/toothless.png"
@@ -426,10 +426,10 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
               />
             </div>
 
-            <h3 className="font-display font-black text-xl text-white">
+            <h3 className="font-display font-black text-xl text-slate-900 dark:text-white">
               Ready to Catch?
             </h3>
-            <p className="mt-1 text-purple-300 text-xs font-medium max-w-xs">
+            <p className="mt-1 text-slate-600 dark:text-purple-300 text-xs font-medium max-w-xs">
               Use keyboard arrows or slide your mouse/finger to steer the green shield.
             </p>
 
@@ -446,15 +446,15 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
 
         {/* Game Over Overlay */}
         {isGameOver && (
-          <div className="absolute inset-0 bg-[#0c0524]/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20 animate-in fade-in duration-200">
-            <div className="w-12 h-12 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mb-2">
+          <div className="absolute inset-0 bg-white/95 dark:bg-[#0c0524]/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-20 animate-in fade-in duration-200 border-2 border-slate-200 dark:border-purple-700 text-slate-900 dark:text-white">
+            <div className="w-12 h-12 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mb-2 shadow-md shadow-emerald-500/30">
               <Trophy className="h-6 w-6 fill-slate-950" />
             </div>
 
-            <h3 className="font-display font-black text-2xl text-white">Run Complete!</h3>
-            <p className="text-purple-300 text-xs font-medium mt-1">Final Score: {score}</p>
+            <h3 className="font-display font-black text-2xl text-slate-900 dark:text-white">Run Complete!</h3>
+            <p className="text-slate-600 dark:text-purple-300 text-xs font-medium mt-1">Final Score: {score}</p>
 
-            <div className="px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs border border-emerald-500/30 my-3">
+            <div className="px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs border border-emerald-300 dark:border-emerald-500/30 my-3">
               +{Math.floor(score / 10)} Orbs Earned
             </div>
 
@@ -472,7 +472,7 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
                   variant="outline"
                   size="sm"
                   onClick={onBackToArcade}
-                  className="font-bold border-purple-700 text-purple-200"
+                  className="font-bold border-slate-300 dark:border-purple-700 text-slate-700 dark:text-purple-200 hover:bg-slate-100"
                 >
                   Back to Games
                 </Button>

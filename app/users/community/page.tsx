@@ -203,7 +203,7 @@ export default function CommunityPage() {
             </span>
           </div>
           <h1 className="font-display font-black text-2xl sm:text-3xl text-slate-900 dark:text-white">
-            Community <span className="text-emerald-500 dark:text-emerald-400">Hub</span>
+            Family <span className="text-emerald-500 dark:text-emerald-400">Connect</span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-purple-300/80 mt-0.5">
             Share young author milestones, reading tips, and creative writing prompts
@@ -230,7 +230,7 @@ export default function CommunityPage() {
           className="rounded-2xl bg-white dark:bg-[#13092e] border border-purple-200 dark:border-purple-800/60 p-5 shadow-lg space-y-4 animate-in fade-in duration-200"
         >
           <h3 className="font-display font-black text-lg text-slate-900 dark:text-white">
-            Share with the Community
+            Share with Family Connect
           </h3>
 
           <div>

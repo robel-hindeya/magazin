@@ -15,7 +15,7 @@ interface ThemeContextType {
 
 const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'selam-kids-theme-mode';
+const STORAGE_KEY = 'selam-kids-theme-mode-v2';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = React.useState<Theme>('light');
@@ -52,6 +52,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     setMounted(true);
     try {
+      if (localStorage.getItem('selam-kids-theme-mode') === 'dark') {
+        localStorage.removeItem('selam-kids-theme-mode');
+      }
       const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
       // Default is white (light)
       const initialTheme: Theme = stored === 'dark' ? 'dark' : 'light';

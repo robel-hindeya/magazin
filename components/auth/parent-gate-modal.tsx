@@ -269,17 +269,17 @@ export function ParentGateModal({
   const content = (
     <div
       className={cn(
-        'relative w-full max-w-md mx-auto rounded-3xl bg-[#140a33] border-2 border-purple-500/40 p-6 sm:p-8 text-white shadow-2xl overflow-hidden backdrop-blur-xl',
+        'relative w-full max-w-md mx-auto rounded-3xl bg-white dark:bg-[#140a33] border-2 border-slate-200 dark:border-purple-500/40 p-6 sm:p-8 text-slate-900 dark:text-white shadow-2xl overflow-hidden backdrop-blur-xl transition-colors',
         shake && 'animate-[shake_0.5s_cubic-bezier(.36,.07,.19,.97)_both]'
       )}
     >
       {/* Decorative stars and nebula glow */}
-      <div className="absolute inset-0 stars-pattern opacity-40 pointer-events-none" />
-      <div className="absolute -top-16 -right-16 w-44 h-44 bg-purple-500/20 blur-3xl rounded-full pointer-events-none" />
-      <div className="absolute -bottom-16 -left-16 w-44 h-44 bg-emerald-500/20 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute inset-0 stars-pattern opacity-10 dark:opacity-40 pointer-events-none" />
+      <div className="absolute -top-16 -right-16 w-44 h-44 bg-purple-500/10 dark:bg-purple-500/20 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute -bottom-16 -left-16 w-44 h-44 bg-emerald-500/10 dark:bg-emerald-500/20 blur-3xl rounded-full pointer-events-none" />
 
       {/* Close/Exit to Kids Button */}
-      <div className="relative flex items-center justify-between pb-3 border-b border-purple-900/60 mb-5">
+      <div className="relative flex items-center justify-between pb-3 border-b border-slate-100 dark:border-purple-900/60 mb-5">
         <button
           type="button"
           onClick={() => {
@@ -289,14 +289,14 @@ export function ParentGateModal({
               router.push('/users/kids');
             }
           }}
-          className="flex items-center gap-1.5 text-xs font-black text-purple-300 hover:text-emerald-400 transition-colors bg-purple-900/40 px-3 py-1.5 rounded-full border border-purple-800/60"
+          className="flex items-center gap-1.5 text-xs font-black text-slate-600 dark:text-purple-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors bg-slate-100 dark:bg-purple-900/40 px-3 py-1.5 rounded-full border border-slate-200 dark:border-purple-800/60"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Kids Area</span>
         </button>
 
-        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300 bg-emerald-400/10 border border-emerald-400/30 px-2.5 py-1 rounded-full flex items-center gap-1">
-          <ShieldCheck className="h-3 w-3 text-emerald-400" />
+        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-400/10 border border-emerald-200 dark:border-emerald-400/30 px-2.5 py-1 rounded-full flex items-center gap-1">
+          <ShieldCheck className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
           Parental Gate
         </span>
 
@@ -304,7 +304,7 @@ export function ParentGateModal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-full text-purple-400 hover:text-white hover:bg-purple-800/50 transition-colors"
+            className="p-1 rounded-full text-slate-400 hover:text-slate-700 dark:text-purple-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-purple-800/50 transition-colors"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
@@ -314,20 +314,20 @@ export function ParentGateModal({
 
       {/* Icon & Title Header */}
       <div className="relative text-center space-y-2 mb-6">
-        <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-emerald-400 p-0.5 shadow-xl shadow-purple-950/60">
-          <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-[#160a3a]">
+        <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-purple-700 via-indigo-600 to-emerald-400 p-0.5 shadow-md">
+          <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-slate-50 dark:bg-[#160a3a]">
             {successMsg ? (
-              <Unlock className="h-8 w-8 text-emerald-400 animate-bounce" />
+              <Unlock className="h-8 w-8 text-emerald-500 animate-bounce" />
             ) : step === 'setup_first' || step === 'setup_confirm' ? (
-              <KeyRound className="h-8 w-8 text-emerald-400" />
+              <KeyRound className="h-8 w-8 text-emerald-500" />
             ) : (
-              <Lock className="h-8 w-8 text-emerald-400" />
+              <Lock className="h-8 w-8 text-emerald-500" />
             )}
           </div>
         </div>
 
         <div>
-          <h3 className="font-display font-black text-2xl tracking-wide text-white">
+          <h3 className="font-display font-black text-2xl tracking-wide text-slate-900 dark:text-white">
             {title ||
               (step === 'setup_first'
                 ? 'Create Parent 4-Digit PIN'
@@ -335,7 +335,7 @@ export function ParentGateModal({
                 ? 'Confirm Your 4-Digit PIN'
                 : 'Enter Parent 4-Digit PIN')}
           </h3>
-          <p className="text-xs text-purple-200/90 font-medium max-w-xs mx-auto mt-1 leading-relaxed">
+          <p className="text-xs text-slate-500 dark:text-purple-200/90 font-medium max-w-xs mx-auto mt-1 leading-relaxed">
             {description ||
               (step === 'setup_first'
                 ? 'Add a 4-digit password so only parents can access family reports and settings.'
@@ -359,10 +359,10 @@ export function ParentGateModal({
               className={cn(
                 'flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl border-2 text-2xl font-display font-black transition-all duration-200 select-none shadow-inner',
                 isFilled
-                  ? 'border-emerald-400 bg-purple-950/90 text-emerald-400 shadow-md shadow-emerald-400/20 scale-105'
+                  ? 'border-emerald-400 bg-emerald-50 dark:bg-purple-950/90 text-emerald-600 dark:text-emerald-400 shadow-md shadow-emerald-400/20 scale-105'
                   : isCurrent
-                  ? 'border-purple-400 bg-purple-900/60 ring-4 ring-purple-400/20 animate-pulse text-transparent'
-                  : 'border-purple-800/80 bg-[#0e0626] text-purple-600'
+                  ? 'border-purple-400 bg-purple-50 dark:bg-purple-900/60 ring-4 ring-purple-400/20 animate-pulse text-transparent'
+                  : 'border-slate-200 dark:border-purple-800/80 bg-slate-50 dark:bg-[#0e0626] text-slate-400 dark:text-purple-600'
               )}
             >
               {isFilled ? (
@@ -420,7 +420,7 @@ export function ParentGateModal({
             type="button"
             disabled={loading}
             onClick={() => handleDigitPress(digit)}
-            className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-purple-900/40 border border-purple-700/50 text-xl font-display font-black text-white hover:bg-purple-800/70 hover:border-emerald-400/70 active:scale-95 transition-all shadow-md active:bg-emerald-400 active:text-slate-950 cursor-pointer disabled:opacity-50"
+            className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-slate-100 dark:bg-purple-900/40 border border-slate-200 dark:border-purple-700/50 text-xl font-display font-black text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-purple-800/70 hover:border-emerald-400/70 active:scale-95 transition-all shadow-sm active:bg-emerald-500 active:text-white cursor-pointer disabled:opacity-50"
           >
             {digit}
           </button>
@@ -431,7 +431,7 @@ export function ParentGateModal({
           type="button"
           disabled={loading}
           onClick={handleClear}
-          className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-purple-950/60 border border-purple-800 text-xs font-display font-bold text-purple-300 hover:text-white hover:bg-purple-900/60 active:scale-95 transition-all cursor-pointer disabled:opacity-50 gap-1"
+          className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-slate-100 dark:bg-purple-950/60 border border-slate-200 dark:border-purple-800 text-xs font-display font-bold text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-purple-900/60 active:scale-95 transition-all cursor-pointer disabled:opacity-50 gap-1"
         >
           <RotateCcw className="h-3.5 w-3.5" />
           <span>Clear</span>
@@ -442,7 +442,7 @@ export function ParentGateModal({
           type="button"
           disabled={loading}
           onClick={() => handleDigitPress('0')}
-          className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-purple-900/40 border border-purple-700/50 text-xl font-display font-black text-white hover:bg-purple-800/70 hover:border-emerald-400/70 active:scale-95 transition-all shadow-md active:bg-emerald-400 active:text-slate-950 cursor-pointer disabled:opacity-50"
+          className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-slate-100 dark:bg-purple-900/40 border border-slate-200 dark:border-purple-700/50 text-xl font-display font-black text-slate-900 dark:text-white hover:bg-slate-200 dark:hover:bg-purple-800/70 hover:border-emerald-400/70 active:scale-95 transition-all shadow-sm active:bg-emerald-500 active:text-white cursor-pointer disabled:opacity-50"
         >
           0
         </button>
@@ -452,7 +452,7 @@ export function ParentGateModal({
           type="button"
           disabled={loading}
           onClick={handleBackspace}
-          className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-purple-950/60 border border-purple-800 text-xs font-display font-bold text-purple-300 hover:text-white hover:bg-purple-900/60 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+          className="flex h-13 sm:h-14 items-center justify-center rounded-2xl bg-slate-100 dark:bg-purple-950/60 border border-slate-200 dark:border-purple-800 text-xs font-display font-bold text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-purple-900/60 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
           aria-label="Backspace"
         >
           <Delete className="h-5 w-5" />

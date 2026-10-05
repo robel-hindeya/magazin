@@ -210,23 +210,23 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto rounded-2xl bg-[#140a33] border border-purple-800/50 p-4 sm:p-6 shadow-xl relative text-white">
+    <div className="w-full max-w-4xl mx-auto rounded-2xl bg-white dark:bg-[#140a33] border border-slate-200 dark:border-purple-800/50 p-4 sm:p-6 shadow-xl relative text-slate-900 dark:text-white transition-colors">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-purple-800/40">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-purple-800/40">
         <div className="flex items-center gap-3">
           {onBackToArcade && (
             <button
               onClick={onBackToArcade}
-              className="inline-flex items-center gap-1 text-xs font-bold text-purple-300 hover:text-white px-2.5 py-1.5 rounded-lg bg-purple-900/40 hover:bg-purple-900/70 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1 text-xs font-bold text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 hover:bg-slate-200 dark:hover:bg-purple-900/70 transition-colors cursor-pointer"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> Back
             </button>
           )}
           <div>
-            <h2 className="font-display font-black text-lg sm:text-xl text-white">
+            <h2 className="font-display font-black text-lg sm:text-xl text-slate-900 dark:text-white">
               Color Studio
             </h2>
-            <p className="text-xs text-purple-300/80 font-medium">Draw, paint, and save your art</p>
+            <p className="text-xs text-slate-500 dark:text-purple-300/80 font-medium">Draw, paint, and save your art</p>
           </div>
         </div>
 
@@ -236,7 +236,7 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
             onClick={handleUndo}
             disabled={history.length <= 1}
             title="Undo"
-            className="p-1.5 rounded-lg bg-purple-900/40 text-purple-300 hover:text-white disabled:opacity-30 transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white disabled:opacity-30 transition-colors"
           >
             <Undo2 className="h-4 w-4" />
           </button>
@@ -244,7 +244,7 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
           <button
             onClick={() => initCanvas(selectedTemplate)}
             title="Clear"
-            className="p-1.5 rounded-lg bg-purple-900/40 text-purple-300 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white transition-colors"
           >
             <RotateCcw className="h-4 w-4" />
           </button>
@@ -274,7 +274,7 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-all shrink-0 cursor-pointer ${
               selectedTemplate.id === tmpl.id
                 ? 'bg-emerald-500 text-slate-950 font-bold'
-                : 'bg-purple-950/60 border border-purple-800/60 text-purple-300 hover:text-white'
+                : 'bg-slate-100 dark:bg-purple-950/60 border border-slate-200 dark:border-purple-800/60 text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <div className="relative w-3.5 h-3.5 shrink-0">
@@ -288,7 +288,7 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
       {/* Studio Arena */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-2">
         {/* Left Toolbar */}
-        <div className="md:col-span-1 flex flex-col gap-3 bg-purple-950/40 border border-purple-900/40 rounded-xl p-3">
+        <div className="md:col-span-1 flex flex-col gap-3 bg-slate-50 dark:bg-purple-950/40 border border-slate-200 dark:border-purple-900/40 rounded-xl p-3">
           {/* Tool Modes */}
           <div className="grid grid-cols-2 gap-1.5">
             <button
@@ -301,7 +301,7 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
               className={`flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
                 !isEraser && !activeStamp
                   ? 'bg-emerald-500 text-slate-950'
-                  : 'bg-purple-900/40 text-purple-300 hover:text-white'
+                  : 'bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <Paintbrush className="h-3 w-3" /> Brush
@@ -317,7 +317,7 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
               className={`flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
                 isEraser
                   ? 'bg-emerald-500 text-slate-950'
-                  : 'bg-purple-900/40 text-purple-300 hover:text-white'
+                  : 'bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <Eraser className="h-3 w-3" /> Eraser
@@ -361,10 +361,10 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
 
           {/* Sizes */}
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-purple-400 block mb-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-purple-400 block mb-1">
               Brush Size
             </span>
-            <div className="flex items-center justify-between gap-1 bg-purple-900/30 p-1 rounded-lg">
+            <div className="flex items-center justify-between gap-1 bg-slate-100 dark:bg-purple-900/30 p-1 rounded-lg">
               {[4, 8, 14, 22].map((size) => (
                 <button
                   key={size}
@@ -376,7 +376,7 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
                   className={`flex-1 py-1 flex items-center justify-center rounded transition-all ${
                     brushSize === size
                       ? 'bg-emerald-500 text-slate-950 font-bold'
-                      : 'text-purple-300 hover:text-white'
+                      : 'text-slate-500 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <div
@@ -390,8 +390,8 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
 
           {/* Stamps */}
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-purple-400 block mb-1 flex items-center gap-1">
-              <Stamp className="h-3 w-3 text-emerald-400" /> Stamps
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-purple-400 block mb-1 flex items-center gap-1">
+              <Stamp className="h-3 w-3 text-emerald-500" /> Stamps
             </span>
             <div className="grid grid-cols-3 gap-1">
               {STAMPS.map((stamp) => (
@@ -406,7 +406,7 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
                   className={`py-1 text-sm rounded-lg transition-all cursor-pointer ${
                     activeStamp === stamp
                       ? 'bg-emerald-500 text-slate-950 scale-105'
-                      : 'bg-purple-900/40 hover:bg-purple-800'
+                      : 'bg-slate-100 dark:bg-purple-900/40 hover:bg-slate-200 dark:hover:bg-purple-800'
                   }`}
                 >
                   {stamp}
@@ -417,7 +417,7 @@ export function CreatureColoringGame({ onBackToArcade, onOrbsEarned }: CreatureC
         </div>
 
         {/* Right Canvas */}
-        <div className="md:col-span-3 rounded-xl overflow-hidden border border-purple-800/60 bg-white flex items-center justify-center relative min-h-[360px]">
+        <div className="md:col-span-3 rounded-xl overflow-hidden border border-slate-200 dark:border-purple-800/60 bg-white flex items-center justify-center relative min-h-[360px]">
           <canvas
             ref={canvasRef}
             width={580}

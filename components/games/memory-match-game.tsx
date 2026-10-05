@@ -200,29 +200,29 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto rounded-2xl bg-[#140a33] border border-purple-800/50 p-4 sm:p-6 shadow-xl relative text-white">
+    <div className="w-full max-w-3xl mx-auto rounded-2xl bg-white dark:bg-[#140a33] border border-slate-200 dark:border-purple-800/50 p-4 sm:p-6 shadow-xl relative text-slate-900 dark:text-white transition-colors">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-purple-800/40">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-purple-800/40">
         <div className="flex items-center gap-3">
           {onBackToArcade && (
             <button
               onClick={onBackToArcade}
-              className="inline-flex items-center gap-1 text-xs font-bold text-purple-300 hover:text-white px-2.5 py-1.5 rounded-lg bg-purple-900/40 hover:bg-purple-900/70 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1 text-xs font-bold text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 hover:bg-slate-200 dark:hover:bg-purple-900/70 transition-colors cursor-pointer"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> Back
             </button>
           )}
           <div>
-            <h2 className="font-display font-black text-lg sm:text-xl text-white">
+            <h2 className="font-display font-black text-lg sm:text-xl text-slate-900 dark:text-white">
               Memory Match
             </h2>
-            <p className="text-xs text-purple-300/80 font-medium">Find all matching pairs</p>
+            <p className="text-xs text-slate-500 dark:text-purple-300/80 font-medium">Find all matching pairs</p>
           </div>
         </div>
 
         {/* Difficulty & Controls */}
         <div className="flex items-center gap-2">
-          <div className="inline-flex rounded-lg bg-purple-950/80 p-0.5 border border-purple-800">
+          <div className="inline-flex rounded-lg bg-slate-100 dark:bg-purple-950/80 p-0.5 border border-slate-200 dark:border-purple-800">
             {(['easy', 'medium', 'hard'] as const).map((level) => (
               <button
                 key={level}
@@ -233,7 +233,7 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
                 className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-all ${
                   difficulty === level
                     ? 'bg-emerald-500 text-slate-950 shadow-sm'
-                    : 'text-purple-300 hover:text-white'
+                    : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 {level}
@@ -247,7 +247,7 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
               setIsMuted(muted);
             }}
             title={isMuted ? 'Unmute' : 'Mute'}
-            className="p-1.5 rounded-lg bg-purple-900/40 text-purple-300 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </button>
@@ -255,7 +255,7 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
           <button
             onClick={() => startNewGame()}
             title="Reset"
-            className="p-1.5 rounded-lg bg-purple-900/40 text-purple-300 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             <RotateCcw className="h-4 w-4" />
           </button>
@@ -263,20 +263,20 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
       </div>
 
       {/* Minimal Stats */}
-      <div className="flex items-center justify-around py-3 my-3 bg-purple-950/40 rounded-xl border border-purple-900/30 text-xs">
+      <div className="flex items-center justify-around py-3 my-3 bg-slate-50 dark:bg-purple-950/40 rounded-xl border border-slate-200 dark:border-purple-900/30 text-xs">
         <div>
-          <span className="text-purple-400">Moves: </span>
-          <strong className="text-emerald-400 font-bold">{moves}</strong>
+          <span className="text-slate-500 dark:text-purple-400">Moves: </span>
+          <strong className="text-emerald-600 dark:text-emerald-400 font-bold">{moves}</strong>
         </div>
         <div>
-          <span className="text-purple-400">Pairs: </span>
-          <strong className="text-emerald-400 font-bold">
+          <span className="text-slate-500 dark:text-purple-400">Pairs: </span>
+          <strong className="text-emerald-600 dark:text-emerald-400 font-bold">
             {matches} / {pairCounts[difficulty]}
           </strong>
         </div>
         <div>
-          <span className="text-purple-400">Time: </span>
-          <strong className="text-emerald-400 font-bold">{formatTime(seconds)}</strong>
+          <span className="text-slate-500 dark:text-purple-400">Time: </span>
+          <strong className="text-emerald-600 dark:text-emerald-400 font-bold">{formatTime(seconds)}</strong>
         </div>
       </div>
 
@@ -301,10 +301,10 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
               disabled={card.isMatched || isRevealed}
               className={`aspect-square rounded-xl relative p-2 flex flex-col items-center justify-center transition-all duration-200 cursor-pointer select-none ${
                 card.isMatched
-                  ? 'bg-emerald-950/60 border border-emerald-500/70 opacity-80'
+                  ? 'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-400 opacity-80'
                   : isRevealed
-                  ? 'bg-purple-900/90 border-2 border-emerald-400 scale-[1.02] shadow-md shadow-emerald-500/10'
-                  : 'bg-purple-950/80 border border-purple-800/60 hover:border-purple-600 hover:scale-[1.02]'
+                  ? 'bg-purple-50 dark:bg-purple-900/90 border-2 border-emerald-500 scale-[1.02] shadow-md'
+                  : 'bg-slate-50 dark:bg-purple-950/80 border border-slate-200 dark:border-purple-800/60 hover:border-emerald-400 hover:scale-[1.02]'
               }`}
             >
               {isRevealed ? (
@@ -318,12 +318,12 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
                       className="object-contain"
                     />
                   </div>
-                  <span className="text-[10px] sm:text-xs font-bold text-purple-200 text-center truncate max-w-full px-1">
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-900 dark:text-purple-200 text-center truncate max-w-full px-1">
                     {card.name}
                   </span>
                 </div>
               ) : (
-                <div className="w-8 h-8 rounded-full bg-purple-900/50 flex items-center justify-center text-purple-400 text-xs font-bold">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-purple-900/50 flex items-center justify-center text-slate-500 dark:text-purple-400 text-xs font-bold">
                   ?
                 </div>
               )}
@@ -334,13 +334,13 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
 
       {/* Minimal Victory Modal */}
       {isGameOver && (
-        <div className="absolute inset-0 bg-[#0c0524]/95 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center p-6 text-center z-20 animate-in fade-in duration-200">
-          <div className="w-14 h-14 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mb-3">
+        <div className="absolute inset-0 bg-white/95 dark:bg-[#0c0524]/95 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center p-6 text-center z-20 animate-in fade-in duration-200 border-2 border-slate-200 dark:border-purple-700">
+          <div className="w-14 h-14 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mb-3 shadow-md shadow-emerald-500/30">
             <Trophy className="h-7 w-7 fill-slate-950" />
           </div>
 
-          <h3 className="font-display font-black text-2xl text-white">All Pairs Found!</h3>
-          <p className="text-purple-300 text-xs sm:text-sm font-medium mt-1">
+          <h3 className="font-display font-black text-2xl text-slate-900 dark:text-white">All Pairs Found!</h3>
+          <p className="text-slate-600 dark:text-purple-300 text-xs sm:text-sm font-medium mt-1">
             Completed in {moves} moves ({formatTime(seconds)})
           </p>
 
@@ -350,14 +350,14 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
                 key={starIndex}
                 className={`h-5 w-5 ${
                   starIndex <= calculateStars()
-                    ? 'text-emerald-400 fill-emerald-400'
-                    : 'text-purple-900 fill-purple-950'
+                    ? 'text-emerald-500 fill-emerald-500'
+                    : 'text-slate-200 dark:text-purple-900 fill-slate-200 dark:fill-purple-950'
                 }`}
               />
             ))}
           </div>
 
-          <div className="px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs border border-emerald-500/30 mb-5">
+          <div className="px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs border border-emerald-300 dark:border-emerald-500/30 mb-5">
             +{rewardOrbs} Orbs Earned
           </div>
 
@@ -375,7 +375,7 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
                 variant="outline"
                 size="sm"
                 onClick={onBackToArcade}
-                className="font-bold border-purple-700 text-purple-200"
+                className="font-bold border-slate-300 dark:border-purple-700 text-slate-700 dark:text-purple-200 hover:bg-slate-100"
               >
                 Back to Games
               </Button>

@@ -152,7 +152,7 @@ export default async function KidProfilePage({
         id="settings"
         className="shadow-xl border-4 border-purple-200/80 dark:border-purple-800/80 bg-white dark:bg-[#12092e] rounded-4xl overflow-hidden transition-colors"
       >
-        <CardHeader className="bg-gradient-to-r from-purple-50 via-pink-50 to-amber-50 dark:from-[#1b0b42] dark:via-[#261358] dark:to-[#170838] border-b-2 border-purple-100 dark:border-purple-800/60 p-6 sm:p-8 transition-colors">
+        <CardHeader className="bg-gradient-to-r from-purple-50 via-pink-50 to-emerald-50 dark:from-[#1b0b42] dark:via-[#261358] dark:to-[#170838] border-b-2 border-purple-100 dark:border-purple-800/60 p-6 sm:p-8 transition-colors">
           <div className="flex items-center gap-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500 text-white shadow-md shadow-cyan-500/30">
               <Settings className="h-6 w-6" />
@@ -195,8 +195,8 @@ export default async function KidProfilePage({
                 <Badge variant="kid">{user.role} EXPLORER</Badge>
               </div>
 
-              <Button type="submit" variant="yellow" className="font-black text-sm gap-2">
-                <Check className="h-4 w-4 text-purple-900" />
+              <Button type="submit" variant="emerald" className="font-black text-sm gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950">
+                <Check className="h-4 w-4 text-slate-950" />
                 Update Display Name
               </Button>
             </div>
@@ -209,7 +209,7 @@ export default async function KidProfilePage({
         id="security-settings"
         className="shadow-xl border-4 border-purple-200/80 dark:border-purple-800/80 bg-white dark:bg-[#12092e] rounded-4xl overflow-hidden transition-colors"
       >
-        <CardHeader className="bg-gradient-to-r from-purple-50 via-pink-50 to-amber-50 dark:from-[#1b0b42] dark:via-[#261358] dark:to-[#170838] border-b-2 border-purple-100 dark:border-purple-800/60 p-6 sm:p-8 transition-colors">
+        <CardHeader className="bg-gradient-to-r from-purple-50 via-pink-50 to-emerald-50 dark:from-[#1b0b42] dark:via-[#261358] dark:to-[#170838] border-b-2 border-purple-100 dark:border-purple-800/60 p-6 sm:p-8 transition-colors">
           <div className="flex items-center gap-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500 text-white shadow-md shadow-indigo-500/30">
               <Shield className="h-6 w-6" />

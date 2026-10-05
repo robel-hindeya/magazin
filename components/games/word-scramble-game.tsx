@@ -200,23 +200,23 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto rounded-2xl bg-[#140a33] border border-purple-800/50 p-4 sm:p-6 shadow-xl relative text-white">
+    <div className="w-full max-w-3xl mx-auto rounded-2xl bg-white dark:bg-[#140a33] border border-slate-200 dark:border-purple-800/50 p-4 sm:p-6 shadow-xl relative text-slate-900 dark:text-white transition-colors">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-purple-800/40">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-purple-800/40">
         <div className="flex items-center gap-3">
           {onBackToArcade && (
             <button
               onClick={onBackToArcade}
-              className="inline-flex items-center gap-1 text-xs font-bold text-purple-300 hover:text-white px-2.5 py-1.5 rounded-lg bg-purple-900/40 hover:bg-purple-900/70 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1 text-xs font-bold text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 hover:bg-slate-200 dark:hover:bg-purple-900/70 transition-colors cursor-pointer"
             >
               <ArrowLeft className="h-3.5 w-3.5" /> Back
             </button>
           )}
           <div>
-            <h2 className="font-display font-black text-lg sm:text-xl text-white">
+            <h2 className="font-display font-black text-lg sm:text-xl text-slate-900 dark:text-white">
               Word Dash
             </h2>
-            <p className="text-xs text-purple-300/80 font-medium">
+            <p className="text-xs text-slate-500 dark:text-purple-300/80 font-medium">
               Word {wordIndex + 1} of {WORDS_DATABASE.length}
             </p>
           </div>
@@ -230,7 +230,7 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
               setIsMuted(muted);
             }}
             title={isMuted ? 'Unmute' : 'Mute'}
-            className="p-1.5 rounded-lg bg-purple-900/40 text-purple-300 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </button>
@@ -238,7 +238,7 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
           <button
             onClick={handleRestart}
             title="Restart"
-            className="p-1.5 rounded-lg bg-purple-900/40 text-purple-300 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             <RotateCcw className="h-4 w-4" />
           </button>
@@ -246,24 +246,24 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
       </div>
 
       {/* Minimal Stats */}
-      <div className="flex items-center justify-around py-3 my-3 bg-purple-950/40 rounded-xl border border-purple-900/30 text-xs">
+      <div className="flex items-center justify-around py-3 my-3 bg-slate-50 dark:bg-purple-950/40 rounded-xl border border-slate-200 dark:border-purple-900/30 text-xs">
         <div>
-          <span className="text-purple-400">Score: </span>
-          <strong className="text-emerald-400 font-bold">{score}</strong>
+          <span className="text-slate-500 dark:text-purple-400">Score: </span>
+          <strong className="text-emerald-600 dark:text-emerald-400 font-bold">{score}</strong>
         </div>
         <div>
-          <span className="text-purple-400">Streak: </span>
-          <strong className="text-emerald-400 font-bold">{streak}x</strong>
+          <span className="text-slate-500 dark:text-purple-400">Streak: </span>
+          <strong className="text-emerald-600 dark:text-emerald-400 font-bold">{streak}x</strong>
         </div>
         <div>
-          <span className="text-purple-400">Orbs: </span>
-          <strong className="text-emerald-400 font-bold">+{totalOrbs}</strong>
+          <span className="text-slate-500 dark:text-purple-400">Orbs: </span>
+          <strong className="text-emerald-600 dark:text-emerald-400 font-bold">+{totalOrbs}</strong>
         </div>
       </div>
 
       {/* Hint & Mascot */}
-      <div className="flex items-center gap-3 p-3.5 rounded-xl bg-purple-950/50 border border-purple-800/40 my-3">
-        <div className="relative w-12 h-12 rounded-lg bg-purple-900/50 p-1 flex items-center justify-center shrink-0">
+      <div className="flex items-center gap-3 p-3.5 rounded-xl bg-purple-50/70 dark:bg-purple-950/50 border border-purple-100 dark:border-purple-800/40 my-3">
+        <div className="relative w-12 h-12 rounded-lg bg-emerald-100/60 dark:bg-purple-900/50 p-1 flex items-center justify-center shrink-0 border border-emerald-300/40">
           <Image
             src={currentWordData.mascot}
             alt="Mascot"
@@ -273,10 +273,10 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
           />
         </div>
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
             {currentWordData.category}
           </span>
-          <p className="text-xs sm:text-sm text-purple-100 font-medium">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-purple-100 font-medium">
             {currentWordData.hint}
           </p>
         </div>
@@ -298,7 +298,7 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
                   ? 'bg-emerald-500 text-slate-950 scale-105 shadow-sm'
                   : placed
                   ? 'bg-purple-600 text-white border border-purple-400 cursor-pointer hover:bg-rose-500 transition-colors'
-                  : 'bg-purple-950/80 border border-dashed border-purple-700 text-purple-600'
+                  : 'bg-slate-100 dark:bg-purple-950/80 border border-dashed border-slate-300 dark:border-purple-700 text-slate-400 dark:text-purple-600'
               }`}
             >
               {placed ? placed.char : ''}
@@ -309,7 +309,7 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
 
       {/* Success banner */}
       {isSuccess && (
-        <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-emerald-400 mb-3 animate-in fade-in">
+        <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 mb-3 animate-in fade-in">
           <CheckCircle2 className="h-4 w-4" />
           <span>Correct! +{25 + streak * 5} Orbs</span>
         </div>
@@ -325,8 +325,8 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
             disabled={item.used || isSuccess}
             className={`w-11 h-12 sm:w-12 sm:h-13 rounded-xl font-display font-black text-lg sm:text-xl transition-all ${
               item.used
-                ? 'opacity-20 bg-purple-950 border border-purple-900 cursor-not-allowed'
-                : 'bg-purple-900/80 hover:bg-purple-700 text-white border border-purple-600 cursor-pointer active:scale-95'
+                ? 'opacity-20 bg-slate-200 dark:bg-purple-950 border border-slate-300 dark:border-purple-900 cursor-not-allowed'
+                : 'bg-purple-100 dark:bg-purple-900/80 hover:bg-purple-200 dark:hover:bg-purple-700 text-purple-950 dark:text-white border border-purple-300 dark:border-purple-600 cursor-pointer active:scale-95 shadow-sm'
             }`}
           >
             {item.char}
@@ -335,12 +335,12 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
       </div>
 
       {/* Minimal Helper Buttons */}
-      <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-purple-800/30">
+      <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t border-slate-200 dark:border-purple-800/30">
         <button
           type="button"
           onClick={handleShuffle}
           disabled={isSuccess}
-          className="inline-flex items-center gap-1 text-xs font-bold text-purple-300 hover:text-white px-3 py-1.5 rounded-lg bg-purple-900/40 hover:bg-purple-900/70 transition-colors"
+          className="inline-flex items-center gap-1 text-xs font-bold text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-purple-900/40 hover:bg-slate-200 dark:hover:bg-purple-900/70 transition-colors"
         >
           <Shuffle className="h-3.5 w-3.5" /> Shuffle
         </button>
@@ -349,7 +349,7 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
           type="button"
           onClick={handleHint}
           disabled={isSuccess || selectedLetters.length >= currentWordData.word.length}
-          className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 hover:text-emerald-300 px-3 py-1.5 rounded-lg bg-emerald-950/40 border border-emerald-800/40 transition-colors"
+          className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800/40 transition-colors"
         >
           <Lightbulb className="h-3.5 w-3.5" /> Hint
         </button>
@@ -357,17 +357,17 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
 
       {/* Completion Modal */}
       {isFinished && (
-        <div className="absolute inset-0 bg-[#0c0524]/95 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center p-6 text-center z-20 animate-in fade-in duration-200">
-          <div className="w-14 h-14 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mb-3">
+        <div className="absolute inset-0 bg-white/95 dark:bg-[#0c0524]/95 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center p-6 text-center z-20 animate-in fade-in duration-200 border-2 border-slate-200 dark:border-purple-700">
+          <div className="w-14 h-14 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center mb-3 shadow-md shadow-emerald-500/30">
             <Trophy className="h-7 w-7 fill-slate-950" />
           </div>
 
-          <h3 className="font-display font-black text-2xl text-white">Wordsmith Champion!</h3>
-          <p className="text-purple-300 text-xs sm:text-sm font-medium mt-1">
+          <h3 className="font-display font-black text-2xl text-slate-900 dark:text-white">Wordsmith Champion!</h3>
+          <p className="text-slate-600 dark:text-purple-300 text-xs sm:text-sm font-medium mt-1">
             You rescued all {WORDS_DATABASE.length} words!
           </p>
 
-          <div className="px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs border border-emerald-500/30 my-4">
+          <div className="px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs border border-emerald-300 dark:border-emerald-500/30 my-4">
             +{totalOrbs} Total Orbs Earned
           </div>
 
@@ -385,7 +385,7 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
                 variant="outline"
                 size="sm"
                 onClick={onBackToArcade}
-                className="font-bold border-purple-700 text-purple-200"
+                className="font-bold border-slate-300 dark:border-purple-700 text-slate-700 dark:text-purple-200 hover:bg-slate-100"
               >
                 Back to Games
               </Button>

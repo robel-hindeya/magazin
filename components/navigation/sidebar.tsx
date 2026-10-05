@@ -57,7 +57,7 @@ export function Sidebar({ title, subtitle, items, footer }: SidebarProps) {
     ? [
         { label: 'Night Zoo Magazine', href: '/users/kids', icon: <BookOpen className="h-4 w-4 text-purple-400" /> },
         { label: 'Games Arcade', href: '/games', icon: <Gamepad2 className="h-4 w-4 text-emerald-400" /> },
-        { label: 'Community', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
+        { label: 'Family Connect', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
         { label: 'Profile', href: '/users/kids/profile', icon: <User className="h-4 w-4 text-cyan-400" /> },
       ]
     : items.filter((item) => !item.requiresPin || !pathname.startsWith('/users/kids'));

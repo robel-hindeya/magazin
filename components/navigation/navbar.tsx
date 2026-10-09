@@ -13,6 +13,8 @@ import {
   User as UserIcon,
   BookOpen,
   Gamepad2,
+  Sparkles,
+  Music,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -21,7 +23,6 @@ import { Dropdown } from '@/components/ui/dropdown';
 import { AuthUser } from '@/types/auth';
 import { ROLES, UserRole } from '@/backend/constants/roles';
 import { cn } from '@/lib/utils';
-import { ParentGateButton } from '@/components/navigation/parent-gate-button';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 
 export interface NavbarProps {
@@ -123,14 +124,34 @@ export function Navbar({ user }: NavbarProps) {
             {!isAdminArea && (
               <>
                 <Link
-                  href="/users/kids"
+                  href={user ? '/users/kids/magazine' : '/#magazines'}
                   className={cn(
                     'flex items-center gap-1.5 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-y-0.5 transform',
-                    pathname === '/users/kids' || pathname === '/users/kids/magazine' ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
+                    pathname === '/users/kids/magazine' ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
                   )}
                 >
                   <BookOpen className="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400" />
-                  Kids
+                  Magazin
+                </Link>
+                <Link
+                  href={user ? '/users/kids#story-editor-section' : '/#story'}
+                  className={cn(
+                    'flex items-center gap-1.5 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-y-0.5 transform',
+                    pathname === '/users/kids' && !pathname.includes('magazine') ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
+                  )}
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-purple-500 dark:text-purple-400" />
+                  Story
+                </Link>
+                <Link
+                  href="/melody-world"
+                  className={cn(
+                    'flex items-center gap-1.5 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-y-0.5 transform',
+                    pathname.startsWith('/melody-world') ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
+                  )}
+                >
+                  <Music className="h-3.5 w-3.5 text-pink-500 dark:text-pink-400" />
+                  Melody World
                 </Link>
                 <Link
                   href="/games"
@@ -139,10 +160,9 @@ export function Navbar({ user }: NavbarProps) {
                     pathname.startsWith('/games') ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
                   )}
                 >
-                  <Gamepad2 className="h-4 w-4 text-emerald-500 dark:text-emerald-400 group-hover:rotate-12 transition-transform" />
+                  <Gamepad2 className="h-4 w-4 text-cyan-500 dark:text-cyan-400 group-hover:rotate-12 transition-transform" />
                   <span>Games</span>
                 </Link>
-                <ParentGateButton variant="navbar-desktop" />
               </>
             )}
 
@@ -295,36 +315,60 @@ export function Navbar({ user }: NavbarProps) {
           <span className="text-[11px] font-display font-bold">Home</span>
         </Link>
 
-        {/* 2. Kids & 3. Parents */}
+        {/* 2. Magazin, 3. Story, 4. Melody World, 5. Games */}
         {!isAdminArea && (
           <>
             <Link
-              href="/users/kids"
+              href={user ? '/users/kids/magazine' : '/#magazines'}
               className={cn(
-                'flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all',
-                pathname === '/users/kids' || pathname === '/users/kids/magazine'
+                'flex flex-col items-center justify-center py-1 px-1.5 rounded-xl transition-all',
+                pathname === '/users/kids/magazine'
                   ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
                   : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
               )}
             >
-              <BookOpen className="h-5 w-5 mb-0.5" />
-              <span className="text-[11px] font-display font-bold">Kids</span>
+              <BookOpen className="h-4 w-4 mb-0.5 text-emerald-500 dark:text-emerald-400" />
+              <span className="text-[10px] font-display font-bold">Magazin</span>
+            </Link>
+
+            <Link
+              href={user ? '/users/kids#story-editor-section' : '/#story'}
+              className={cn(
+                'flex flex-col items-center justify-center py-1 px-1.5 rounded-xl transition-all',
+                pathname === '/users/kids'
+                  ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
+                  : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
+              )}
+            >
+              <Sparkles className="h-4 w-4 mb-0.5 text-purple-500 dark:text-purple-400" />
+              <span className="text-[10px] font-display font-bold">Story</span>
+            </Link>
+
+            <Link
+              href="/melody-world"
+              className={cn(
+                'flex flex-col items-center justify-center py-1 px-1.5 rounded-xl transition-all',
+                pathname.startsWith('/melody-world')
+                  ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
+                  : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
+              )}
+            >
+              <Music className="h-4 w-4 mb-0.5 text-pink-500 dark:text-pink-400" />
+              <span className="text-[10px] font-display font-bold">Melody</span>
             </Link>
 
             <Link
               href="/games"
               className={cn(
-                'flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all',
+                'flex flex-col items-center justify-center py-1 px-1.5 rounded-xl transition-all',
                 pathname.startsWith('/games')
                   ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
                   : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
               )}
             >
-              <Gamepad2 className="h-5 w-5 mb-0.5 text-emerald-500 dark:text-emerald-400" />
-              <span className="text-[11px] font-display font-bold">Games</span>
+              <Gamepad2 className="h-4 w-4 mb-0.5 text-cyan-500 dark:text-cyan-400" />
+              <span className="text-[10px] font-display font-bold">Games</span>
             </Link>
-
-            <ParentGateButton variant="navbar-mobile" />
           </>
         )}
 

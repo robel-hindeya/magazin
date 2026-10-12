@@ -70,7 +70,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-display font-black text-4xl sm:text-5xl leading-tight text-slate-900 dark:text-white">
-                Classic Animal Tales and Fables
+                Classic Animal Tales and Stories
               </h2>
 
               <div className="mt-8">

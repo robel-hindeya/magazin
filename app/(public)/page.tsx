@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { InteractiveHeroCharacters } from '@/components/landing/interactive-hero-characters';
 import { TypewriterHeroTitle } from '@/components/landing/typewriter-hero-title';
 import { MagazineCoverSlider } from '@/components/landing/magazine-cover-slider';
-import { AnimatedSquadSection } from '@/components/landing/animated-squad-section';
 import { LandingFooter } from '@/components/landing/footer';
 
 export default function HomePage() {
@@ -57,7 +56,10 @@ export default function HomePage() {
           Interactive 3D Carousel & Freely Movable Desk of Kid-Authored Magazines
           ========================================================================= */}
       <div id="magazines" className="w-full scroll-mt-20">
-        <MagazineCoverSlider subtitle="Explore our diverse Ethiopian themed magazines" />
+        <MagazineCoverSlider
+          title="Kids Magazine"
+          subtitle="Explore our diverse Ethiopian themed Kids Magazines"
+        />
       </div>
 
       {/* =========================================================================
@@ -68,7 +70,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-display font-black text-4xl sm:text-5xl leading-tight text-slate-900 dark:text-white">
-                Fairy Tale Companions Through the Power of Words
+                Classic Animal Tales and Fables
               </h2>
 
               <div className="mt-8">
@@ -84,18 +86,20 @@ export default function HomePage() {
             <div className="rounded-4xl border-4 border-slate-200 dark:border-purple-500/50 bg-white/90 dark:bg-[#1b0d47]/90 backdrop-blur-md p-8 shadow-xl relative group hover:border-emerald-400 transition-all duration-300">
               <div className="flex items-center justify-between border-b-2 border-slate-100 dark:border-purple-800/60 pb-5">
                 <div className="flex items-center gap-4">
-                  <div className="relative h-20 w-20 rounded-3xl bg-emerald-100 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-600 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden p-1 shrink-0">
+                  <div className="relative h-20 w-20 rounded-2xl bg-amber-100 dark:bg-amber-950/50 border border-amber-300 dark:border-amber-600 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform overflow-hidden shrink-0">
                     <Image
-                      src="/images/characters/walia-ibex.png"
-                      alt="Walia the Alpine King"
+                      src="/images/stories/clever-mice-safe.jpg"
+                      alt="The Clever Mice Stay Safe"
                       fill
                       sizes="80px"
-                      className="object-contain"
+                      quality={100}
+                      unoptimized
+                      className="object-cover"
                     />
                   </div>
                   <div>
                     <h4 className="font-display text-2xl font-black text-slate-900 dark:text-white">
-                      Walia the Alpine King (ዋሊያ)
+                      The Clever Mice Stay Safe
                     </h4>
                     <p className="text-xs text-purple-600 dark:text-purple-300 font-bold">Simien Mountains • Master Storyteller • Level 5</p>
                   </div>
@@ -105,8 +109,7 @@ export default function HomePage() {
 
               {/* Story excerpt */}
               <div className="mt-6 rounded-2xl bg-purple-50/70 dark:bg-[#0e0626]/80 p-5 border-2 border-purple-100 dark:border-purple-900/60 text-sm text-slate-800 dark:text-purple-100 font-sans leading-relaxed">
-                &ldquo;Walia stood at the highest peak of the Simien cliffs, holding the ancient Silver Scroll.
-                With a mighty leap and a surge of vivid vocabulary, he banished the shadow Grims back into the mist...&rdquo;
+                When hungry predators disguise a trap as a grand wedding celebration, can clever instincts save the guests from becoming the main course?
               </div>
 
               <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
@@ -121,11 +124,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* =========================================================================
-          ETHIOPIAN ENDEMIC WILDLIFE MENTORS SHOWCASE
-          ========================================================================= */}
-      <AnimatedSquadSection />
 
       {/* =========================================================================
           LANDING PAGE FOOTER with Big selamkids Brand Statement

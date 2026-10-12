@@ -103,7 +103,7 @@ export default async function AdminSettingsPage({
             <div className="flex items-center justify-between p-3.5 bg-slate-50 rounded-xl border border-slate-100">
               <div className="pr-4">
                 <p className="text-xs font-bold text-slate-800">Teacher Direct Publishing Clearance</p>
-                <p className="text-[11px] text-slate-500">Allow verified educators to approve student writing to the Night Zoo Magazine directly</p>
+                <p className="text-[11px] text-slate-500">Allow verified educators to approve student writing to the Selam Kids Magazine directly</p>
               </div>
               <input
                 type="checkbox"

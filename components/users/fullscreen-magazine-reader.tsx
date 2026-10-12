@@ -317,7 +317,7 @@ export function FullscreenMagazineReader({
                     <span>{magazine.releaseDate}</span>
                   </div>
                   <h3 className="font-display font-black text-3xl sm:text-4xl text-yellow-300 tracking-wider drop-shadow-md">
-                    NIGHT ZOOKEEPER
+                    SELAM KIDS
                   </h3>
                   <span className="text-[11px] uppercase font-black tracking-widest text-white/90">
                     {magazine.editionName}

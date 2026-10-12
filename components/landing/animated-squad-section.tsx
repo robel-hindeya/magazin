@@ -38,7 +38,7 @@ export const ETHIOPIAN_ENDEMIC_ANIMALS: EthiopianAnimal[] = [
     amharicName: 'ዋሊያ',
     scientificName: 'Capra walie',
     region: 'Simien Mountains National Park',
-    image: '/images/characters/walia-ibex.jpg',
+    image: '/images/characters/walia-ibex.png',
     tagline: 'High Alpine Mountain King',
     quote: 'Scale the highest peaks of imagination! Every cliff you climb leads to an unforgettable story.',
     power: 'Mountain Summit Vocabulary',
@@ -51,7 +51,7 @@ export const ETHIOPIAN_ENDEMIC_ANIMALS: EthiopianAnimal[] = [
     amharicName: 'ቀይ ቀበሮ',
     scientificName: 'Canis simensis',
     region: 'Bale & Simien Afroalpine Plateaus',
-    image: '/images/characters/ethiopian-wolf.jpg',
+    image: '/images/characters/ethiopian-wolf.png',
     tagline: 'The World’s Rarest Red Canid',
     quote: 'Keep your senses sharp and thoughts swift. Brave words track truth across the misty highlands.',
     power: 'Highland Agility & Keen Focus',
@@ -64,7 +64,7 @@ export const ETHIOPIAN_ENDEMIC_ANIMALS: EthiopianAnimal[] = [
     amharicName: 'ጭላዳ ዝንጀሮ',
     scientificName: 'Theropithecus gelada',
     region: 'Guassa & Simien Highland Escarpments',
-    image: '/images/characters/gelada-baboon.jpg',
+    image: '/images/characters/gelada-baboon.png',
     tagline: 'Golden-Maned Highland Sovereign',
     quote: 'Speak straight from your heart! True tales carry the living rhythm of community and song.',
     power: 'Heartfelt Story Rhythm & Voice',
@@ -77,7 +77,7 @@ export const ETHIOPIAN_ENDEMIC_ANIMALS: EthiopianAnimal[] = [
     amharicName: 'የተራራ ድኩላ',
     scientificName: 'Tragelaphus buxtoni',
     region: 'Bale Mountains Cloud Forests',
-    image: '/images/characters/mountain-nyala.jpg',
+    image: '/images/characters/mountain-nyala.png',
     tagline: 'Queen of the Cloud Forests',
     quote: 'Step gracefully into quiet mist. The deepest wonders unfold when you listen to the ancient trees.',
     power: 'Poetic Mysticism & Elegance',
@@ -431,7 +431,7 @@ export function AnimatedSquadSection() {
                         alt={`${char.name} (${char.amharicName})`}
                         fill
                         sizes="220px"
-                        className="object-cover"
+                        className="object-contain p-2"
                       />
                     </div>
 

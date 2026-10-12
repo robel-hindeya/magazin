@@ -13,6 +13,8 @@ import {
   User,
   Gamepad2,
   Shield,
+  Library,
+  PenTool,
 } from 'lucide-react';
 import { ROLES } from '@/backend/constants/roles';
 
@@ -36,9 +38,9 @@ export default async function UsersLayout({
     sidebarTitle = undefined;
     sidebarSubtitle = undefined;
     navItems = [
-      { label: 'Night Zoo Magazine', href: '/users/kids', icon: <BookOpen className="h-4 w-4 text-purple-400" /> },
-      { label: 'Games Arcade', href: '/games', icon: <Gamepad2 className="h-4 w-4 text-emerald-400" /> },
-      { label: 'Family Connect', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
+      { label: 'Selam Kids Magazine', href: '/users/kids', icon: <BookOpen className="h-4 w-4 text-purple-400" /> },
+      { label: 'Magazine List', href: '/users/kids/magazines', icon: <Library className="h-4 w-4 text-amber-400" /> },
+      { label: 'Kids Daily', href: '/users/kids/daily', icon: <PenTool className="h-4 w-4 text-rose-400" /> },
       { label: 'Profile', href: '/users/kids/profile', icon: <User className="h-4 w-4 text-cyan-400" /> },
     ];
   } else if (user.role === ROLES.FAMILY) {
@@ -67,6 +69,7 @@ export default async function UsersLayout({
     navItems = [
       { label: 'Overview', href: '/users', icon: <Compass className="h-4 w-4" /> },
       { label: 'Kids Area', href: '/users/kids', icon: <BookOpen className="h-4 w-4" /> },
+      { label: 'Magazine List', href: '/users/kids/magazines', icon: <Library className="h-4 w-4 text-amber-400" /> },
       { label: 'Family Connect', href: '/users/community', icon: <Users className="h-4 w-4 text-purple-400" /> },
       { label: 'Teachers Area', href: '/users/teachers', icon: <GraduationCap className="h-4 w-4" /> },
       { label: 'Settings', href: '/users/settings', icon: <Settings className="h-4 w-4" /> },

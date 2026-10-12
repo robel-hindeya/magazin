@@ -83,7 +83,7 @@ ON CONFLICT DO NOTHING;
 -- Seed default system settings
 INSERT INTO public.system_settings (key, value, description)
 VALUES
-  ('platform_name', '"Selam Kids - Night Zookeeper Edition"', 'Name of the educational creative writing platform'),
+  ('platform_name', '"Selam Kids Edition"', 'Name of the educational creative writing platform'),
   ('allow_public_registration', 'true', 'Whether new visitors can register directly'),
   ('maintenance_mode', 'false', 'Global maintenance status'),
   ('default_orb_reward', '25', 'Default orbs awarded for completing a writing prompt'),

@@ -219,7 +219,7 @@ export function FamilyPinSettingsCard({
           </span>
         </div>
         <CardDescription className="text-slate-600 dark:text-purple-300/80 mt-1">
-          This 4-digit security code locks the Family Dashboard and settings. Children browsing the Night Zoo
+          This 4-digit security code locks the Family Dashboard and settings. Children browsing Selam Kids
           cannot access parent-only areas without entering this passcode.
         </CardDescription>
       </CardHeader>

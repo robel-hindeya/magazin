@@ -64,7 +64,7 @@ export function MagazineShowcase({
             </div>
 
             <h1 className="font-display font-black text-3xl sm:text-4xl md:text-5xl text-slate-900 dark:text-white tracking-tight drop-shadow-sm">
-              Welcome to the <span className="text-emerald-600 dark:text-emerald-400 underline decoration-purple-400 decoration-wavy decoration-2">Selam Kids</span>!
+              Welcome to <span className="text-emerald-600 dark:text-emerald-400">Selam Kids!</span>
             </h1>
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
@@ -120,7 +120,7 @@ export function MagazineShowcase({
             Magazines Scattered on the Explorer&apos;s Desk
           </h2>
           <p className="text-slate-600 dark:text-purple-200 text-sm max-w-lg mx-auto font-medium">
-            Not lined up in a boring row! These 3 issues are right off the Night Zoo press, waiting for you to flip open.
+            Not lined up in a boring row! These 3 issues are right off the Selam Kids press, waiting for you to flip open.
           </p>
         </div>
 
@@ -170,7 +170,7 @@ export function MagazineShowcase({
                       </div>
 
                       <h3 className="font-display font-black text-2xl sm:text-3xl text-yellow-300 tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">
-                        NIGHT ZOOKEEPER
+                        SELAM KIDS
                       </h3>
                       <span className="text-[10px] uppercase font-black tracking-widest text-purple-200">
                         {magazine.editionName}
@@ -263,7 +263,7 @@ export function MagazineShowcase({
                 Do you want your creature in next month&apos;s Magazine?
               </h4>
               <p className="text-xs text-slate-600 dark:text-purple-200 font-medium">
-                Submit an adventure below. Night Zookeeper editors pick 3 new kid authors every month!
+                Submit an adventure below. Selam Kids editors pick 3 new kid authors every month!
               </p>
             </div>
           </div>

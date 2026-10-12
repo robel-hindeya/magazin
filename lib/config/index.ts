@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: 'Selam Kids - Night Zookeeper',
+  name: 'Selam Kids',
   description: 'A magical learning adventure inspiring children to write, draw, and read.',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
   links: {

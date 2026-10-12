@@ -6,7 +6,7 @@ import { LoadingSpinner } from '@/components/ui/loading';
 export const metadata: Metadata = {
   title: 'Games Arcade - Selam Kids World',
   description:
-    'Play exciting educational games, vocabulary scramble, memory match, and star orb catching at the Selam Kids Night Zoo Arcade!',
+    'Play exciting educational games, vocabulary scramble, memory match, and star orb catching at the Selam Kids Arcade!',
 };
 
 export default function GamesPage() {
@@ -14,7 +14,7 @@ export default function GamesPage() {
     <Suspense
       fallback={
         <div className="w-full min-h-[calc(100vh-5rem)] night-sky-bg flex items-center justify-center">
-          <LoadingSpinner size="lg" message="Entering Night Zoo Arcade..." />
+          <LoadingSpinner size="lg" message="Entering Selam Kids Arcade..." />
         </div>
       }
     >

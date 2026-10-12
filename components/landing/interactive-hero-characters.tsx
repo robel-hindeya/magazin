@@ -6,7 +6,8 @@ import Image from 'next/image';
 interface HeroCharacter {
   id: string;
   name: string;
-  movie: string;
+  amharic: string;
+  origin: string;
   image: string;
   quote: string;
   power: string;
@@ -19,68 +20,73 @@ interface HeroCharacter {
 
 const HERO_CHARACTERS: HeroCharacter[] = [
   {
-    id: 'simba',
-    name: 'Simba',
-    movie: 'The Lion King',
-    image: '/images/characters/simba.png',
-    quote: 'Hakuna Matata! Let’s write a wild safari adventure!',
-    power: 'Roar of Vocabulary',
+    id: 'walia-ibex',
+    name: 'Walia Ibex',
+    amharic: 'ዋሊያ',
+    origin: 'Simien Mountains',
+    image: '/images/characters/walia-ibex.png',
+    quote: 'Scale the highest peaks of your imagination! Every cliff leads to a new story!',
+    power: 'Mountain Summit Vocabulary',
     positionClass: 'top-6 left-3 sm:left-6 lg:left-10',
     bubbleClass: 'top-full left-0 sm:left-4 mt-2',
-    sizeClass: 'w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40',
-    glowColor: 'drop-shadow-[0_12px_28px_rgba(251,191,36,0.55)]',
+    sizeClass: 'w-34 h-34 sm:w-44 sm:h-44 lg:w-52 lg:h-52',
+    glowColor: 'drop-shadow-[0_12px_28px_rgba(245,158,11,0.55)]',
     animationDelay: '0s',
   },
   {
-    id: 'toothless',
-    name: 'Toothless',
-    movie: 'How to Train Your Dragon',
-    image: '/images/characters/toothless.png',
-    quote: 'Plasma Blast! Time to soar into mythical fantasy worlds!',
-    power: 'Dragon Fire Creativity',
+    id: 'ethiopian-wolf',
+    name: 'Ethiopian Wolf',
+    amharic: 'ቀይ ቀበሮ',
+    origin: 'Bale Plateaus',
+    image: '/images/characters/ethiopian-wolf.png',
+    quote: 'Keep your thoughts swift and brave! Let your words track wondrous adventures!',
+    power: 'Highland Agility & Focus',
     positionClass: 'top-4 right-1/4 sm:right-1/3 -translate-y-2 hidden lg:block',
     bubbleClass: 'top-full left-1/2 -translate-x-1/2 mt-2',
-    sizeClass: 'w-32 h-28 lg:w-44 lg:h-36',
-    glowColor: 'drop-shadow-[0_12px_28px_rgba(147,51,234,0.6)]',
+    sizeClass: 'w-34 h-34 sm:w-44 sm:h-44 lg:w-48 lg:h-48',
+    glowColor: 'drop-shadow-[0_12px_28px_rgba(234,88,12,0.55)]',
     animationDelay: '1.2s',
   },
   {
-    id: 'po',
-    name: 'Po the Dragon Warrior',
-    movie: 'Kung Fu Panda',
-    image: '/images/characters/po-panda.png',
-    quote: 'Skadoosh! There is no secret ingredient—it is YOUR imagination!',
-    power: 'Kung Fu Story Pacing',
+    id: 'abyssinian-lion',
+    name: 'Abyssinian Lion',
+    amharic: 'አንበሳ',
+    origin: 'Highland Emperor',
+    image: '/images/characters/abyssinian-lion.png',
+    quote: 'Roar with creative confidence! Every child is a mighty storytelling ruler!',
+    power: 'Royal Creative Courage',
     positionClass: 'top-6 right-3 sm:right-6 lg:right-12',
     bubbleClass: 'top-full right-0 sm:right-4 mt-2',
-    sizeClass: 'w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40',
-    glowColor: 'drop-shadow-[0_12px_28px_rgba(245,158,11,0.55)]',
+    sizeClass: 'w-34 h-34 sm:w-44 sm:h-44 lg:w-52 lg:h-52',
+    glowColor: 'drop-shadow-[0_12px_28px_rgba(245,158,11,0.6)]',
     animationDelay: '0.8s',
   },
   {
-    id: 'stitch',
-    name: 'Stitch',
-    movie: 'Lilo & Stitch',
-    image: '/images/characters/stitch.png',
-    quote: 'Ih! Ohana means family, and family means great adventures together!',
-    power: 'Galactic Imagination',
+    id: 'gelada-baboon',
+    name: 'Gelada Baboon',
+    amharic: 'ጭላዳ ዝንጀሮ',
+    origin: 'Guassa Escarpment',
+    image: '/images/characters/gelada-baboon.png',
+    quote: 'Speak straight from your heart! True tales carry the living rhythm of song!',
+    power: 'Heartfelt Story Rhythm',
     positionClass: 'bottom-8 left-4 sm:left-10 lg:left-20 hidden md:block',
     bubbleClass: 'bottom-full left-0 mb-2',
-    sizeClass: 'w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32',
-    glowColor: 'drop-shadow-[0_12px_28px_rgba(59,130,246,0.6)]',
+    sizeClass: 'w-28 h-28 sm:w-38 sm:h-38 lg:w-48 lg:h-48',
+    glowColor: 'drop-shadow-[0_12px_28px_rgba(251,191,36,0.55)]',
     animationDelay: '1.6s',
   },
   {
-    id: 'minion',
-    name: 'Bob the Minion',
-    movie: 'Despicable Me',
-    image: '/images/characters/minion.png',
-    quote: 'Bello! Banana power + awesome grammar = UNSTOPPABLE story!',
-    power: 'Wacky Humor & Energy',
+    id: 'mountain-nyala',
+    name: 'Mountain Nyala',
+    amharic: 'የተራራ ድኩላ',
+    origin: 'Cloud Forest',
+    image: '/images/characters/mountain-nyala.png',
+    quote: 'Listen to the whispering trees! Gentle words can summon the brightest magic!',
+    power: 'Cloud Forest Wisdom',
     positionClass: 'bottom-10 right-4 sm:right-10 lg:right-24 hidden md:block',
     bubbleClass: 'bottom-full right-0 mb-2',
-    sizeClass: 'w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32',
-    glowColor: 'drop-shadow-[0_12px_28px_rgba(234,179,8,0.65)]',
+    sizeClass: 'w-28 h-28 sm:w-38 sm:h-38 lg:w-48 lg:h-48',
+    glowColor: 'drop-shadow-[0_12px_28px_rgba(16,185,129,0.55)]',
     animationDelay: '0.5s',
   },
 ];
@@ -109,7 +115,7 @@ export function InteractiveHeroCharacters() {
             onMouseLeave={() => setHoveredChar(null)}
             onClick={() => handleCharClick(char.id)}
           >
-            {/* Interactive Character Wrapper */}
+            {/* Interactive Character Wrapper (No Background) */}
             <div
               className={`relative cursor-pointer transition-all duration-300 ease-out transform ${
                 isHovered
@@ -117,20 +123,20 @@ export function InteractiveHeroCharacters() {
                   : 'animate-float hover:scale-105'
               } ${isClicked ? 'animate-wiggle scale-125' : ''}`}
             >
-              {/* Glow Aura when Hovered */}
+              {/* Subtle Ambient Glow on Hover without solid background box */}
               <div
                 className={`absolute inset-0 rounded-full blur-xl transition-opacity duration-300 ${
                   isHovered ? 'opacity-80 scale-125' : 'opacity-0'
-                } bg-gradient-to-tr from-yellow-400 via-pink-400 to-cyan-400 -z-10`}
+                } bg-gradient-to-tr from-amber-400 via-emerald-400 to-cyan-400 -z-10`}
               />
 
-              {/* Character Image */}
+              {/* Character Image (Transparent vector, no background) */}
               <div className={`${char.sizeClass} relative`}>
                 <Image
                   src={char.image}
-                  alt={`${char.name} from ${char.movie}`}
+                  alt={`${char.name} (${char.amharic})`}
                   fill
-                  sizes="(max-width: 768px) 120px, 180px"
+                  sizes="(max-width: 768px) 160px, 240px"
                   className={`object-contain transition-all duration-300 ${char.glowColor}`}
                   priority
                 />
@@ -144,27 +150,27 @@ export function InteractiveHeroCharacters() {
                     : 'opacity-0 scale-90 translate-y-2'
                 }`}
               >
-                <div className="bg-white/95 text-slate-900 rounded-2xl p-3 sm:p-4 shadow-2xl border-2 border-emerald-400 backdrop-blur-md relative">
+                <div className="bg-white/95 dark:bg-[#160c38]/95 text-slate-900 dark:text-white rounded-2xl p-3 sm:p-4 shadow-2xl border-2 border-emerald-400 backdrop-blur-md relative">
                   {/* Bubble Pointer Arrow */}
-                  <div className="text-[10px] uppercase font-black tracking-wider text-purple-700 flex items-center justify-between mb-1">
-                    <span>{char.name}</span>
-                    <span className="text-[9px] text-slate-400 font-bold">{char.movie}</span>
+                  <div className="text-[10px] uppercase font-black tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center justify-between mb-1">
+                    <span>{char.name} • {char.amharic}</span>
+                    <span className="text-[9px] text-slate-400 dark:text-purple-300 font-bold">{char.origin}</span>
                   </div>
-                  <p className="text-xs font-extrabold text-slate-800 leading-snug">
+                  <p className="text-xs font-extrabold text-slate-800 dark:text-purple-100 leading-snug">
                     &ldquo;{char.quote}&rdquo;
                   </p>
-                  <div className="mt-1.5 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px] font-black text-purple-700">
+                  <div className="mt-1.5 pt-1.5 border-t border-slate-100 dark:border-purple-800/60 flex items-center justify-between text-[10px] font-black text-purple-700 dark:text-purple-300">
                     <span>Power: {char.power}</span>
-                    <span className="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-full font-bold">
+                    <span className="text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/80 px-1.5 py-0.5 rounded-full font-bold">
                       Ready!
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Small "Hover Me" badge pulse when not hovered */}
+              {/* Small Label Badge when not hovered */}
               {!isHovered && (
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap bg-purple-900/80 backdrop-blur-xs text-[9px] font-black text-emerald-300 px-2 py-0.5 rounded-full border border-purple-500/40 opacity-0 sm:opacity-85 pointer-events-none shadow-sm transition-opacity">
+                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-950/80 backdrop-blur-xs text-[9px] font-black text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/40 opacity-0 sm:opacity-90 pointer-events-none shadow-sm transition-opacity">
                   {char.name}
                 </div>
               )}

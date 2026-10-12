@@ -64,14 +64,14 @@ export default function ContactPage() {
               </label>
               <textarea
                 rows={5}
-                placeholder="Share your question or feedback with our Night Zoo keepers..."
+                placeholder="Share your question or feedback with our Selam Kids team..."
                 className="w-full rounded-2xl border-2 border-slate-200 p-4 text-sm font-medium focus:border-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-500/20 transition-all"
                 required
               />
             </div>
             <Button type="button" variant="emerald" size="lg" className="w-full font-black text-base gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950">
               <Send className="h-4 w-4 text-slate-950" />
-              Send Message to Keepers
+              Send Message to Selam Kids Team
             </Button>
           </form>
         </Card>

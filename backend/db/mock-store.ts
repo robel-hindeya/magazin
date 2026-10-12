@@ -404,7 +404,7 @@ class MockDataStore {
       ['economy.daily_orb_cap', 500, 'Maximum orbs a student can earn per 24 hours'],
       ['moderation.coppa_strict_filter', true, 'Strict COPPA word masking filter on stories'],
       ['moderation.teacher_direct_publish', true, 'Allow verified educators to approve stories'],
-      ['theme.active_realm', 'Night Zoo Explorers & Story Crafters', 'Current creative seasonal realm'],
+      ['theme.active_realm', 'Selam Kids Explorers & Story Crafters', 'Current creative seasonal realm'],
       ['ai.story_assistant_enabled', true, 'Enable creative writing prompts helper'],
     ];
 

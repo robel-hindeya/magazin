@@ -3,7 +3,7 @@ import { KidService } from '@/backend/services/kid.service';
 import { PageHeader } from '@/components/dashboard/page-header';
 import { Trophy, PenTool } from 'lucide-react';
 import { StoryEditor } from '@/components/users/story-editor';
-import { MagazineShowcase } from '@/components/users/magazine-showcase';
+import { LatestMagazineHero } from '@/components/users/latest-magazine-hero';
 
 export default async function KidsDashboardPage() {
   const user = await requireAuth();
@@ -11,10 +11,10 @@ export default async function KidsDashboardPage() {
   const kid = await kidService.getMyProfile(user);
 
   return (
-    <div className="space-y-10 max-w-6xl mx-auto pb-12">
+    <div className="space-y-10 max-w-7xl pb-12">
       {/* Top Greeting & Orbs Bar */}
       <PageHeader
-        title={`Welcome to the Night Zoo, ${kid.nickname || 'Explorer'}!`}
+        title={`Welcome to Selam Kids, ${kid.nickname || 'Explorer'}!`}
         actions={
           <div className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 px-5 py-2.5 text-slate-950 shadow-lg shadow-emerald-500/20 font-display font-black text-sm border-2 border-emerald-300">
             <Trophy className="h-4 w-4 fill-slate-950" />
@@ -24,10 +24,10 @@ export default async function KidsDashboardPage() {
       />
 
       {/* =========================================================================
-          FIRST THING ON PAGE: THE MAIN MAGAZINE EXPERIENCE (3 Not Ordered Magazines)
+          MAIN MAGAZINE EXPERIENCE: LATEST MAGAZINE COVER & COMPACT WELCOME BANNER
           ========================================================================= */}
       <div id="magazine-main-section">
-        <MagazineShowcase currentOrbs={kid.orbs} />
+        <LatestMagazineHero currentOrbs={kid.orbs} />
       </div>
 
       {/* =========================================================================
@@ -44,10 +44,7 @@ export default async function KidsDashboardPage() {
           </span>
         </div>
 
-        <StoryEditor
-          initialPrompt="A glowing green dragon has sneaked into the Night Zoo kitchens. Describe how you and your creature convince him not to eat all the starfruit pies!"
-          currentOrbs={kid.orbs}
-        />
+        <StoryEditor currentOrbs={kid.orbs} />
       </div>
     </div>
   );

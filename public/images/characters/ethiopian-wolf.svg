@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" fill="none">
+  <defs>
+    <!-- Wolf Russet Fur -->
+    <radialGradient id="wolfFur" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ff7043"/>
+      <stop offset="60%" stop-color="#e64a19"/>
+      <stop offset="100%" stop-color="#bf360c"/>
+    </radialGradient>
+    <radialGradient id="wolfWhite" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="75%" stop-color="#fff3e0"/>
+      <stop offset="100%" stop-color="#ffe0b2"/>
+    </radialGradient>
+    <radialGradient id="wolfEye" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffe082"/>
+      <stop offset="50%" stop-color="#ffb300"/>
+      <stop offset="100%" stop-color="#ff6f00"/>
+    </radialGradient>
+    <!-- Drop Glow Filter -->
+    <filter id="wolfGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#ea580c" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#wolfGlow)">
+    <!-- BUSHY TAIL WITH BLACK TIP (Curled on side) -->
+    <path d="M 170 160 C 210 165, 235 140, 225 110 C 220 95, 200 90, 185 105 C 175 115, 175 135, 165 148 Z" fill="url(#wolfFur)"/>
+    <!-- Black Tail Tip -->
+    <path d="M 225 110 C 220 95, 200 90, 185 105 C 190 98, 205 92, 215 95 C 222 97, 226 104, 225 110 Z" fill="#212121"/>
+
+    <!-- BIG EARS -->
+    <!-- Left Ear -->
+    <path d="M 55 95 L 45 35 Q 75 45 95 75 Z" fill="url(#wolfFur)"/>
+    <path d="M 60 90 L 52 45 Q 75 52 88 78 Z" fill="url(#wolfWhite)"/>
+    <path d="M 62 85 L 56 52 Q 72 58 82 76 Z" fill="#ffab91"/>
+
+    <!-- Right Ear -->
+    <path d="M 185 95 L 195 35 Q 165 45 145 75 Z" fill="url(#wolfFur)"/>
+    <path d="M 180 90 L 188 45 Q 165 52 152 78 Z" fill="url(#wolfWhite)"/>
+    <path d="M 178 85 L 184 52 Q 168 58 158 76 Z" fill="#ffab91"/>
+
+    <!-- CHEST FLUFF (White bib) -->
+    <path d="M 90 150 Q 120 195 150 150 Q 170 185 145 205 Q 120 215 95 205 Q 70 185 90 150 Z" fill="url(#wolfWhite)"/>
+
+    <!-- HEAD -->
+    <ellipse cx="120" cy="118" rx="55" ry="46" fill="url(#wolfFur)"/>
+
+    <!-- WHITE CHEEK TUFTS -->
+    <path d="M 68 120 Q 50 130 54 142 Q 70 144 82 135 Z" fill="url(#wolfWhite)"/>
+    <path d="M 172 120 Q 190 130 186 142 Q 170 144 158 135 Z" fill="url(#wolfWhite)"/>
+
+    <!-- SLENDER MUZZLE -->
+    <path d="M 102 120 Q 120 108 138 120 Q 144 148 120 162 Q 96 148 102 120 Z" fill="url(#wolfWhite)"/>
+
+    <!-- NOSE -->
+    <ellipse cx="120" cy="138" rx="8" ry="6" fill="#212121"/>
+    <circle cx="118" cy="136" r="2" fill="#ffffff" opacity="0.8"/>
+
+    <!-- MOUTH -->
+    <path d="M 120 144 L 120 149 M 112 147 Q 120 154 128 147" stroke="#212121" stroke-width="2.5" stroke-linecap="round"/>
+
+    <!-- BIG EXPRESSIVE AMBER EYES -->
+    <!-- Left Eye -->
+    <ellipse cx="92" cy="108" rx="14" ry="16" fill="#1b1109"/>
+    <ellipse cx="92" cy="108" rx="12" ry="14" fill="url(#wolfEye)"/>
+    <ellipse cx="92" cy="108" rx="7.5" ry="12.5" fill="#1b1109"/>
+    <circle cx="88" cy="102" r="4.5" fill="#ffffff"/>
+    <circle cx="95" cy="113" r="2" fill="#ffffff"/>
+
+    <!-- Right Eye -->
+    <ellipse cx="148" cy="108" rx="14" ry="16" fill="#1b1109"/>
+    <ellipse cx="148" cy="108" rx="12" ry="14" fill="url(#wolfEye)"/>
+    <ellipse cx="148" cy="108" rx="7.5" ry="12.5" fill="#1b1109"/>
+    <circle cx="144" cy="102" r="4.5" fill="#ffffff"/>
+    <circle cx="151" cy="113" r="2" fill="#ffffff"/>
+
+    <!-- EYE WHITE MARKINGS (Signature Ethiopian Wolf face marks) -->
+    <path d="M 80 92 Q 92 88 104 94" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 160 92 Q 148 88 136 94" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- ROSY CHEEKS -->
+    <ellipse cx="76" cy="128" rx="9" ry="5.5" fill="#ff5722" opacity="0.35"/>
+    <ellipse cx="164" cy="128" rx="9" ry="5.5" fill="#ff5722" opacity="0.35"/>
+
+    <!-- EXPLORER GOGGLES ON HEAD -->
+    <path d="M 80 72 Q 120 62 160 72" stroke="#424242" stroke-width="6" stroke-linecap="round"/>
+    <!-- Left Lens -->
+    <circle cx="96" cy="70" r="14" fill="#00bcd4" stroke="#ffb300" stroke-width="3.5"/>
+    <path d="M 90 64 Q 100 64 102 74" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+    <!-- Right Lens -->
+    <circle cx="144" cy="70" r="14" fill="#00bcd4" stroke="#ffb300" stroke-width="3.5"/>
+    <path d="M 138 64 Q 148 64 150 74" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+    <!-- Bridge -->
+    <rect x="110" y="68" width="20" height="4" rx="2" fill="#ffb300"/>
+  </g>
+</svg>

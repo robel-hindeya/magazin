@@ -34,6 +34,17 @@ export function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
   const isAdminArea = pathname.startsWith('/admin') || pathname.startsWith('/superadmin');
 
+  // When logged in, clicking the logo routes to /users/kids (or their respective portal) instead of the landing page
+  const logoHref = user
+    ? user.role === ROLES.ADMIN
+      ? '/admin'
+      : user.role === ROLES.SUPERADMIN
+      ? '/superadmin'
+      : user.role === ROLES.TEACHER
+      ? '/users/teachers'
+      : '/users/kids'
+    : '/';
+
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
@@ -95,7 +106,7 @@ export function Navbar({ user }: NavbarProps) {
 
         <div className="relative flex h-20 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href={logoHref} className="flex items-center gap-3 group">
             <div className="relative h-12 w-12 group-hover:scale-110 transition-transform duration-200 shrink-0">
               <Image
                 src="/images/logo.png"
@@ -114,7 +125,7 @@ export function Navbar({ user }: NavbarProps) {
                 </span>
               </div>
               <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-600 dark:text-purple-300">
-                Night Zookeeper Realm
+                Selam Kids Realm
               </span>
             </div>
           </Link>
@@ -124,10 +135,10 @@ export function Navbar({ user }: NavbarProps) {
             {!isAdminArea && (
               <>
                 <Link
-                  href={user ? '/users/kids/magazine' : '/#magazines'}
+                  href={user ? '/users/kids/magazines' : '/#magazines'}
                   className={cn(
                     'flex items-center gap-1.5 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-y-0.5 transform',
-                    pathname === '/users/kids/magazine' ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
+                    pathname.startsWith('/users/kids/magazine') ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
                   )}
                 >
                   <BookOpen className="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400" />
@@ -257,7 +268,7 @@ export function Navbar({ user }: NavbarProps) {
           RESPONSIVE PHONE & TABLET TOP BAR (< 1024px)
           ========================================================================= */}
       <header className="lg:hidden sticky top-0 z-40 bg-white/95 dark:bg-[#0f0728] border-b-2 border-slate-200/80 dark:border-purple-900/60 px-4 sm:px-6 h-14 flex items-center justify-between shadow-sm dark:shadow-md transition-colors">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href={logoHref} className="flex items-center gap-2">
           <div className="relative h-9 w-9 shrink-0">
             <Image
               src="/images/logo.png"
@@ -305,10 +316,12 @@ export function Navbar({ user }: NavbarProps) {
       <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-[#0f0728]/95 backdrop-blur-xl border-t-2 border-slate-200/80 dark:border-purple-900/70 shadow-2xl px-4 py-1.5 h-16 flex items-center justify-around transition-colors">
         {/* 1. Home */}
         <Link
-          href="/"
+          href={logoHref}
           className={cn(
             'flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all',
-            pathname === '/' ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105' : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
+            (logoHref === '/' ? pathname === '/' : pathname === logoHref)
+              ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
+              : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
           )}
         >
           <Home className="h-5 w-5 mb-0.5" />
@@ -319,10 +332,10 @@ export function Navbar({ user }: NavbarProps) {
         {!isAdminArea && (
           <>
             <Link
-              href={user ? '/users/kids/magazine' : '/#magazines'}
+              href={user ? '/users/kids/magazines' : '/#magazines'}
               className={cn(
                 'flex flex-col items-center justify-center py-1 px-1.5 rounded-xl transition-all',
-                pathname === '/users/kids/magazine'
+                pathname.startsWith('/users/kids/magazine')
                   ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
                   : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
               )}

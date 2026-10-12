@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { InteractiveHeroCharacters } from '@/components/landing/interactive-hero-characters';
+import { TypewriterHeroTitle } from '@/components/landing/typewriter-hero-title';
 import { MagazineCoverSlider } from '@/components/landing/magazine-cover-slider';
 import { AnimatedSquadSection } from '@/components/landing/animated-squad-section';
 import { LandingFooter } from '@/components/landing/footer';
@@ -30,12 +31,10 @@ export default function HomePage() {
         <InteractiveHeroCharacters />
 
         <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="font-display font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-tight text-slate-900 dark:text-white drop-shadow-sm">
-            Selam Kids World! <br />
-            <span className="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 bg-clip-text text-transparent">
-              Magazin and Games
-            </span>
-          </h1>
+          <TypewriterHeroTitle
+            prefix="Selam Kids World!"
+            phrases={['Magazin and Games']}
+          />
 
           {/* Chunky CTA Button */}
           <div className="mt-12 sm:mt-16 flex flex-wrap items-center justify-center gap-4">
@@ -87,11 +86,11 @@ export default function HomePage() {
                 <div className="flex items-center gap-4">
                   <div className="relative h-20 w-20 rounded-3xl bg-emerald-100 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-600 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform overflow-hidden p-1 shrink-0">
                     <Image
-                      src="/images/characters/walia-ibex.jpg"
+                      src="/images/characters/walia-ibex.png"
                       alt="Walia the Alpine King"
                       fill
                       sizes="80px"
-                      className="object-cover rounded-2xl"
+                      className="object-contain"
                     />
                   </div>
                   <div>

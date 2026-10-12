@@ -109,7 +109,7 @@ export const MAGAZINES: MagazineIssue[] = [
         pageNumber: 1,
         type: 'cover',
         title: 'GALACTIC ODYSSEY & COSMIC COMETS',
-        subtitle: 'The Official Night Zookeeper Magazine • Issue #45',
+        subtitle: 'The Official Selam Kids Magazine • Issue #45',
         content: 'Zoom across dazzling star clusters where Sonic and Scrat leap across crystal asteroid belts to rescue starlight ink bottles!',
         characterImage: '/images/characters/sonic.png',
       },
@@ -206,7 +206,7 @@ export const MAGAZINES: MagazineIssue[] = [
         pageNumber: 1,
         type: 'cover',
         title: 'DRAGON SKIES & THE COSMIC PORTAL',
-        subtitle: 'The Official Night Zookeeper Magazine • Issue #44',
+        subtitle: 'The Official Selam Kids Magazine • Issue #44',
         content: 'Dive into the mysterious northern constellations where Toothless and Thunder Sprite guard the ancient Word Tree from dark shadows.',
         characterImage: '/images/characters/toothless.png',
       },
@@ -305,7 +305,7 @@ Instantly, the clouds parted, and Toothless descended from the cosmic sky. His w
         pageNumber: 1,
         type: 'cover',
         title: 'WHISPERING JUNGLE & STARLIGHT SAFARI',
-        subtitle: 'The Official Night Zookeeper Magazine • Issue #43',
+        subtitle: 'The Official Selam Kids Magazine • Issue #43',
         content: 'Journey deep into the canopy where Simba and Stitch explore glowing mushroom groves and uncover lost ancient scrolls.',
         characterImage: '/images/characters/simba.png',
       },
@@ -404,7 +404,7 @@ Instantly, the clouds parted, and Toothless descended from the cosmic sky. His w
         pageNumber: 1,
         type: 'cover',
         title: 'OCEAN OF DREAMS & LUMINOUS REEFS',
-        subtitle: 'The Official Night Zookeeper Magazine • Issue #42',
+        subtitle: 'The Official Selam Kids Magazine • Issue #42',
         content: 'Plunge beneath shimmering waves where Nemo and Po Panda train in the underwater Kung Fu temple to protect the Great Storybook Coral.',
         characterImage: '/images/characters/nemo.png',
       },
@@ -436,7 +436,7 @@ Instantly, the clouds parted, and Toothless descended from the cosmic sky. His w
         
 "If you cannot spell 'magnificent' backwards, this pearl of wisdom is mine!" gurgled the Octopus. Nemo smiled bravely. He didn't have to do it alone — Po Panda arrived on a manta ray with his bamboo brush! 
 
-With two swishes of water kung fu, Po wrote: "T-N-E-C-I-F-I-N-G-A-M!" The octopus blushed bright purple and handed over the crystal key to the underwater library. The Night Zoo was safe once more!`,
+With two swishes of water kung fu, Po wrote: "T-N-E-C-I-F-I-N-G-A-M!" The octopus blushed bright purple and handed over the crystal key to the underwater library. Selam Kids was safe once more!`,
         characterImage: '/images/characters/nemo.png',
       },
       {
@@ -503,7 +503,7 @@ With two swishes of water kung fu, Po wrote: "T-N-E-C-I-F-I-N-G-A-M!" The octopu
         pageNumber: 1,
         type: 'cover',
         title: 'ENCHANTED TOY REALM & TIME GATES',
-        subtitle: 'The Official Night Zookeeper Magazine • Issue #41',
+        subtitle: 'The Official Selam Kids Magazine • Issue #41',
         content: 'Venture into the secret attic workshop where toy companions step into magical clockwork gears to unlock legendary bedtime tales.',
         characterImage: '/images/characters/toy-story.png',
       },
@@ -600,7 +600,7 @@ With two swishes of water kung fu, Po wrote: "T-N-E-C-I-F-I-N-G-A-M!" The octopu
         pageNumber: 1,
         type: 'cover',
         title: 'SWAMP KINGDOM & GIANT TALES',
-        subtitle: 'The Official Night Zookeeper Magazine • Issue #40',
+        subtitle: 'The Official Selam Kids Magazine • Issue #40',
         content: 'Step beneath the mossy canopies where Shrek and Stitch guard ancient enchanted logs glowing with secret vocabulary words.',
         characterImage: '/images/characters/shrek.png',
       },
@@ -697,7 +697,7 @@ With two swishes of water kung fu, Po wrote: "T-N-E-C-I-F-I-N-G-A-M!" The octopu
         pageNumber: 1,
         type: 'cover',
         title: 'COSMIC MISCHIEF & STARLIGHT ISLANDS',
-        subtitle: 'The Official Night Zookeeper Magazine • Issue #39',
+        subtitle: 'The Official Selam Kids Magazine • Issue #39',
         content: 'Glide through floating neon archipelagoes where Stitch and Pikachu team up to create the craziest space stories in the galaxy.',
         characterImage: '/images/characters/stitch.png',
       },
@@ -794,7 +794,7 @@ With two swishes of water kung fu, Po wrote: "T-N-E-C-I-F-I-N-G-A-M!" The octopu
         pageNumber: 1,
         type: 'cover',
         title: 'POLAR LIGHTS & ARCTIC WONDERS',
-        subtitle: 'The Official Night Zookeeper Magazine • Issue #38',
+        subtitle: 'The Official Selam Kids Magazine • Issue #38',
         content: 'Slide across crystalline ice glaciers with Pip the Penguin and Cloud Guy as they discover glowing frozen ink caves.',
         characterImage: '/images/characters/penguin.png',
       },
@@ -847,7 +847,30 @@ With two swishes of water kung fu, Po wrote: "T-N-E-C-I-F-I-N-G-A-M!" The octopu
   },
 ];
 
+export function getAllMagazines(): MagazineIssue[] {
+  return [...MAGAZINES].sort((a, b) => b.issueNumber - a.issueNumber);
+}
+
+export function getLatestMagazine(): MagazineIssue {
+  const sorted = getAllMagazines();
+  return sorted[0] || MAGAZINES[0];
+}
+
+export function getEditionLabel(magazine?: MagazineIssue): string {
+  if (!magazine) return 'LATEST EDITION';
+  if (magazine.releaseDate) {
+    const upper = magazine.releaseDate.toUpperCase();
+    return upper.includes('EDITION') ? upper : `${upper} EDITION`;
+  }
+  if (magazine.editionName) {
+    const upper = magazine.editionName.toUpperCase();
+    return upper.includes('EDITION') ? upper : `${upper} EDITION`;
+  }
+  return 'LATEST EDITION';
+}
+
 export function getMagazineById(id: string): MagazineIssue | undefined {
   return MAGAZINES.find((m) => m.id === id || String(m.issueNumber) === id);
 }
+
 

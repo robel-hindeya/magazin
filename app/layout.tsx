@@ -8,7 +8,7 @@ import { ThemeProvider } from '@/components/theme/theme-provider';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Selam Kids - Night Zookeeper Creative Learning & Writing Adventure',
+  title: 'Selam Kids - Creative Learning & Writing Adventure',
   description:
     'Inspiring children aged 6-12+ to build magical animals, write wondrous stories, and level up literacy through gamified quests.',
 };

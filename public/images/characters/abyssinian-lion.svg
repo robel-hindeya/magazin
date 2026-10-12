@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" fill="none">
+  <defs>
+    <!-- Black / Charcoal Mane Gradient (Famous Ethiopian Highland Lion) -->
+    <radialGradient id="lionBlackMane" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#424242"/>
+      <stop offset="65%" stop-color="#212121"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </radialGradient>
+    <!-- Golden Lion Face -->
+    <radialGradient id="lionFace" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#fcd34d"/>
+      <stop offset="65%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </radialGradient>
+    <radialGradient id="lionSnout" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="70%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </radialGradient>
+    <radialGradient id="lionEye" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="55%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#713f12"/>
+    </radialGradient>
+    <filter id="lionGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#f59e0b" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#lionGlow)">
+    <!-- MAJESTIC BLACK MANE (Highland Abyssinian Black Mane) -->
+    <ellipse cx="120" cy="116" rx="84" ry="86" fill="url(#lionBlackMane)"/>
+    <!-- Mane Petals / Tufts for cartoon volume -->
+    <circle cx="48" cy="72" r="30" fill="#212121"/>
+    <circle cx="192" cy="72" r="30" fill="#212121"/>
+    <circle cx="36" cy="120" r="30" fill="#171717"/>
+    <circle cx="204" cy="120" r="30" fill="#171717"/>
+    <circle cx="52" cy="166" r="30" fill="#121212"/>
+    <circle cx="188" cy="166" r="30" fill="#121212"/>
+    <circle cx="120" cy="196" r="32" fill="#0d0d0d"/>
+    <circle cx="120" cy="38" r="30" fill="#2e2e2e"/>
+
+    <!-- EARS -->
+    <circle cx="62" cy="62" r="20" fill="#f59e0b"/>
+    <circle cx="62" cy="62" r="12" fill="#fbbf24"/>
+    <circle cx="62" cy="62" r="7" fill="#212121"/>
+    <circle cx="178" cy="62" r="20" fill="#d97706"/>
+    <circle cx="178" cy="62" r="12" fill="#f59e0b"/>
+    <circle cx="178" cy="62" r="7" fill="#212121"/>
+
+    <!-- GOLDEN HEAD -->
+    <ellipse cx="120" cy="118" rx="54" ry="48" fill="url(#lionFace)"/>
+
+    <!-- FOREHEAD TUFT -->
+    <path d="M 110 74 Q 120 62 124 70 Q 132 64 134 74 Z" fill="#212121"/>
+
+    <!-- SNOUT & CHEEKS -->
+    <ellipse cx="120" cy="138" rx="36" ry="24" fill="url(#lionSnout)"/>
+
+    <!-- NOSE -->
+    <path d="M 110 128 C 110 124, 130 124, 130 128 C 130 136, 120 140, 120 140 C 120 140, 110 136, 110 128 Z" fill="#1c1917"/>
+
+    <!-- MOUTH -->
+    <path d="M 120 140 L 120 148 M 110 146 Q 120 154 130 146" stroke="#1c1917" stroke-width="3" stroke-linecap="round"/>
+
+    <!-- WHISKER DOTS -->
+    <circle cx="104" cy="142" r="1.5" fill="#78716c"/>
+    <circle cx="98" cy="144" r="1.5" fill="#78716c"/>
+    <circle cx="102" cy="148" r="1.5" fill="#78716c"/>
+    <circle cx="136" cy="142" r="1.5" fill="#78716c"/>
+    <circle cx="142" cy="144" r="1.5" fill="#78716c"/>
+    <circle cx="138" cy="148" r="1.5" fill="#78716c"/>
+
+    <!-- BIG CONFIDENT SPARKLY EYES -->
+    <!-- Left Eye -->
+    <ellipse cx="94" cy="108" rx="14" ry="16" fill="#1c1917"/>
+    <ellipse cx="94" cy="108" rx="12" ry="14" fill="url(#lionEye)"/>
+    <ellipse cx="94" cy="108" rx="7" ry="12" fill="#1c1917"/>
+    <circle cx="90" cy="102" r="4.5" fill="#ffffff"/>
+    <circle cx="97" cy="113" r="2" fill="#ffffff"/>
+
+    <!-- Right Eye -->
+    <ellipse cx="146" cy="108" rx="14" ry="16" fill="#1c1917"/>
+    <ellipse cx="146" cy="108" rx="12" ry="14" fill="url(#lionEye)"/>
+    <ellipse cx="146" cy="108" rx="7" ry="12" fill="#1c1917"/>
+    <circle cx="142" cy="102" r="4.5" fill="#ffffff"/>
+    <circle cx="149" cy="113" r="2" fill="#ffffff"/>
+
+    <!-- ROSY CHEEKS -->
+    <ellipse cx="78" cy="126" rx="9" ry="5.5" fill="#f97316" opacity="0.35"/>
+    <ellipse cx="162" cy="126" rx="9" ry="5.5" fill="#f97316" opacity="0.35"/>
+
+    <!-- GOLDEN HIGHLAND CROWN -->
+    <path d="M 104 56 L 108 42 L 116 50 L 120 38 L 124 50 L 132 42 L 136 56 Z" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
+    <circle cx="120" cy="40" r="2.5" fill="#ef4444"/>
+    <circle cx="108" cy="44" r="2" fill="#10b981"/>
+    <circle cx="132" cy="44" r="2" fill="#3b82f6"/>
+  </g>
+</svg>

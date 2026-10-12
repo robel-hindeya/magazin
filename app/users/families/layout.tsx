@@ -26,7 +26,7 @@ export default async function FamiliesLayout({
             </div>
             <div>
               <h4 className="font-display font-black text-sm text-emerald-400">
-                Night Zoo Kids Realm
+                Selam Kids Realm
               </h4>
               <p className="text-xs text-purple-200">
                 Stories, creature training & magazines are in the Kids section!

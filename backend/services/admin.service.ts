@@ -36,7 +36,7 @@ export class AdminService {
         totalTeachers: teachersCount,
         totalAuditLogs: auditLogsCount,
         systemHealth: 'OPERATIONAL',
-        activeTheme: 'Night Zoo Explorers & Story Crafters',
+        activeTheme: 'Selam Kids Explorers & Story Crafters',
       };
     }
 
@@ -64,7 +64,7 @@ export class AdminService {
         totalTeachers: teachersCount || 0,
         totalAuditLogs: auditLogsCount || 0,
         systemHealth: 'OPERATIONAL',
-        activeTheme: 'Night Zoo Explorers & Story Crafters',
+        activeTheme: 'Selam Kids Explorers & Story Crafters',
       };
     } catch {
       return {
@@ -74,7 +74,7 @@ export class AdminService {
         totalTeachers: mockStore.teachers.filter((t) => !t.deleted_at).length || 4,
         totalAuditLogs: mockStore.auditLogs.length || 5,
         systemHealth: 'OPERATIONAL',
-        activeTheme: 'Night Zoo Explorers & Story Crafters',
+        activeTheme: 'Selam Kids Explorers & Story Crafters',
       };
     }
   }

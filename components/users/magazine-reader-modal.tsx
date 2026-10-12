@@ -93,7 +93,7 @@ export function MagazineReaderModal({
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-display font-black text-emerald-600 dark:text-emerald-400 text-sm sm:text-base tracking-wide uppercase">
-                  Night Zoo Magazine • Issue #{magazine.issueNumber}
+                  Selam Kids Magazine • Issue #{magazine.issueNumber}
                 </span>
                 <Badge variant="magic" className="text-[10px] px-2 py-0.5 uppercase tracking-widest hidden sm:inline-flex">
                   {magazine.editionName}
@@ -141,7 +141,7 @@ export function MagazineReaderModal({
                   {/* Top Masthead */}
                   <div className="text-center space-y-1">
                     <span className="font-display font-black text-2xl sm:text-3xl text-yellow-300 tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                      NIGHT ZOOKEEPER
+                      SELAM KIDS
                     </span>
                     <div className="text-[10px] uppercase font-black tracking-widest text-white/90 bg-slate-950/60 py-0.5 px-3 rounded-full inline-block">
                       OFFICIAL KIDS EDITION • #{magazine.issueNumber}

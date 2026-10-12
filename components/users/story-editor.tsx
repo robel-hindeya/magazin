@@ -28,12 +28,16 @@ export function StoryEditor({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !content || wordCount < 5) return;
+    if (!content || wordCount < 5) return;
 
     setSubmitting(true);
     const categoryLabel = mode === 'creative' ? 'Daily Creative Writing' : 'Message to God';
+    const computedTitle =
+      title.trim() ||
+      content.trim().split('\n')[0].slice(0, 50) ||
+      (mode === 'creative' ? 'Selam Kids Story Adventure' : 'Heartfelt Message to God');
     const promptText = mode === 'creative'
-      ? (initialPrompt || 'Wild Adventure')
+      ? (initialPrompt || 'Creative Story Adventure')
       : 'Prayer & Gratitude to God';
 
     try {
@@ -41,7 +45,7 @@ export function StoryEditor({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title,
+          title: computedTitle,
           content,
           prompt: promptText,
           category: categoryLabel,
@@ -140,26 +144,6 @@ export function StoryEditor({
           </Badge>
         </div>
 
-        {/* Dynamic Prompt / Guidance Card */}
-        {mode === 'creative' ? (
-          initialPrompt && (
-            <div className="rounded-2xl bg-purple-50/70 dark:bg-purple-950/70 p-4 border-2 border-purple-200/80 dark:border-purple-800/80 text-xs sm:text-sm text-purple-950 dark:text-purple-200 font-medium shadow-inner">
-              <strong className="text-purple-700 dark:text-purple-300 font-display font-black block mb-1">
-                Today&apos;s Quest Prompt:
-              </strong>
-              &ldquo;{initialPrompt}&rdquo;
-            </div>
-          )
-        ) : (
-          <div className="rounded-2xl bg-purple-50/80 dark:bg-purple-950/40 p-4 border-2 border-purple-200 dark:border-purple-800/70 text-xs sm:text-sm text-slate-800 dark:text-purple-200 font-medium shadow-inner">
-            <strong className="text-purple-700 dark:text-purple-300 font-display font-black flex items-center gap-1.5 mb-1">
-              <Heart className="h-4 w-4 text-purple-500 fill-purple-500" />
-              Prayer & Reflection Prompt:
-            </strong>
-            &ldquo;Talk to God: Write what is in your heart today — what you are grateful for, a special prayer for someone you love, your biggest dream, or anything you want to share.&rdquo;
-          </div>
-        )}
-
         {/* Success Celebration Reward Box */}
         {reward && (
           <div className="rounded-2xl border-2 p-5 text-center shadow-md animate-bounce bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700">
@@ -184,23 +168,6 @@ export function StoryEditor({
 
         {/* Input Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1.5">
-            <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
-              {mode === 'creative' ? 'Story Title' : 'Message Subject / Prayer Title'}
-            </label>
-            <input
-              type="text"
-              placeholder={
-                mode === 'creative'
-                  ? 'e.g. The Day Professor Maji Learned to Fly'
-                  : 'e.g. Thank You for My Family & Peace in the World'
-              }
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-2xl border-2 border-slate-200 dark:border-purple-900/80 dark:bg-[#190b3b] dark:text-white dark:placeholder:text-purple-400/50 px-4 py-2.5 text-sm font-medium focus:border-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-500/20 transition-all"
-              required
-            />
-          </div>
 
           <div className="space-y-1.5">
             <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">

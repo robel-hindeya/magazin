@@ -44,6 +44,7 @@ export function FullscreenMagazineReader({
   const [isLoadingPdf, setIsLoadingPdf] = React.useState<boolean>(true);
   const [isRenderingPage, setIsRenderingPage] = React.useState<boolean>(false);
   const [zoomLevel, setZoomLevel] = React.useState<number>(1);
+  const [viewMode, setViewMode] = React.useState<'fit' | 'fullWidth'>('fit');
   const [pdfDoc, setPdfDoc] = React.useState<any>(null);
   const [loadError, setLoadError] = React.useState<string | null>(null);
 
@@ -278,15 +279,25 @@ export function FullscreenMagazineReader({
   };
 
   const handleZoomIn = () => {
-    setZoomLevel((prev) => Math.min(prev + 0.2, 2.0));
+    setZoomLevel((prev) => Math.min(Number((prev + 0.25).toFixed(2)), 2.5));
   };
 
   const handleZoomOut = () => {
-    setZoomLevel((prev) => Math.max(prev - 0.2, 0.8));
+    setZoomLevel((prev) => Math.max(Number((prev - 0.25).toFixed(2)), 0.75));
   };
 
   const handleResetZoom = () => {
     setZoomLevel(1);
+    setViewMode('fit');
+  };
+
+  const handleAdd100PercentSize = () => {
+    // Add 100% of size (2.0x scale)
+    setZoomLevel(2.0);
+  };
+
+  const handleToggleFullWidth = () => {
+    setViewMode((prev) => (prev === 'fit' ? 'fullWidth' : 'fit'));
   };
 
   // Fullscreen flow
@@ -373,14 +384,14 @@ export function FullscreenMagazineReader({
       ref={containerRef}
       className={`transition-all duration-300 ${
         isFullscreen
-          ? 'fixed inset-0 z-[9999] w-screen h-screen bg-[#0a0418] flex flex-col justify-between text-white p-3 sm:p-5 select-none'
-          : 'relative space-y-4 max-w-6xl mx-auto select-none'
+          ? 'fixed inset-0 z-[9999] w-screen h-screen bg-[#0a0418] flex flex-col justify-between text-white p-2 sm:p-4 select-none'
+          : 'relative space-y-3 max-w-[1400px] w-full mx-auto select-none px-2 sm:px-4'
       }`}
     >
       {/* =========================================================================
-          TOP ACTION BAR: Breadcrumbs, Title, Zoom & Fullscreen Controls
+          TOP ACTION BAR: Breadcrumbs, Title, 100% Size Controls & Fullscreen
           ========================================================================= */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-gradient-to-r dark:from-purple-950 dark:via-[#1c0e44] dark:to-purple-950 p-3.5 sm:p-4 rounded-3xl border-2 border-slate-200 dark:border-purple-700/60 shadow-sm dark:shadow-xl text-slate-900 dark:text-white transition-colors">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-gradient-to-r dark:from-purple-950 dark:via-[#1c0e44] dark:to-purple-950 p-3 sm:p-4 rounded-3xl border-2 border-slate-200 dark:border-purple-700/60 shadow-sm dark:shadow-xl text-slate-900 dark:text-white transition-colors">
         {/* Left: Back / Lock Status */}
         <div className="flex items-center gap-3">
           {!isFullscreen ? (
@@ -405,29 +416,84 @@ export function FullscreenMagazineReader({
           </div>
         </div>
 
-        {/* Right: Quick Tools, Points & Fullscreen */}
+        {/* Right: Quick Tools, 100% Size Buttons, Points & Fullscreen */}
         <div className="flex items-center gap-2">
-          {/* Zoom controls */}
-          <div className="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-purple-950/70 p-1 rounded-2xl border border-slate-200 dark:border-purple-700/60">
+          {/* Size / Zoom Presets & 100% Size Controls */}
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-purple-950/70 p-1 rounded-2xl border border-slate-200 dark:border-purple-700/60 shadow-inner flex-wrap">
+            {/* 100% Size (Fit Page) */}
+            <button
+              onClick={handleResetZoom}
+              className={`px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all ${
+                zoomLevel === 1 && viewMode === 'fit'
+                  ? 'bg-amber-400 text-slate-950 shadow-md font-black'
+                  : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
+              }`}
+              title="Set to 100% Full Page Size (Fit in view)"
+            >
+              100% Size
+            </button>
+
+            {/* +100% of Size (200% scale) */}
+            <button
+              onClick={handleAdd100PercentSize}
+              className={`px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all ${
+                zoomLevel === 2.0
+                  ? 'bg-amber-400 text-slate-950 shadow-md font-black'
+                  : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
+              }`}
+              title="Add 100% of Size (200% Double Size)"
+            >
+              +100% Size
+            </button>
+
+            {/* 100% Width */}
+            <button
+              onClick={handleToggleFullWidth}
+              className={`px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all ${
+                viewMode === 'fullWidth'
+                  ? 'bg-emerald-400 text-slate-950 shadow-md font-black'
+                  : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
+              }`}
+              title="Expand to 100% Container Width"
+            >
+              {viewMode === 'fullWidth' ? '✓ 100% Width' : '100% Width'}
+            </button>
+
+            {/* 125% */}
+            <button
+              onClick={() => {
+                setZoomLevel(1.25);
+                setViewMode('fit');
+              }}
+              className={`hidden sm:block px-2.5 py-1.5 rounded-xl font-display font-black text-xs transition-all ${
+                zoomLevel === 1.25 && viewMode === 'fit'
+                  ? 'bg-amber-400 text-slate-950 shadow-md font-black'
+                  : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
+              }`}
+              title="Set to 125% Large Size"
+            >
+              125%
+            </button>
+
+            <div className="h-4 w-px bg-slate-300 dark:bg-purple-700 mx-0.5" />
+
             <button
               onClick={handleZoomOut}
-              disabled={zoomLevel <= 0.8}
-              className="p-1.5 rounded-xl hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-40"
+              disabled={zoomLevel <= 0.75}
+              className="p-1.5 rounded-xl hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-30"
               title="Zoom Out"
             >
               <ZoomOut className="h-4 w-4" />
             </button>
-            <button
-              onClick={handleResetZoom}
-              className="px-2 py-1 text-[11px] font-bold text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800 rounded-lg"
-              title="Fit to Screen"
-            >
+
+            <span className="text-[11px] font-mono font-bold text-slate-600 dark:text-purple-300 px-1 hidden xs:inline">
               {Math.round(zoomLevel * 100)}%
-            </button>
+            </span>
+
             <button
               onClick={handleZoomIn}
-              disabled={zoomLevel >= 2.0}
-              className="p-1.5 rounded-xl hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-40"
+              disabled={zoomLevel >= 2.5}
+              className="p-1.5 rounded-xl hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-30"
               title="Zoom In"
             >
               <ZoomIn className="h-4 w-4" />
@@ -479,7 +545,7 @@ export function FullscreenMagazineReader({
           ========================================================================= */}
       <div
         className={`relative flex-1 rounded-4xl bg-gradient-to-b from-[#160a3a] via-[#10062a] to-[#080318] border-4 border-amber-400/80 p-2 sm:p-4 shadow-2xl flex flex-col justify-between overflow-hidden transition-all ${
-          isFullscreen ? 'h-[calc(100vh-140px)] min-h-[480px]' : 'min-h-[76vh]'
+          isFullscreen ? 'h-[calc(100vh-130px)] min-h-[550px]' : 'min-h-[86vh] sm:min-h-[88vh]'
         }`}
       >
         {/* Star backdrop */}
@@ -535,7 +601,7 @@ export function FullscreenMagazineReader({
         </div>
 
         {/* Central Display Area: ONE PAGE ALONE, 100% VISIBLE & UNCROPPED */}
-        <div className="relative z-10 flex-1 w-full flex items-center justify-center p-1 sm:p-3 overflow-hidden my-auto min-h-[52vh]">
+        <div className="relative z-10 flex-1 w-full flex items-center justify-center p-1 sm:p-2 overflow-auto my-auto min-h-[64vh] max-h-[88vh]">
           {loadError && (
             <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-slate-950/80 rounded-3xl p-6 text-center space-y-3">
               <p className="font-display font-bold text-sm text-amber-300">{loadError}</p>
@@ -571,17 +637,27 @@ export function FullscreenMagazineReader({
             <ChevronLeft className="h-7 w-7" />
           </button>
 
-          {/* The Page Canvas (Zero crop, aspect-ratio preserved, razor sharp) */}
-          <div className="relative max-h-full max-w-full flex items-center justify-center overflow-auto rounded-2xl shadow-2xl">
+          {/* The Page Canvas (Zero crop, aspect-ratio preserved, razor sharp, 100% full size) */}
+          <div className="relative max-h-full max-w-full flex items-center justify-center overflow-auto rounded-2xl shadow-2xl p-1">
             <canvas
               ref={canvasRef}
-              className={`max-h-[66vh] md:max-h-[72vh] lg:max-h-[75vh] max-w-full w-auto h-auto object-contain rounded-2xl bg-white shadow-[0_20px_50px_rgba(0,0,0,0.85)] border-2 border-yellow-200/40 transition-transform duration-200 ${
+              className={`object-contain rounded-2xl bg-white shadow-[0_25px_60px_rgba(0,0,0,0.9)] border-2 border-yellow-200/50 transition-all duration-200 ${
                 isRenderingPage ? 'opacity-70' : 'opacity-100'
               }`}
-              style={{
-                transform: `scale(${zoomLevel})`,
-                transformOrigin: 'center center',
-              }}
+              style={
+                viewMode === 'fullWidth'
+                  ? {
+                      width: `${Math.round(100 * zoomLevel)}%`,
+                      maxWidth: `${Math.round(1150 * zoomLevel)}px`,
+                      height: 'auto',
+                    }
+                  : {
+                      maxHeight: `${Math.round(86 * zoomLevel)}vh`,
+                      maxWidth: '100%',
+                      width: 'auto',
+                      height: 'auto',
+                    }
+              }
             />
           </div>
 

@@ -112,9 +112,9 @@ export function LatestMagazineHero({
             {/* Ambient Multi-Layer Back Glow */}
             <div className="absolute -inset-2 bg-gradient-to-r from-amber-400/30 via-purple-600/30 to-emerald-400/30 blur-2xl rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-            {/* Physical Magazine Poster Body (Scaled -20%) */}
+            {/* Physical Magazine Poster Body (100% Full Size) */}
             <div
-              className={`relative w-[250px] sm:w-[290px] md:w-[320px] lg:w-[336px] h-[395px] sm:h-[440px] md:h-[475px] lg:h-[490px] rounded-[32px] p-1.5 bg-gradient-to-b ${
+              className={`relative w-[280px] sm:w-[330px] md:w-[360px] lg:w-[390px] h-[430px] sm:h-[490px] md:h-[530px] lg:h-[565px] rounded-[36px] p-2 bg-gradient-to-b ${
                 latestMagazine.borderGradient || 'from-amber-300 via-purple-500 to-amber-300'
               } shadow-2xl shadow-purple-950/40 group-hover:shadow-amber-400/50 transition-shadow`}
             >

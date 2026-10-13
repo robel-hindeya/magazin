@@ -180,6 +180,13 @@ export function MagazineReaderModal({
   const handleClaim = () => {
     if (orbsClaimed) return;
     setOrbsClaimed(true);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('selam-kids-points-updated', {
+          detail: { delta: 50 },
+        })
+      );
+    }
     if (onClaimOrbs) {
       onClaimOrbs(50);
     }

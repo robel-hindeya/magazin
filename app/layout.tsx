@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { getCurrentUser } from '@/backend/auth/session';
 import { Navbar } from '@/components/navigation/navbar';
+import { KidService } from '@/backend/services/kid.service';
+import { ROLES } from '@/backend/constants/roles';
 
 import { ThemeProvider } from '@/components/theme/theme-provider';
 
@@ -19,6 +21,18 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await getCurrentUser();
+  let initialPoints = 75;
+  if (user && (user.role === ROLES.KID || user.role === ROLES.FAMILY)) {
+    try {
+      const kidService = new KidService();
+      const kid = await kidService.getMyProfile(user);
+      if (typeof kid?.orbs === 'number') {
+        initialPoints = kid.orbs;
+      }
+    } catch {
+      // safe fallback
+    }
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -50,7 +64,7 @@ export default async function RootLayout({
       </head>
       <body className="min-h-screen bg-white dark:bg-[#070314] font-sans antialiased text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
         <ThemeProvider>
-          <Navbar user={user} />
+          <Navbar user={user} initialPoints={initialPoints} />
           <main className="flex-1 flex flex-col pb-16 lg:pb-0">{children}</main>
         </ThemeProvider>
       </body>

@@ -15,6 +15,7 @@ import {
   Gamepad2,
   Sparkles,
   Music,
+  Trophy,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -27,12 +28,44 @@ import { ThemeToggle } from '@/components/theme/theme-toggle';
 
 export interface NavbarProps {
   user?: AuthUser | null;
+  initialPoints?: number;
 }
 
-export function Navbar({ user }: NavbarProps) {
+export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isAdminArea = pathname.startsWith('/admin') || pathname.startsWith('/superadmin');
+
+  // Interactive user points tracking in navbar
+  const [points, setPoints] = React.useState<number>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('selam-kids-points');
+      if (saved && !isNaN(Number(saved))) return Number(saved);
+    }
+    return initialPoints;
+  });
+
+  React.useEffect(() => {
+    const handlePointsUpdated = (e: any) => {
+      setPoints((prev) => {
+        let next = prev;
+        if (typeof e.detail?.points === 'number') {
+          next = e.detail.points;
+        } else if (typeof e.detail?.delta === 'number') {
+          next = prev + e.detail.delta;
+        }
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('selam-kids-points', String(next));
+        }
+        return next;
+      });
+    };
+
+    window.addEventListener('selam-kids-points-updated' as any, handlePointsUpdated);
+    return () => {
+      window.removeEventListener('selam-kids-points-updated' as any, handlePointsUpdated);
+    };
+  }, []);
 
   // When logged in, clicking the logo routes to /users/kids (or their respective portal) instead of the landing page
   const logoHref = user
@@ -218,6 +251,15 @@ export function Navbar({ user }: NavbarProps) {
           <div className="flex items-center gap-3">
             <ThemeToggle variant="icon" />
 
+            {/* Glowing Points in Navbar */}
+            <div
+              className="flex items-center gap-1.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 px-3.5 py-1.5 rounded-full font-display font-black text-xs shadow-md shadow-amber-400/20 border border-yellow-200 animate-in fade-in transition-all hover:scale-105 select-none"
+              title={`${points} Glowing Points`}
+            >
+              <Trophy className="h-3.5 w-3.5 fill-slate-950 text-slate-950" />
+              <span>{points} Points</span>
+            </div>
+
             {user ? (
               <div className="flex items-center gap-3">
                 <Badge variant={getRoleBadgeVariant(user.role)} className="shadow-sm">
@@ -285,6 +327,15 @@ export function Navbar({ user }: NavbarProps) {
         </Link>
 
         <div className="flex items-center gap-2">
+          {/* Mobile Points Badge */}
+          <div
+            className="flex items-center gap-1 bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 px-2.5 py-1 rounded-full font-display font-black text-xs shadow-sm border border-yellow-200 select-none"
+            title={`${points} Points`}
+          >
+            <Trophy className="h-3 w-3 fill-slate-950 text-slate-950" />
+            <span>{points} pts</span>
+          </div>
+
           <ThemeToggle variant="compact" />
           {user ? (
             <Dropdown

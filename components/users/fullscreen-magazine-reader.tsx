@@ -349,7 +349,15 @@ export function FullscreenMagazineReader({
     if (orbsClaimed) return;
     playSound('win');
     setOrbsClaimed(true);
-    setOrbs((prev) => prev + 50);
+    const nextOrbs = orbs + 50;
+    setOrbs(nextOrbs);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('selam-kids-points-updated', {
+          detail: { points: nextOrbs, delta: 50 },
+        })
+      );
+    }
     setCelebrationMessage('🌟 +50 Glowing Points Added to Your Vault!');
     setTimeout(() => setCelebrationMessage(null), 4000);
   };
@@ -391,14 +399,8 @@ export function FullscreenMagazineReader({
           </div>
         </div>
 
-        {/* Right: Points Badge & Fullscreen Mode */}
+        {/* Right: Fullscreen Mode */}
         <div className="flex items-center gap-2">
-          {/* Points Badge */}
-          <div className="flex items-center gap-1.5 bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-full font-display font-black text-xs shadow-md shadow-emerald-500/20">
-            <Trophy className="h-3.5 w-3.5 fill-slate-950 text-slate-950" />
-            <span>{orbs} Points</span>
-          </div>
-
           {/* Fullscreen Button */}
           {!isFullscreen ? (
             <button

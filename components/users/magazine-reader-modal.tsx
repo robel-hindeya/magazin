@@ -6,8 +6,6 @@ import {
   Trophy,
   BookOpen,
   Heart,
-  ExternalLink,
-  Download,
   ChevronLeft,
   ChevronRight,
   Loader2,
@@ -209,25 +207,6 @@ export function MagazineReaderModal({
           </div>
 
           <div className="flex items-center gap-2">
-            <a
-              href={pdfUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-xl bg-purple-950/60 border border-purple-700/60 text-purple-200 hover:text-white hover:bg-purple-900 transition-all"
-              title="Open in new tab"
-            >
-              <ExternalLink className="h-4 w-4" />
-            </a>
-
-            <a
-              href={pdfUrl}
-              download="Selam-Kids-Magazine-Issue-1.pdf"
-              className="p-2 rounded-xl bg-purple-950/60 border border-purple-700/60 text-purple-200 hover:text-white hover:bg-purple-900 transition-all"
-              title="Download PDF"
-            >
-              <Download className="h-4 w-4" />
-            </a>
-
             <button
               onClick={() => setLiked(!liked)}
               className={`p-2 rounded-xl border transition-all ${

@@ -15,8 +15,6 @@ import {
   BookOpen,
   X,
   HelpCircle,
-  Download,
-  ExternalLink,
   Loader2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -458,27 +456,6 @@ export function FullscreenMagazineReader({
           </div>
 
           <div className="flex items-center gap-2">
-            <a
-              href={pdfUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-purple-900/60 hover:bg-purple-800 text-purple-200 hover:text-white text-[11px] font-bold border border-purple-700/60 transition-all"
-              title="Open full PDF in tab"
-            >
-              <ExternalLink className="h-3 w-3" />
-              <span className="hidden sm:inline">Open PDF</span>
-            </a>
-
-            <a
-              href={pdfUrl}
-              download="Selam-Kids-Magazine-Issue-1.pdf"
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-purple-900/60 hover:bg-purple-800 text-purple-200 hover:text-white text-[11px] font-bold border border-purple-700/60 transition-all"
-              title="Download Magazine PDF"
-            >
-              <Download className="h-3 w-3" />
-              <span className="hidden sm:inline">Download</span>
-            </a>
-
             <Button
               onClick={handleClaimReward}
               disabled={orbsClaimed}

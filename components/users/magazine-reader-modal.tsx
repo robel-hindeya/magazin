@@ -11,8 +11,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Loader2,
-  ZoomIn,
-  ZoomOut,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -33,6 +31,7 @@ export function MagazineReaderModal({
   onClaimOrbs,
 }: MagazineReaderModalProps) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [totalPages, setTotalPages] = React.useState<number>(21);
   const [pdfDoc, setPdfDoc] = React.useState<any>(null);
@@ -40,8 +39,6 @@ export function MagazineReaderModal({
   const [isRenderingPage, setIsRenderingPage] = React.useState<boolean>(false);
   const [orbsClaimed, setOrbsClaimed] = React.useState<boolean>(false);
   const [liked, setLiked] = React.useState<boolean>(false);
-  const [zoomLevel, setZoomLevel] = React.useState<number>(1);
-  const [viewMode, setViewMode] = React.useState<'fit' | 'fullWidth'>('fit');
 
   const pdfUrl = magazine?.pdfUrl || '/magazines/selam-kids-magazine-issue-1.pdf';
 
@@ -171,12 +168,14 @@ export function MagazineReaderModal({
   const handleNext = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prev) => prev + 1);
+      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const handlePrev = () => {
     if (currentPage > 1) {
       setCurrentPage((prev) => prev - 1);
+      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -186,27 +185,6 @@ export function MagazineReaderModal({
     if (onClaimOrbs) {
       onClaimOrbs(50);
     }
-  };
-
-  const handleResetZoom = () => {
-    setZoomLevel(1);
-    setViewMode('fit');
-  };
-
-  const handleAdd100PercentSize = () => {
-    setZoomLevel(2.0);
-  };
-
-  const handleToggleFullWidth = () => {
-    setViewMode((prev) => (prev === 'fit' ? 'fullWidth' : 'fit'));
-  };
-
-  const handleZoomIn = () => {
-    setZoomLevel((prev) => Math.min(Number((prev + 0.25).toFixed(2)), 2.5));
-  };
-
-  const handleZoomOut = () => {
-    setZoomLevel((prev) => Math.max(Number((prev - 0.25).toFixed(2)), 0.75));
   };
 
   return (
@@ -231,69 +209,6 @@ export function MagazineReaderModal({
           </div>
 
           <div className="flex items-center gap-2">
-            {/* 100% Size & Zoom Controls */}
-            <div className="flex items-center gap-1 bg-slate-100 dark:bg-purple-950/70 p-1 rounded-2xl border border-slate-200 dark:border-purple-700/60 shadow-inner">
-              <button
-                onClick={handleResetZoom}
-                className={`px-2.5 py-1 rounded-xl font-display font-black text-xs transition-all ${
-                  zoomLevel === 1 && viewMode === 'fit'
-                    ? 'bg-amber-400 text-slate-950 shadow-md font-black'
-                    : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
-                }`}
-                title="Set to 100% Full Page Size (Fit)"
-              >
-                100% Size
-              </button>
-
-              <button
-                onClick={handleAdd100PercentSize}
-                className={`px-2.5 py-1 rounded-xl font-display font-black text-xs transition-all ${
-                  zoomLevel === 2.0
-                    ? 'bg-amber-400 text-slate-950 shadow-md font-black'
-                    : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
-                }`}
-                title="Add 100% of Size (200% Zoom)"
-              >
-                +100% Size
-              </button>
-
-              <button
-                onClick={handleToggleFullWidth}
-                className={`px-2.5 py-1 rounded-xl font-display font-black text-xs transition-all ${
-                  viewMode === 'fullWidth'
-                    ? 'bg-emerald-400 text-slate-950 shadow-md font-black'
-                    : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
-                }`}
-                title="Expand to 100% Width"
-              >
-                {viewMode === 'fullWidth' ? '✓ 100% Width' : '100% Width'}
-              </button>
-
-              <div className="h-3.5 w-px bg-slate-300 dark:bg-purple-700 mx-0.5" />
-
-              <button
-                onClick={handleZoomOut}
-                disabled={zoomLevel <= 0.75}
-                className="p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-30"
-                title="Zoom Out"
-              >
-                <ZoomOut className="h-3.5 w-3.5" />
-              </button>
-
-              <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-purple-300 px-1 hidden xs:inline">
-                {Math.round(zoomLevel * 100)}%
-              </span>
-
-              <button
-                onClick={handleZoomIn}
-                disabled={zoomLevel >= 2.5}
-                className="p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-30"
-                title="Zoom In"
-              >
-                <ZoomIn className="h-3.5 w-3.5" />
-              </button>
-            </div>
-
             <a
               href={pdfUrl}
               target="_blank"
@@ -335,10 +250,22 @@ export function MagazineReaderModal({
           </div>
         </div>
 
-        {/* Central Stage: 1 Page alone, uncropped & scrollable if enlarged */}
-        <div className="relative flex-1 w-full flex items-center justify-center p-2 sm:p-4 overflow-auto my-auto min-h-[50vh]">
+        {/* Previous Page Floating Side Button (Pinned to modal vertical center) */}
+        <button
+          onClick={handlePrev}
+          disabled={currentPage === 1}
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
+        >
+          <ChevronLeft className="h-6 w-6" />
+        </button>
+
+        {/* Central Stage: 1 Page alone, uncropped & scrollable up and down */}
+        <div
+          ref={scrollContainerRef}
+          className="relative z-10 flex-1 w-full overflow-y-auto overflow-x-hidden my-auto p-2 sm:p-4 min-h-[50vh] max-h-[78vh]"
+        >
           {(isLoadingPdf || isRenderingPage) && (
-            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-slate-950/60 backdrop-blur-xs rounded-3xl space-y-2">
+            <div className="sticky top-1/2 -translate-y-1/2 z-30 flex flex-col items-center justify-center bg-slate-950/70 backdrop-blur-xs rounded-3xl p-6 max-w-xs mx-auto space-y-2 shadow-2xl">
               <Loader2 className="h-8 w-8 text-amber-400 animate-spin" />
               <p className="font-display font-bold text-xs text-amber-200">
                 Loading Page {currentPage}...
@@ -346,44 +273,25 @@ export function MagazineReaderModal({
             </div>
           )}
 
-          {/* Floating side buttons */}
-          <button
-            onClick={handlePrev}
-            disabled={currentPage === 1}
-            className="absolute left-2 sm:left-4 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
-          >
-            <ChevronLeft className="h-6 w-6" />
-          </button>
-
-          <canvas
-            ref={canvasRef}
-            className={`object-contain rounded-2xl bg-white shadow-2xl border-2 border-yellow-200/40 transition-all ${
-              isRenderingPage ? 'opacity-70' : 'opacity-100'
-            }`}
-            style={
-              viewMode === 'fullWidth'
-                ? {
-                    width: `${Math.round(100 * zoomLevel)}%`,
-                    maxWidth: `${Math.round(1100 * zoomLevel)}px`,
-                    height: 'auto',
-                  }
-                : {
-                    maxHeight: `${Math.round(84 * zoomLevel)}vh`,
-                    maxWidth: '100%',
-                    width: 'auto',
-                    height: 'auto',
-                  }
-            }
-          />
-
-          <button
-            onClick={handleNext}
-            disabled={currentPage === totalPages}
-            className="absolute right-2 sm:right-4 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
-          >
-            <ChevronRight className="h-6 w-6" />
-          </button>
+          {/* The Page Canvas (Zero crop, scrolls up and down from top to bottom) */}
+          <div className="w-full flex flex-col items-center justify-start min-h-full py-2">
+            <canvas
+              ref={canvasRef}
+              className={`w-full max-w-[760px] md:max-w-[840px] h-auto object-contain rounded-2xl bg-white shadow-2xl border-2 border-yellow-200/40 transition-opacity ${
+                isRenderingPage ? 'opacity-70' : 'opacity-100'
+              }`}
+            />
+          </div>
         </div>
+
+        {/* Next Page Floating Side Button (Pinned to modal vertical center) */}
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages}
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
+        >
+          <ChevronRight className="h-6 w-6" />
+        </button>
 
         {/* Footer Navigation: Next Page button & page counter */}
         <div className="relative z-10 flex items-center justify-between px-4 sm:px-6 py-3 bg-[#0f0728] border-t-2 border-purple-900/80">

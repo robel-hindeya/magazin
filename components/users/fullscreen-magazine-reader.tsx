@@ -17,8 +17,6 @@ import {
   HelpCircle,
   Download,
   ExternalLink,
-  ZoomIn,
-  ZoomOut,
   Loader2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -36,6 +34,7 @@ export function FullscreenMagazineReader({
 }: FullscreenMagazineReaderProps) {
   const router = useRouter();
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
   // Magazine pages & navigation
@@ -43,8 +42,6 @@ export function FullscreenMagazineReader({
   const [totalPages, setTotalPages] = React.useState<number>(21);
   const [isLoadingPdf, setIsLoadingPdf] = React.useState<boolean>(true);
   const [isRenderingPage, setIsRenderingPage] = React.useState<boolean>(false);
-  const [zoomLevel, setZoomLevel] = React.useState<number>(1);
-  const [viewMode, setViewMode] = React.useState<'fit' | 'fullWidth'>('fit');
   const [pdfDoc, setPdfDoc] = React.useState<any>(null);
   const [loadError, setLoadError] = React.useState<string | null>(null);
 
@@ -268,6 +265,7 @@ export function FullscreenMagazineReader({
     if (currentPage < totalPages) {
       playSound('flip');
       setCurrentPage((prev) => prev + 1);
+      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -275,29 +273,8 @@ export function FullscreenMagazineReader({
     if (currentPage > 1) {
       playSound('flip');
       setCurrentPage((prev) => prev - 1);
+      scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
-
-  const handleZoomIn = () => {
-    setZoomLevel((prev) => Math.min(Number((prev + 0.25).toFixed(2)), 2.5));
-  };
-
-  const handleZoomOut = () => {
-    setZoomLevel((prev) => Math.max(Number((prev - 0.25).toFixed(2)), 0.75));
-  };
-
-  const handleResetZoom = () => {
-    setZoomLevel(1);
-    setViewMode('fit');
-  };
-
-  const handleAdd100PercentSize = () => {
-    // Add 100% of size (2.0x scale)
-    setZoomLevel(2.0);
-  };
-
-  const handleToggleFullWidth = () => {
-    setViewMode((prev) => (prev === 'fit' ? 'fullWidth' : 'fit'));
   };
 
   // Fullscreen flow
@@ -416,90 +393,8 @@ export function FullscreenMagazineReader({
           </div>
         </div>
 
-        {/* Right: Quick Tools, 100% Size Buttons, Points & Fullscreen */}
+        {/* Right: Points Badge & Fullscreen Mode */}
         <div className="flex items-center gap-2">
-          {/* Size / Zoom Presets & 100% Size Controls */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-purple-950/70 p-1 rounded-2xl border border-slate-200 dark:border-purple-700/60 shadow-inner flex-wrap">
-            {/* 100% Size (Fit Page) */}
-            <button
-              onClick={handleResetZoom}
-              className={`px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all ${
-                zoomLevel === 1 && viewMode === 'fit'
-                  ? 'bg-amber-400 text-slate-950 shadow-md font-black'
-                  : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
-              }`}
-              title="Set to 100% Full Page Size (Fit in view)"
-            >
-              100% Size
-            </button>
-
-            {/* +100% of Size (200% scale) */}
-            <button
-              onClick={handleAdd100PercentSize}
-              className={`px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all ${
-                zoomLevel === 2.0
-                  ? 'bg-amber-400 text-slate-950 shadow-md font-black'
-                  : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
-              }`}
-              title="Add 100% of Size (200% Double Size)"
-            >
-              +100% Size
-            </button>
-
-            {/* 100% Width */}
-            <button
-              onClick={handleToggleFullWidth}
-              className={`px-3 py-1.5 rounded-xl font-display font-black text-xs transition-all ${
-                viewMode === 'fullWidth'
-                  ? 'bg-emerald-400 text-slate-950 shadow-md font-black'
-                  : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
-              }`}
-              title="Expand to 100% Container Width"
-            >
-              {viewMode === 'fullWidth' ? '✓ 100% Width' : '100% Width'}
-            </button>
-
-            {/* 125% */}
-            <button
-              onClick={() => {
-                setZoomLevel(1.25);
-                setViewMode('fit');
-              }}
-              className={`hidden sm:block px-2.5 py-1.5 rounded-xl font-display font-black text-xs transition-all ${
-                zoomLevel === 1.25 && viewMode === 'fit'
-                  ? 'bg-amber-400 text-slate-950 shadow-md font-black'
-                  : 'text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800'
-              }`}
-              title="Set to 125% Large Size"
-            >
-              125%
-            </button>
-
-            <div className="h-4 w-px bg-slate-300 dark:bg-purple-700 mx-0.5" />
-
-            <button
-              onClick={handleZoomOut}
-              disabled={zoomLevel <= 0.75}
-              className="p-1.5 rounded-xl hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-30"
-              title="Zoom Out"
-            >
-              <ZoomOut className="h-4 w-4" />
-            </button>
-
-            <span className="text-[11px] font-mono font-bold text-slate-600 dark:text-purple-300 px-1 hidden xs:inline">
-              {Math.round(zoomLevel * 100)}%
-            </span>
-
-            <button
-              onClick={handleZoomIn}
-              disabled={zoomLevel >= 2.5}
-              className="p-1.5 rounded-xl hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-30"
-              title="Zoom In"
-            >
-              <ZoomIn className="h-4 w-4" />
-            </button>
-          </div>
-
           {/* Points Badge */}
           <div className="flex items-center gap-1.5 bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-full font-display font-black text-xs shadow-md shadow-emerald-500/20">
             <Trophy className="h-3.5 w-3.5 fill-slate-950 text-slate-950" />
@@ -600,8 +495,22 @@ export function FullscreenMagazineReader({
           </div>
         </div>
 
-        {/* Central Display Area: ONE PAGE ALONE, 100% VISIBLE & UNCROPPED */}
-        <div className="relative z-10 flex-1 w-full flex items-center justify-center p-1 sm:p-2 overflow-auto my-auto min-h-[64vh] max-h-[88vh]">
+        {/* Previous Page Floating Side Button (Pinned to reader vertical center) */}
+        <button
+          onClick={handlePrev}
+          disabled={currentPage === 1}
+          aria-label="Previous Page"
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
+          title="Previous Page (or Left Arrow)"
+        >
+          <ChevronLeft className="h-7 w-7" />
+        </button>
+
+        {/* Central Display Area: ONE PAGE ALONE, SCROLL UP AND DOWN, NEVER CROPPED */}
+        <div
+          ref={scrollContainerRef}
+          className="relative z-10 flex-1 w-full overflow-y-auto overflow-x-hidden my-auto p-2 sm:p-4 min-h-[60vh] max-h-[78vh] sm:max-h-[82vh]"
+        >
           {loadError && (
             <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-slate-950/80 rounded-3xl p-6 text-center space-y-3">
               <p className="font-display font-bold text-sm text-amber-300">{loadError}</p>
@@ -618,7 +527,7 @@ export function FullscreenMagazineReader({
 
           {/* Loading state */}
           {(isLoadingPdf || isRenderingPage) && (
-            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-slate-950/60 backdrop-blur-xs rounded-3xl space-y-3">
+            <div className="sticky top-1/2 -translate-y-1/2 z-30 flex flex-col items-center justify-center bg-slate-950/70 backdrop-blur-xs rounded-3xl p-6 max-w-xs mx-auto space-y-3 shadow-2xl">
               <Loader2 className="h-10 w-10 text-amber-400 animate-spin" />
               <p className="font-display font-bold text-xs text-amber-200">
                 {isLoadingPdf ? 'Opening Selam Kids Magazine...' : `Loading Page ${currentPage}...`}
@@ -626,52 +535,27 @@ export function FullscreenMagazineReader({
             </div>
           )}
 
-          {/* Previous Page Floating Side Button */}
-          <button
-            onClick={handlePrev}
-            disabled={currentPage === 1}
-            aria-label="Previous Page"
-            className="absolute left-2 sm:left-4 z-20 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
-            title="Previous Page (or Left Arrow)"
-          >
-            <ChevronLeft className="h-7 w-7" />
-          </button>
-
-          {/* The Page Canvas (Zero crop, aspect-ratio preserved, razor sharp, 100% full size) */}
-          <div className="relative max-h-full max-w-full flex items-center justify-center overflow-auto rounded-2xl shadow-2xl p-1">
+          {/* The Page Canvas (Zero crop, scrolls up and down from top to bottom) */}
+          <div className="w-full flex flex-col items-center justify-start min-h-full py-2">
             <canvas
               ref={canvasRef}
-              className={`object-contain rounded-2xl bg-white shadow-[0_25px_60px_rgba(0,0,0,0.9)] border-2 border-yellow-200/50 transition-all duration-200 ${
+              className={`w-full max-w-[760px] md:max-w-[840px] h-auto object-contain rounded-2xl bg-white shadow-[0_25px_60px_rgba(0,0,0,0.9)] border-2 border-yellow-200/50 transition-opacity duration-200 ${
                 isRenderingPage ? 'opacity-70' : 'opacity-100'
               }`}
-              style={
-                viewMode === 'fullWidth'
-                  ? {
-                      width: `${Math.round(100 * zoomLevel)}%`,
-                      maxWidth: `${Math.round(1150 * zoomLevel)}px`,
-                      height: 'auto',
-                    }
-                  : {
-                      maxHeight: `${Math.round(86 * zoomLevel)}vh`,
-                      maxWidth: '100%',
-                      width: 'auto',
-                      height: 'auto',
-                    }
-              }
             />
           </div>
-
-          {/* Next Page Floating Side Button */}
-          <button
-            onClick={handleNext}
-            disabled={currentPage === totalPages}
-            aria-label="Next Page"
-            className="absolute right-2 sm:right-4 z-20 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
-            title="Next Page (or Right Arrow)"
-          >
-            <ChevronRight className="h-7 w-7" />
-          </button>
         </div>
+
+        {/* Next Page Floating Side Button (Pinned to reader vertical center) */}
+        <button
+          onClick={handleNext}
+          disabled={currentPage === totalPages}
+          aria-label="Next Page"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
+          title="Next Page (or Right Arrow)"
+        >
+          <ChevronRight className="h-7 w-7" />
+        </button>
 
         {/* =========================================================================
             BOTTOM NAVIGATION BAR: Big Next Page button, scrubber & indicators

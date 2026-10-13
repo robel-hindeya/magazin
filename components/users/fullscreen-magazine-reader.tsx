@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -14,9 +13,13 @@ import {
   ChevronRight,
   Trophy,
   BookOpen,
-  CheckCircle2,
   X,
   HelpCircle,
+  Download,
+  ExternalLink,
+  ZoomIn,
+  ZoomOut,
+  Loader2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -33,13 +36,20 @@ export function FullscreenMagazineReader({
 }: FullscreenMagazineReaderProps) {
   const router = useRouter();
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
-  // Reader state
-  const [currentPageIndex, setCurrentPageIndex] = React.useState<number>(0);
+  // Magazine pages & navigation
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [totalPages, setTotalPages] = React.useState<number>(21);
+  const [isLoadingPdf, setIsLoadingPdf] = React.useState<boolean>(true);
+  const [isRenderingPage, setIsRenderingPage] = React.useState<boolean>(false);
+  const [zoomLevel, setZoomLevel] = React.useState<number>(1);
+  const [pdfDoc, setPdfDoc] = React.useState<any>(null);
+  const [loadError, setLoadError] = React.useState<string | null>(null);
+
+  // Rewards state
   const [orbs, setOrbs] = React.useState<number>(initialOrbs);
   const [orbsClaimed, setOrbsClaimed] = React.useState<boolean>(false);
-  const [selectedQuizOption, setSelectedQuizOption] = React.useState<number | null>(null);
-  const [quizSubmitted, setQuizSubmitted] = React.useState<boolean>(false);
 
   // Fullscreen & Passcode state
   const [isFullscreen, setIsFullscreen] = React.useState<boolean>(false);
@@ -51,13 +61,14 @@ export function FullscreenMagazineReader({
   const [showHint, setShowHint] = React.useState<boolean>(false);
   const [celebrationMessage, setCelebrationMessage] = React.useState<string | null>(null);
 
-  const totalPages = magazine.pages.length;
-  const currentPage = magazine.pages[currentPageIndex];
+  const pdfUrl = magazine.pdfUrl || '/magazines/selam-kids-magazine-issue-1.pdf';
 
-  // Play subtle sound effects with Web Audio API
+  // Sound effects
   const playSound = (type: 'flip' | 'unlock' | 'error' | 'win') => {
     try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (!AudioCtx) return;
       const ctx = new AudioCtx();
       const osc = ctx.createOscillator();
@@ -67,8 +78,8 @@ export function FullscreenMagazineReader({
 
       const now = ctx.currentTime;
       if (type === 'flip') {
-        osc.frequency.setValueAtTime(300, now);
-        osc.frequency.exponentialRampToValueAtTime(600, now + 0.1);
+        osc.frequency.setValueAtTime(320, now);
+        osc.frequency.exponentialRampToValueAtTime(640, now + 0.1);
         gain.gain.setValueAtTime(0.1, now);
         gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
         osc.start(now);
@@ -92,15 +103,158 @@ export function FullscreenMagazineReader({
         osc.stop(now + 0.25);
       }
     } catch {
-      // Audio not supported or blocked
+      // Audio not supported
     }
   };
 
-  // Sync fullscreen change event
+  // Helper to safely load /pdf.min.js in the browser without Webpack bundling canvas issues
+  const loadBrowserPdfJs = React.useCallback((): Promise<any> => {
+    if (typeof window === 'undefined') return Promise.reject(new Error('Window not available'));
+    if ((window as any).pdfjsLib) {
+      return Promise.resolve((window as any).pdfjsLib);
+    }
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector('script[data-pdfjs="true"]') as HTMLScriptElement | null;
+      if (existing) {
+        if ((window as any).pdfjsLib) {
+          return resolve((window as any).pdfjsLib);
+        }
+        existing.addEventListener('load', () => resolve((window as any).pdfjsLib));
+        existing.addEventListener('error', () => reject(new Error('Failed to load pdf.min.js')));
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = '/pdf.min.js';
+      script.async = true;
+      script.setAttribute('data-pdfjs', 'true');
+      script.onload = () => {
+        const lib = (window as any).pdfjsLib;
+        if (lib) {
+          lib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
+          resolve(lib);
+        } else {
+          reject(new Error('pdfjsLib is not on window'));
+        }
+      };
+      script.onerror = () => reject(new Error('Failed to load pdf.min.js'));
+      document.head.appendChild(script);
+    });
+  }, []);
+
+  // Load PDF.js Document once on mount
+  React.useEffect(() => {
+    let isMounted = true;
+    async function initPdf() {
+      setIsLoadingPdf(true);
+      setLoadError(null);
+      try {
+        const pdfjsLib = await loadBrowserPdfJs();
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
+
+        const loadingTask = pdfjsLib.getDocument(pdfUrl);
+        const doc = await loadingTask.promise;
+        if (!isMounted) return;
+
+        setPdfDoc(doc);
+        setTotalPages(doc.numPages || 21);
+        setIsLoadingPdf(false);
+      } catch (err: any) {
+        console.error('Failed to load PDF in reader:', err);
+        if (isMounted) {
+          setLoadError('Failed to load PDF directly. You can view via fallback embed.');
+          setIsLoadingPdf(false);
+        }
+      }
+    }
+
+    initPdf();
+    return () => {
+      isMounted = false;
+    };
+  }, [pdfUrl, loadBrowserPdfJs]);
+
+  // Render current page onto <canvas>
+  React.useEffect(() => {
+    if (!pdfDoc) return;
+    let renderTask: any = null;
+    let isCancelled = false;
+
+    async function renderPage() {
+      setIsRenderingPage(true);
+      try {
+        const page = await pdfDoc.getPage(currentPage);
+        if (isCancelled) return;
+
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        // Render at high resolution (2x or DPR) for razor-sharp text and graphics
+        const dpr = typeof window !== 'undefined' ? Math.max(window.devicePixelRatio || 1, 2) : 2;
+        const scale = dpr;
+        const viewport = page.getViewport({ scale });
+
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        const ctx = canvas.getContext('2d', { alpha: false });
+        if (!ctx) return;
+
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport,
+        };
+
+        renderTask = page.render(renderContext);
+        await renderTask.promise;
+      } catch (err: any) {
+        if (err?.name !== 'RenderingCancelledException') {
+          console.error('Page render error:', err);
+        }
+      } finally {
+        if (!isCancelled) {
+          setIsRenderingPage(false);
+        }
+      }
+    }
+
+    renderPage();
+
+    return () => {
+      isCancelled = true;
+      if (renderTask) {
+        try {
+          renderTask.cancel();
+        } catch {
+          // ignore
+        }
+      }
+    };
+  }, [pdfDoc, currentPage]);
+
+  // Keyboard navigation (Arrow keys)
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (passcodeModalOpen || exitPasscodeModalOpen) return;
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        e.preventDefault();
+        handleNext();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        handlePrev();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentPage, totalPages, passcodeModalOpen, exitPasscodeModalOpen]);
+
+  // Fullscreen change listener
   React.useEffect(() => {
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement && isFullscreen && !exitPasscodeModalOpen) {
-        // If native fullscreen was dismissed with ESC, trigger password exit modal
         setExitPasscodeModalOpen(true);
       }
     };
@@ -109,22 +263,33 @@ export function FullscreenMagazineReader({
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, [isFullscreen, exitPasscodeModalOpen]);
 
-  // Page turns
-  const handlePrev = () => {
-    if (currentPageIndex > 0) {
-      playSound('flip');
-      setCurrentPageIndex((prev) => prev - 1);
-    }
-  };
-
   const handleNext = () => {
-    if (currentPageIndex < totalPages - 1) {
+    if (currentPage < totalPages) {
       playSound('flip');
-      setCurrentPageIndex((prev) => prev + 1);
+      setCurrentPage((prev) => prev + 1);
     }
   };
 
-  // Open Add Password dialog before entering fullscreen
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      playSound('flip');
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const handleZoomIn = () => {
+    setZoomLevel((prev) => Math.min(prev + 0.2, 2.0));
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel((prev) => Math.max(prev - 0.2, 0.8));
+  };
+
+  const handleResetZoom = () => {
+    setZoomLevel(1);
+  };
+
+  // Fullscreen flow
   const handleStartFullscreenFlow = () => {
     setEnteredPasscode('');
     setPasscodeError(null);
@@ -132,7 +297,6 @@ export function FullscreenMagazineReader({
     setPasscodeModalOpen(true);
   };
 
-  // Confirm passcode and enter Fullscreen
   const handleConfirmSetPasscode = () => {
     const code = enteredPasscode.trim() || '1234';
     setSecretPasscode(code);
@@ -140,12 +304,9 @@ export function FullscreenMagazineReader({
     setIsFullscreen(true);
     playSound('unlock');
 
-    // Trigger browser fullscreen if possible
     try {
       if (containerRef.current?.requestFullscreen) {
-        containerRef.current.requestFullscreen().catch(() => {
-          // Native fullscreen failed, fallback to CSS fullscreen
-        });
+        containerRef.current.requestFullscreen().catch(() => {});
       }
     } catch {
       // Fallback
@@ -155,7 +316,6 @@ export function FullscreenMagazineReader({
     setTimeout(() => setCelebrationMessage(null), 3500);
   };
 
-  // Trigger Exit Passcode Prompt
   const handleRequestExit = () => {
     setEnteredPasscode('');
     setPasscodeError(null);
@@ -163,7 +323,6 @@ export function FullscreenMagazineReader({
     setExitPasscodeModalOpen(true);
   };
 
-  // Verify entered passcode on exit
   const handleVerifyExitPasscode = () => {
     if (enteredPasscode.trim().toLowerCase() === secretPasscode.trim().toLowerCase()) {
       playSound('unlock');
@@ -214,73 +373,94 @@ export function FullscreenMagazineReader({
       ref={containerRef}
       className={`transition-all duration-300 ${
         isFullscreen
-          ? 'fixed inset-0 z-[9999] w-screen h-screen bg-[#0d0624] overflow-y-auto flex flex-col justify-between text-white p-4 sm:p-8'
-          : 'relative space-y-6 max-w-5xl mx-auto'
+          ? 'fixed inset-0 z-[9999] w-screen h-screen bg-[#0a0418] flex flex-col justify-between text-white p-3 sm:p-5 select-none'
+          : 'relative space-y-4 max-w-6xl mx-auto select-none'
       }`}
     >
       {/* =========================================================================
-          TOP ACTION BAR: Breadcrumbs, 1 FULLSCREEN ICON, and Exit Controls
+          TOP ACTION BAR: Breadcrumbs, Title, Zoom & Fullscreen Controls
           ========================================================================= */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-gradient-to-r dark:from-purple-950 dark:via-[#1b0d45] dark:to-purple-950 p-4 sm:p-5 rounded-3xl border-2 border-slate-200 dark:border-purple-700/60 shadow-sm dark:shadow-xl text-slate-900 dark:text-white transition-colors">
-        
-        {/* Left: Back / Breadcrumbs */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-gradient-to-r dark:from-purple-950 dark:via-[#1c0e44] dark:to-purple-950 p-3.5 sm:p-4 rounded-3xl border-2 border-slate-200 dark:border-purple-700/60 shadow-sm dark:shadow-xl text-slate-900 dark:text-white transition-colors">
+        {/* Left: Back / Lock Status */}
         <div className="flex items-center gap-3">
           {!isFullscreen ? (
             <Link
               href="/users/kids"
-              className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-white bg-emerald-50 dark:bg-purple-900/80 hover:bg-emerald-100 px-4 py-2 rounded-2xl border border-emerald-200 dark:border-purple-700 transition-all"
+              className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-white bg-emerald-50 dark:bg-purple-900/80 hover:bg-emerald-100 px-3.5 py-2 rounded-2xl border border-emerald-200 dark:border-purple-700 transition-all"
             >
               <ArrowLeft className="h-4 w-4" />
-              <span>Back to Magazines</span>
+              <span className="hidden sm:inline">Back to Magazines</span>
             </Link>
           ) : (
-            <div className="flex items-center gap-2 bg-amber-400 text-slate-950 px-3.5 py-1.5 rounded-full text-xs font-black shadow-md">
+            <div className="flex items-center gap-2 bg-amber-400 text-slate-950 px-3 py-1.5 rounded-full text-xs font-black shadow-md">
               <Lock className="h-3.5 w-3.5" />
               <span>FULLSCREEN LOCKED (Code: {secretPasscode})</span>
             </div>
           )}
 
-          <div className="hidden sm:block">
-            <span className="font-display font-black text-white text-base">
+          <div>
+            <h2 className="font-display font-black text-slate-900 dark:text-white text-sm sm:text-base leading-tight">
               Issue #{magazine.issueNumber}: {magazine.title}
-            </span>
+            </h2>
           </div>
         </div>
 
-        {/* Right: Orbs & THE 1 FULLSCREEN / EXIT ICON */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 bg-emerald-500 text-slate-950 px-4 py-2 rounded-full font-display font-black text-xs shadow-md shadow-emerald-500/20">
-            <Trophy className="h-4 w-4 fill-slate-950 text-slate-950" />
+        {/* Right: Quick Tools, Points & Fullscreen */}
+        <div className="flex items-center gap-2">
+          {/* Zoom controls */}
+          <div className="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-purple-950/70 p-1 rounded-2xl border border-slate-200 dark:border-purple-700/60">
+            <button
+              onClick={handleZoomOut}
+              disabled={zoomLevel <= 0.8}
+              className="p-1.5 rounded-xl hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-40"
+              title="Zoom Out"
+            >
+              <ZoomOut className="h-4 w-4" />
+            </button>
+            <button
+              onClick={handleResetZoom}
+              className="px-2 py-1 text-[11px] font-bold text-slate-700 dark:text-purple-200 hover:bg-slate-200 dark:hover:bg-purple-800 rounded-lg"
+              title="Fit to Screen"
+            >
+              {Math.round(zoomLevel * 100)}%
+            </button>
+            <button
+              onClick={handleZoomIn}
+              disabled={zoomLevel >= 2.0}
+              className="p-1.5 rounded-xl hover:bg-slate-200 dark:hover:bg-purple-800 text-slate-700 dark:text-purple-200 disabled:opacity-40"
+              title="Zoom In"
+            >
+              <ZoomIn className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* Points Badge */}
+          <div className="flex items-center gap-1.5 bg-emerald-500 text-slate-950 px-3 py-1.5 rounded-full font-display font-black text-xs shadow-md shadow-emerald-500/20">
+            <Trophy className="h-3.5 w-3.5 fill-slate-950 text-slate-950" />
             <span>{orbs} Points</span>
           </div>
 
-          {/* =====================================================================
-              THE 1 ICON TO CHANGE TO FULL SCREEN (Non-fullscreen mode)
-              ===================================================================== */}
+          {/* Fullscreen Button */}
           {!isFullscreen ? (
             <button
               onClick={handleStartFullscreenFlow}
               title="Click this icon to change to Full Screen Reading Mode!"
-              className="group btn-3d relative flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 px-5 py-2.5 text-slate-950 font-display font-black text-sm shadow-xl shadow-amber-400/40 border-2 border-yellow-100 hover:scale-105 active:scale-95 transition-all"
+              className="group btn-3d relative flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 px-4 py-2 text-slate-950 font-display font-black text-xs sm:text-sm shadow-xl shadow-amber-400/40 border-2 border-yellow-100 hover:scale-105 active:scale-95 transition-all"
             >
-              {/* Pulsing ring indicator */}
-              <span className="absolute -top-1 -right-1 flex h-4 w-4">
+              <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-4 w-4 bg-amber-500" />
+                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-amber-500" />
               </span>
-
-              {/* The 1 Icon */}
-              <Maximize className="h-5 w-5 text-slate-950 group-hover:rotate-45 transition-transform duration-200" />
-              <span>FULL SCREEN MODE</span>
+              <Maximize className="h-4 w-4 text-slate-950 group-hover:rotate-45 transition-transform duration-200" />
+              <span className="hidden sm:inline">FULL SCREEN</span>
             </button>
           ) : (
-            /* Button in Fullscreen: Write Password then Back to Magazines */
             <button
               onClick={handleRequestExit}
-              className="btn-3d flex items-center gap-2 rounded-2xl bg-rose-600 hover:bg-rose-500 border-2 border-rose-300 px-5 py-2.5 text-white font-display font-black text-xs sm:text-sm shadow-xl transition-all active:scale-95 animate-pulse"
+              className="btn-3d flex items-center gap-2 rounded-2xl bg-rose-600 hover:bg-rose-500 border-2 border-rose-300 px-4 py-2 text-white font-display font-black text-xs shadow-xl transition-all active:scale-95 animate-pulse"
             >
               <KeyRound className="h-4 w-4" />
-              <span>Finish Reading & Exit (Write Passcode)</span>
+              <span>Exit (Passcode)</span>
             </button>
           )}
         </div>
@@ -295,377 +475,178 @@ export function FullscreenMagazineReader({
       )}
 
       {/* =========================================================================
-          MAGAZINE READER CANVAS (Page Content)
+          MAGAZINE READER STAGE: Exactly 1 Page Visible, Uncropped & Centered
           ========================================================================= */}
-      <div className={`relative flex-1 rounded-4xl bg-gradient-to-b from-[#180c42] via-[#120835] to-[#0b0422] border-4 border-amber-400/70 p-4 sm:p-8 shadow-2xl text-white overflow-hidden ${isFullscreen ? 'min-h-[75vh] flex flex-col justify-center' : ''}`}>
-        
+      <div
+        className={`relative flex-1 rounded-4xl bg-gradient-to-b from-[#160a3a] via-[#10062a] to-[#080318] border-4 border-amber-400/80 p-2 sm:p-4 shadow-2xl flex flex-col justify-between overflow-hidden transition-all ${
+          isFullscreen ? 'h-[calc(100vh-140px)] min-h-[480px]' : 'min-h-[76vh]'
+        }`}
+      >
         {/* Star backdrop */}
-        <div className="absolute inset-0 stars-pattern opacity-40 pointer-events-none" />
+        <div className="absolute inset-0 stars-pattern opacity-20 pointer-events-none rounded-4xl" />
 
-        {/* ==================== PAGE 1: COVER ==================== */}
-        {currentPage.type === 'cover' && (
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center gap-8 max-w-4xl mx-auto py-4">
-            
-            {/* Glossy Cover Card */}
-            <div className="relative w-72 sm:w-88 h-[460px] sm:h-[500px] rounded-4xl p-1 bg-gradient-to-b from-amber-300 via-purple-400 to-amber-400 shadow-2xl shadow-purple-950/80 shrink-0 transform hover:scale-[1.02] transition-transform">
-              <div className={`relative w-full h-full rounded-[28px] overflow-hidden bg-gradient-to-br ${magazine.gradient} p-6 flex flex-col justify-between border-2 border-yellow-200/50`}>
-                
-                {/* Masthead */}
-                <div className="text-center space-y-1">
-                  <div className="flex items-center justify-between text-[10px] uppercase font-black tracking-widest text-purple-200 border-b border-white/20 pb-1">
-                    <span>ISSUE #{magazine.issueNumber}</span>
-                    <span>{magazine.releaseDate}</span>
-                  </div>
-                  <h3 className="font-display font-black text-3xl sm:text-4xl text-yellow-300 tracking-wider drop-shadow-md">
-                    SELAM KIDS
-                  </h3>
-                  <span className="text-[11px] uppercase font-black tracking-widest text-white/90">
-                    {magazine.editionName}
-                  </span>
-                </div>
-
-                {/* Animated Cover Characters */}
-                <div className="relative flex-1 flex items-center justify-center py-2">
-                  <div className="relative w-52 h-52 sm:w-60 sm:h-60 animate-float">
-                    <Image
-                      src={magazine.characterMain.src}
-                      alt={magazine.characterMain.alt}
-                      fill
-                      className="object-contain drop-shadow-[0_16px_28px_rgba(0,0,0,0.8)]"
-                    />
-                  </div>
-                  <div className="absolute -bottom-2 -right-1 w-24 h-24">
-                    <Image
-                      src={magazine.characterSecondary.src}
-                      alt={magazine.characterSecondary.alt}
-                      fill
-                      className="object-contain drop-shadow-lg"
-                    />
-                  </div>
-                </div>
-
-                {/* Bottom Cover Story Box */}
-                <div className="space-y-1.5 bg-slate-950/85 backdrop-blur-md p-3.5 rounded-2xl border border-white/20">
-                  <span className="text-[10px] font-black text-amber-300 uppercase tracking-widest block">
-                    ★ FEATURE STORY ★
-                  </span>
-                  <h4 className="font-display font-black text-sm sm:text-base text-white leading-tight">
-                    {magazine.title}
-                  </h4>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: Overview & Launch to Page 2 */}
-            <div className="space-y-5 text-left flex-1">
-              <Badge variant="amber" className="text-xs font-black px-3 py-1">
-                {magazine.badge.text}
-              </Badge>
-
-              <h2 className="font-display font-black text-3xl sm:text-4xl text-white">
-                {magazine.title}
-              </h2>
-
-              <p className="text-purple-200 text-sm sm:text-base leading-relaxed">
-                {currentPage.content}
-              </p>
-
-              <div className="bg-purple-950/70 border border-purple-800 rounded-2xl p-4 space-y-2">
-                <span className="text-xs font-black uppercase text-amber-300 tracking-wider flex items-center gap-1.5">
-                  <BookOpen className="h-4 w-4" />
-                  What You Will Discover Inside:
-                </span>
-                <ul className="space-y-1.5 text-xs sm:text-sm text-purple-100">
-                  {magazine.headlines.map((hl, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span className="text-yellow-400 font-black">✦</span>
-                      <span>{hl}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="pt-2 flex flex-wrap gap-3">
-                <Button
-                  onClick={handleNext}
-                  className="btn-3d btn-3d-yellow gap-2 font-display font-black text-sm px-6 py-5 rounded-2xl"
-                >
-                  Turn to Page 2: Creature Dossier
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
+        {/* Stage Top Bar: Page counter badge, Pop out link, Claim Points */}
+        <div className="relative z-20 flex items-center justify-between px-2 sm:px-4 py-1 text-xs">
+          <div className="flex items-center gap-2">
+            <Badge variant="emerald" className="font-display font-black text-xs px-3 py-1 shadow-md">
+              PAGE {currentPage} OF {totalPages}
+            </Badge>
+            <span className="text-[11px] text-purple-300 font-bold hidden sm:inline">
+              ✦ Use Next Page or Arrow Keys to Turn Pages
+            </span>
           </div>
-        )}
 
-        {/* ==================== PAGE 2: CREATURE SPOTLIGHT ==================== */}
-        {currentPage.type === 'creature' && (
-          <div className="relative z-10 max-w-4xl mx-auto space-y-6">
-            <div className="text-center space-y-1">
-              <Badge variant="magic" className="text-xs font-bold px-3 py-1">
-                PAGE 2 OF {totalPages} • OFFICIAL CREATURE DOSSIER
-              </Badge>
-              <h2 className="font-display font-black text-2xl sm:text-4xl text-amber-300">
-                {currentPage.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-purple-200">
-                {currentPage.subtitle}
-              </p>
-            </div>
+          <div className="flex items-center gap-2">
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-purple-900/60 hover:bg-purple-800 text-purple-200 hover:text-white text-[11px] font-bold border border-purple-700/60 transition-all"
+              title="Open full PDF in tab"
+            >
+              <ExternalLink className="h-3 w-3" />
+              <span className="hidden sm:inline">Open PDF</span>
+            </a>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-purple-950/70 border-2 border-purple-700/70 rounded-3xl p-6 sm:p-8 backdrop-blur-md">
-              <div className="flex flex-col items-center justify-center p-4 bg-gradient-to-b from-purple-900/70 to-slate-950/80 rounded-2xl border border-purple-600/40 text-center">
-                <div className="relative w-52 h-52 sm:w-64 sm:h-64 animate-float">
-                  <Image
-                    src={currentPage.characterImage || magazine.characterMain.src}
-                    alt="Creature"
-                    fill
-                    className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
-                  />
-                </div>
-                <h4 className="font-display font-black text-2xl text-yellow-300 mt-2">
-                  {currentPage.creatureStats?.name}
-                </h4>
-                <span className="text-xs text-purple-300 font-bold uppercase tracking-widest">
-                  {currentPage.creatureStats?.species}
-                </span>
-              </div>
+            <a
+              href={pdfUrl}
+              download="Selam-Kids-Magazine-Issue-1.pdf"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-purple-900/60 hover:bg-purple-800 text-purple-200 hover:text-white text-[11px] font-bold border border-purple-700/60 transition-all"
+              title="Download Magazine PDF"
+            >
+              <Download className="h-3 w-3" />
+              <span className="hidden sm:inline">Download</span>
+            </a>
 
-              <div className="space-y-4 flex flex-col justify-center">
-                <div className="space-y-3">
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs font-black">
-                      <span className="text-amber-300">Bravery Level</span>
-                      <span>{currentPage.creatureStats?.bravery}%</span>
-                    </div>
-                    <div className="w-full h-3 bg-purple-900 rounded-full overflow-hidden border border-purple-700">
-                      <div
-                        className="h-full bg-gradient-to-r from-amber-400 to-yellow-300 rounded-full"
-                        style={{ width: `${currentPage.creatureStats?.bravery}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs font-black">
-                      <span className="text-pink-300">Magic Word Power</span>
-                      <span>{currentPage.creatureStats?.magic}%</span>
-                    </div>
-                    <div className="w-full h-3 bg-purple-900 rounded-full overflow-hidden border border-purple-700">
-                      <div
-                        className="h-full bg-gradient-to-r from-pink-500 to-purple-400 rounded-full"
-                        style={{ width: `${currentPage.creatureStats?.magic}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs font-black">
-                      <span className="text-cyan-300">Agility & Speed</span>
-                      <span>{currentPage.creatureStats?.speed}%</span>
-                    </div>
-                    <div className="w-full h-3 bg-purple-900 rounded-full overflow-hidden border border-purple-700">
-                      <div
-                        className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"
-                        style={{ width: `${currentPage.creatureStats?.speed}%` }}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-slate-950/70 p-4 rounded-2xl border border-purple-800 space-y-2 text-xs sm:text-sm text-purple-200">
-                  <div>
-                    <strong className="text-amber-300">Special Ability: </strong>
-                    <span>{currentPage.creatureStats?.specialPower}</span>
-                  </div>
-                  <div>
-                    <strong className="text-yellow-300">Favorite Treat: </strong>
-                    <span>{currentPage.creatureStats?.favoriteSnack}</span>
-                  </div>
-                  <div>
-                    <strong className="text-emerald-300">Authored By: </strong>
-                    <span>{currentPage.creatureStats?.author} (Age {currentPage.creatureStats?.authorAge})</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ==================== PAGE 3: FEATURED STORY ==================== */}
-        {currentPage.type === 'story' && (
-          <div className="relative z-10 max-w-3xl mx-auto space-y-6">
-            <div className="text-center space-y-1">
-              <Badge variant="amber" className="text-xs font-bold px-3 py-1">
-                PAGE 3 OF {totalPages} • YOUNG AUTHOR SPOTLIGHT
-              </Badge>
-              <h2 className="font-display font-black text-2xl sm:text-4xl text-yellow-300">
-                {currentPage.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-purple-300">
-                {currentPage.subtitle}
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-b from-purple-950/85 to-[#1c1144] border-2 border-amber-400/50 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
-              <div className="flex items-center gap-4 border-b border-purple-800 pb-4">
-                <div className="relative h-14 w-14 rounded-2xl overflow-hidden bg-gradient-to-tr from-amber-400 to-yellow-300 p-0.5 shrink-0">
-                  <div className="w-full h-full relative rounded-[14px] overflow-hidden bg-purple-900">
-                    <Image
-                      src={currentPage.characterImage || magazine.characterSecondary.src}
-                      alt="Author Avatar"
-                      fill
-                      className="object-contain p-1"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-display font-black text-lg text-white">
-                    Story by {magazine.authorSpotlight.name} (Age {magazine.authorSpotlight.age})
-                  </h4>
-                  <span className="text-xs text-amber-300 font-bold">
-                    📍 {magazine.authorSpotlight.location} • 🏆 Gold Quill Award Winner
-                  </span>
-                </div>
-              </div>
-
-              <div className="text-purple-100 font-serif text-base sm:text-lg leading-relaxed whitespace-pre-line bg-purple-950/40 p-6 rounded-2xl border border-purple-800/40">
-                {currentPage.content}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ==================== PAGE 4: PUZZLE & 50 ORBS CLAIM ==================== */}
-        {currentPage.type === 'puzzle' && (
-          <div className="relative z-10 max-w-3xl mx-auto space-y-6 text-center">
-            <div className="space-y-1">
-              <Badge variant="magic" className="text-xs font-bold px-3 py-1">
-                PAGE 4 OF {totalPages} • WORD CHALLENGE & REWARD
-              </Badge>
-              <h2 className="font-display font-black text-2xl sm:text-4xl text-amber-300">
-                {currentPage.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-purple-200">
-                {currentPage.subtitle}
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-b from-[#22104f] to-[#140a33] border-3 border-emerald-400/80 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
-              <div className="flex items-center justify-center gap-2">
-                <Trophy className="h-6 w-6 text-emerald-400 fill-emerald-400" />
-                <span className="font-display font-black text-lg sm:text-xl text-white">
-                  {currentPage.puzzleQuestion}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-                {currentPage.puzzleOptions?.map((option, idx) => {
-                  const isSelected = selectedQuizOption === idx;
-                  const isCorrect = idx === currentPage.correctAnswer;
-                  let btnStyle = 'bg-purple-950/80 border-purple-700/60 hover:border-emerald-400 text-purple-100';
-
-                  if (quizSubmitted) {
-                    if (isCorrect) {
-                      btnStyle = 'bg-emerald-950/90 border-emerald-400 text-emerald-200 scale-102 shadow-lg shadow-emerald-500/30';
-                    } else if (isSelected && !isCorrect) {
-                      btnStyle = 'bg-rose-950/90 border-rose-500 text-rose-200';
-                    }
-                  }
-
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => {
-                        if (!quizSubmitted) {
-                          setSelectedQuizOption(idx);
-                          setQuizSubmitted(true);
-                          playSound(idx === currentPage.correctAnswer ? 'win' : 'error');
-                        }
-                      }}
-                      disabled={quizSubmitted}
-                      className={`p-4 rounded-2xl border-2 font-display font-bold text-sm sm:text-base transition-all flex items-center justify-between ${btnStyle}`}
-                    >
-                      <span>{option}</span>
-                      {quizSubmitted && isCorrect && (
-                        <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 ml-2" />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {quizSubmitted && (
-                <div className="p-4 rounded-2xl bg-emerald-500/15 border-2 border-emerald-400/50 space-y-3 animate-in zoom-in-95">
-                  <p className="text-sm font-bold text-emerald-300">
-                    🎉 Excellent reading, Young Author! You mastered this challenge!
-                  </p>
-
-                  <Button
-                    onClick={handleClaimReward}
-                    disabled={orbsClaimed}
-                    className={`gap-2 font-display font-black text-base px-8 py-6 rounded-2xl shadow-xl transition-all ${
-                      orbsClaimed
-                        ? 'bg-emerald-600/90 border-2 border-emerald-400 text-slate-950 cursor-default opacity-90'
-                        : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 border-2 border-emerald-300 shadow-emerald-500/30 active:scale-95'
-                    }`}
-                  >
-                    <Trophy className="h-5 w-5 text-slate-950 fill-slate-950" />
-                    {orbsClaimed ? '✓ 50 Glowing Points Claimed!' : 'Claim +50 Glowing Points!'}
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-      </div>
-
-      {/* =========================================================================
-          PAGE NAVIGATION FOOTER
-          ========================================================================= */}
-      <div className="flex items-center justify-between px-4 sm:px-8 py-3.5 bg-white dark:bg-[#120835] rounded-3xl border-2 border-slate-200 dark:border-purple-800/80 text-slate-900 dark:text-white shadow-sm transition-colors">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handlePrev}
-          disabled={currentPageIndex === 0}
-          className="text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white disabled:opacity-30 gap-1.5"
-        >
-          <ChevronLeft className="h-5 w-5" />
-          <span className="hidden sm:inline">Previous Page</span>
-        </Button>
-
-        {/* Page Dots */}
-        <div className="flex items-center gap-2">
-          {magazine.pages.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => {
-                playSound('flip');
-                setCurrentPageIndex(idx);
-              }}
-              className={`h-3.5 rounded-full transition-all ${
-                idx === currentPageIndex
-                  ? 'w-8 bg-emerald-500 shadow-lg shadow-emerald-500/50'
-                  : 'w-3.5 bg-slate-200 dark:bg-purple-800 hover:bg-slate-300 dark:hover:bg-purple-600'
+            <Button
+              onClick={handleClaimReward}
+              disabled={orbsClaimed}
+              size="sm"
+              className={`gap-1.5 font-display font-black text-xs px-3 py-1.5 rounded-xl transition-all ${
+                orbsClaimed
+                  ? 'bg-emerald-600/90 border border-emerald-400 text-slate-950 cursor-default opacity-90'
+                  : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 border border-emerald-300 shadow-emerald-500/30 active:scale-95'
               }`}
-              title={`Page ${idx + 1}`}
-            />
-          ))}
+            >
+              <Trophy className="h-3.5 w-3.5 fill-slate-950 text-slate-950" />
+              {orbsClaimed ? '✓ Claimed' : 'Claim +50 Points'}
+            </Button>
+          </div>
         </div>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={handleNext}
-          disabled={currentPageIndex === totalPages - 1}
-          className="text-slate-600 dark:text-purple-300 hover:text-slate-950 dark:hover:text-white disabled:opacity-30 gap-1.5"
-        >
-          <span className="hidden sm:inline">Next Page</span>
-          <ChevronRight className="h-5 w-5" />
-        </Button>
+        {/* Central Display Area: ONE PAGE ALONE, 100% VISIBLE & UNCROPPED */}
+        <div className="relative z-10 flex-1 w-full flex items-center justify-center p-1 sm:p-3 overflow-hidden my-auto min-h-[52vh]">
+          {loadError && (
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-slate-950/80 rounded-3xl p-6 text-center space-y-3">
+              <p className="font-display font-bold text-sm text-amber-300">{loadError}</p>
+              <a
+                href={pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-3d btn-3d-yellow px-5 py-2.5 rounded-2xl text-xs font-black text-slate-950"
+              >
+                Open Magazine in New Tab
+              </a>
+            </div>
+          )}
+
+          {/* Loading state */}
+          {(isLoadingPdf || isRenderingPage) && (
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-slate-950/60 backdrop-blur-xs rounded-3xl space-y-3">
+              <Loader2 className="h-10 w-10 text-amber-400 animate-spin" />
+              <p className="font-display font-bold text-xs text-amber-200">
+                {isLoadingPdf ? 'Opening Selam Kids Magazine...' : `Loading Page ${currentPage}...`}
+              </p>
+            </div>
+          )}
+
+          {/* Previous Page Floating Side Button */}
+          <button
+            onClick={handlePrev}
+            disabled={currentPage === 1}
+            aria-label="Previous Page"
+            className="absolute left-2 sm:left-4 z-20 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
+            title="Previous Page (or Left Arrow)"
+          >
+            <ChevronLeft className="h-7 w-7" />
+          </button>
+
+          {/* The Page Canvas (Zero crop, aspect-ratio preserved, razor sharp) */}
+          <div className="relative max-h-full max-w-full flex items-center justify-center overflow-auto rounded-2xl shadow-2xl">
+            <canvas
+              ref={canvasRef}
+              className={`max-h-[66vh] md:max-h-[72vh] lg:max-h-[75vh] max-w-full w-auto h-auto object-contain rounded-2xl bg-white shadow-[0_20px_50px_rgba(0,0,0,0.85)] border-2 border-yellow-200/40 transition-transform duration-200 ${
+                isRenderingPage ? 'opacity-70' : 'opacity-100'
+              }`}
+              style={{
+                transform: `scale(${zoomLevel})`,
+                transformOrigin: 'center center',
+              }}
+            />
+          </div>
+
+          {/* Next Page Floating Side Button */}
+          <button
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            aria-label="Next Page"
+            className="absolute right-2 sm:right-4 z-20 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
+            title="Next Page (or Right Arrow)"
+          >
+            <ChevronRight className="h-7 w-7" />
+          </button>
+        </div>
+
+        {/* =========================================================================
+            BOTTOM NAVIGATION BAR: Big Next Page button, scrubber & indicators
+            ========================================================================= */}
+        <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 px-3 sm:px-6 py-2.5 bg-slate-950/80 border-2 border-purple-800/80 rounded-3xl backdrop-blur-md mt-2">
+          {/* Previous Page Button */}
+          <Button
+            onClick={handlePrev}
+            disabled={currentPage === 1}
+            variant="outline"
+            size="sm"
+            className="btn-3d rounded-2xl font-display font-black text-xs gap-1.5 px-4 py-2 text-slate-200 border-purple-600 hover:border-amber-400 hover:text-white disabled:opacity-30"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            <span>Previous Page</span>
+          </Button>
+
+          {/* Middle: Page Scrubber / Quick Page Indicator */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-purple-200">
+              Page <span className="text-amber-400 font-black">{currentPage}</span> of {totalPages}
+            </span>
+
+            {/* Quick jump input slider for 21 pages */}
+            <input
+              type="range"
+              min={1}
+              max={totalPages}
+              value={currentPage}
+              onChange={(e) => {
+                const val = parseInt(e.target.value, 10);
+                if (!isNaN(val)) {
+                  playSound('flip');
+                  setCurrentPage(val);
+                }
+              }}
+              className="w-24 sm:w-40 h-2 bg-purple-900 rounded-lg appearance-none cursor-pointer accent-amber-400"
+              title="Drag to jump to any page"
+            />
+          </div>
+
+          {/* Next Page Button */}
+          <Button
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            className="btn-3d btn-3d-yellow rounded-2xl font-display font-black text-xs gap-1.5 px-5 py-2 text-slate-950 disabled:opacity-30"
+          >
+            <span>Next Page</span>
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       {/* =========================================================================
@@ -800,7 +781,6 @@ export function FullscreenMagazineReader({
           </div>
         </div>
       )}
-
     </div>
   );
 }

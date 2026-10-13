@@ -97,7 +97,7 @@ export function MagazineShowcase({
                 🦁 Simba&apos;s Tip:
               </span>
               <p className="text-xs text-slate-700 dark:text-purple-100 font-medium leading-snug">
-                &ldquo;Hover your cursor over any magazine to pull it forward, or tap to read the secret creature pages!&rdquo;
+                &ldquo;Hover your cursor over any magazine to pull it forward, or tap to read inside!&rdquo;
               </p>
             </div>
           </div>

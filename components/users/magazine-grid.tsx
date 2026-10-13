@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { BookOpen, Eye, Library, Search } from 'lucide-react';
+import { BookOpen, Eye, Search, X } from 'lucide-react';
 import { MagazineIssue, getAllMagazines } from './magazine-data';
 
 interface MagazineGridProps {
@@ -24,7 +24,7 @@ export function MagazineGrid({
     return magazines || getAllMagazines();
   }, [magazines]);
 
-  // Filter based on search query if child types in search box
+  // Filter based on search query
   const filteredIssues = React.useMemo(() => {
     if (!searchQuery.trim()) return allIssues;
     const q = searchQuery.toLowerCase();
@@ -55,53 +55,49 @@ export function MagazineGrid({
 
   return (
     <div className="space-y-8">
-      {/* Search & Quick Filter Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-white dark:bg-[#120733] border-2 border-slate-200 dark:border-purple-800/70 p-4 rounded-3xl shadow-sm">
-        <div className="flex items-center gap-2 text-slate-600 dark:text-purple-200 text-xs font-bold">
-          <Library className="h-4 w-4 text-emerald-500" />
-          <span>
-            Showing <strong className="text-slate-900 dark:text-white">{filteredIssues.length}</strong> of{' '}
-            {allIssues.length} Published Issues
-          </span>
-        </div>
-
-        <div className="relative flex-1 sm:max-w-xs">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-purple-400 pointer-events-none" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search issue or topic..."
-            aria-label="Search magazines"
-            className="w-full pl-9 pr-4 py-2 text-xs rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-purple-700/60 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all"
-          />
-        </div>
+      {/* Minimal Borderless Search Bar */}
+      <div className="relative max-w-md">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-purple-400 pointer-events-none" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search magazines..."
+          aria-label="Search magazines"
+          className="w-full h-11 pl-11 pr-10 text-sm font-medium rounded-full bg-slate-100 dark:bg-purple-950/40 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-400/50 border-0 outline-none focus:ring-2 focus:ring-emerald-400/50 transition-all shadow-sm"
+        />
+        {searchQuery && (
+          <button
+            type="button"
+            onClick={() => setSearchQuery('')}
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
+            aria-label="Clear search"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
       </div>
 
       {/* Empty State */}
       {filteredIssues.length === 0 && (
-        <div className="py-16 px-6 text-center rounded-4xl bg-white dark:bg-[#150a3b] border-2 border-dashed border-slate-300 dark:border-purple-800 space-y-4 max-w-md mx-auto">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-purple-100 dark:bg-purple-900/60 text-purple-600 dark:text-purple-300">
-            <BookOpen className="h-8 w-8" />
+        <div className="py-16 px-6 text-center rounded-3xl bg-slate-50/50 dark:bg-purple-950/20 space-y-3 max-w-md mx-auto">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-100 dark:bg-purple-900/60 text-purple-600 dark:text-purple-300">
+            <BookOpen className="h-7 w-7" />
           </div>
           <div className="space-y-1">
-            <h3 className="font-display font-black text-lg text-slate-900 dark:text-white">
-              {searchQuery ? 'No Matching Issues Found' : 'No Magazines Published Yet'}
+            <h3 className="font-display font-black text-base text-slate-900 dark:text-white">
+              No Matching Issues Found
             </h3>
-            <p className="text-xs text-slate-600 dark:text-purple-200 leading-relaxed">
-              {searchQuery
-                ? `We couldn't find any issues matching "${searchQuery}". Try searching for another creature, topic, or issue number!`
-                : 'New Selam Kids issues are published every month! Check back soon or visit Kids HQ to write stories.'}
+            <p className="text-xs text-slate-500 dark:text-purple-300/80 leading-relaxed">
+              We couldn&apos;t find any issues matching &ldquo;{searchQuery}&rdquo;.
             </p>
           </div>
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline pt-2 cursor-pointer"
-            >
-              Clear search filter
-            </button>
-          )}
+          <button
+            onClick={() => setSearchQuery('')}
+            className="inline-flex items-center text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline pt-1 cursor-pointer"
+          >
+            Clear search
+          </button>
         </div>
       )}
 

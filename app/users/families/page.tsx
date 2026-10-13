@@ -101,7 +101,7 @@ export default async function FamiliesDashboardPage() {
 
         <div className="rounded-2xl bg-white dark:bg-[#13092e] border border-slate-200/80 dark:border-purple-800/40 p-4 shadow-sm">
           <div className="flex items-center justify-between text-slate-500 dark:text-purple-300 text-xs font-medium mb-1">
-            <span>Orbs Balance</span>
+            <span>Points Balance</span>
             <Award className="h-4 w-4 text-emerald-500 dark:text-emerald-400" />
           </div>
           <div className="font-display font-black text-2xl text-emerald-600 dark:text-emerald-400">
@@ -230,7 +230,7 @@ export default async function FamiliesDashboardPage() {
                       </strong>
                     </div>
                     <div className="rounded-xl bg-slate-50 dark:bg-purple-950/40 p-2.5 border border-slate-100 dark:border-purple-900/30">
-                      <span className="text-[11px] text-slate-400 dark:text-purple-400 block">Orbs</span>
+                      <span className="text-[11px] text-slate-400 dark:text-purple-400 block">Points</span>
                       <strong className="text-emerald-600 dark:text-emerald-400 font-black text-sm">
                         {child.orbs || 0}
                       </strong>

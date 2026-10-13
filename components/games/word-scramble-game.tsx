@@ -256,7 +256,7 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
           <strong className="text-emerald-600 dark:text-emerald-400 font-bold">{streak}x</strong>
         </div>
         <div>
-          <span className="text-slate-500 dark:text-purple-400">Orbs: </span>
+          <span className="text-slate-500 dark:text-purple-400">Points: </span>
           <strong className="text-emerald-600 dark:text-emerald-400 font-bold">+{totalOrbs}</strong>
         </div>
       </div>
@@ -311,7 +311,7 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
       {isSuccess && (
         <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400 mb-3 animate-in fade-in">
           <CheckCircle2 className="h-4 w-4" />
-          <span>Correct! +{25 + streak * 5} Orbs</span>
+          <span>Correct! +{25 + streak * 5} Points</span>
         </div>
       )}
 
@@ -368,7 +368,7 @@ export function WordScrambleGame({ onBackToArcade, onOrbsEarned }: WordScrambleG
           </p>
 
           <div className="px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs border border-emerald-300 dark:border-emerald-500/30 my-4">
-            +{totalOrbs} Total Orbs Earned
+            +{totalOrbs} Total Points Earned
           </div>
 
           <div className="flex items-center gap-3">

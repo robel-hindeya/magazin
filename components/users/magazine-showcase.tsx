@@ -70,13 +70,13 @@ export function MagazineShowcase({
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
               <div className="flex items-center gap-2 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-purple-700/60 px-4 py-2 text-xs font-bold text-slate-700 dark:text-purple-200">
                 <Trophy className="h-4 w-4 text-emerald-500" />
-                <span>Read any issue = <strong className="text-emerald-600 dark:text-emerald-400">+50 Glowing Orbs</strong></span>
+                <span>Read any issue = <strong className="text-emerald-600 dark:text-emerald-400">+50 Glowing Points</strong></span>
               </div>
 
               {recentlyClaimed && (
                 <div className="animate-bounce flex items-center gap-1.5 text-xs font-black text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/80 px-3 py-1.5 rounded-full border border-emerald-300 dark:border-emerald-500">
                   <Star className="h-4 w-4 fill-emerald-500 text-emerald-500" />
-                  <span>+50 Orbs Added to Your Vault!</span>
+                  <span>+50 Points Added to Your Vault!</span>
                 </div>
               )}
             </div>
@@ -164,9 +164,8 @@ export function MagazineShowcase({
                     {/* Masthead */}
                     <div className="text-center space-y-1 relative z-10">
                       <div className="flex items-center justify-between border-b border-white/20 pb-1 text-[9px] uppercase tracking-widest text-purple-200 font-bold">
-                        <span>ISSUE #{magazine.issueNumber}</span>
-                        <span>{magazine.releaseDate}</span>
-                        <span>FREE WITH ORBS</span>
+                        <span>ISSUE #{String(magazine.issueNumber || 1).padStart(2, '0')}</span>
+                        <span className="text-emerald-300 font-black">FREE EDITION</span>
                       </div>
 
                       <h3 className="font-display font-black text-2xl sm:text-3xl text-yellow-300 tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mt-1">

@@ -6,7 +6,7 @@ import { LoadingSpinner } from '@/components/ui/loading';
 export const metadata: Metadata = {
   title: 'Melody World - Music, Sounds & Wonder Playground | Selam Kids',
   description:
-    'Step into Melody World! Play musical chimes, discover interactive character sounds, pop vocabulary bubbles, and collect glowing star orbs at Selam Kids.',
+    'Step into Melody World! Play musical chimes, discover interactive character sounds, pop vocabulary bubbles, and collect glowing star points at Selam Kids.',
 };
 
 export default function MelodyWorldPage() {

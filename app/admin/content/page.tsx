@@ -23,7 +23,7 @@ const initialPrompts: QuestPrompt[] = [
     title: 'The Slime Dragon of Mount Whispers',
     genre: 'Fantasy Adventure',
     targetGrade: 'Grade 3',
-    reward: '35 Orbs',
+    reward: '35 Points',
     status: 'PUBLISHED',
   },
   {
@@ -31,7 +31,7 @@ const initialPrompts: QuestPrompt[] = [
     title: 'The Portal Behind the Bookshelf',
     genre: 'Mystery Quest',
     targetGrade: 'Grade 4',
-    reward: '50 Orbs',
+    reward: '50 Points',
     status: 'PUBLISHED',
   },
   {
@@ -39,7 +39,7 @@ const initialPrompts: QuestPrompt[] = [
     title: 'Professor Maji and the Clockwork Butterfly',
     genre: 'Sci-Fi Steampunk',
     targetGrade: 'Grade 5',
-    reward: '40 Orbs',
+    reward: '40 Points',
     status: 'DRAFT',
   },
   {
@@ -47,7 +47,7 @@ const initialPrompts: QuestPrompt[] = [
     title: 'Echoes of the Sunken Coral Citadel',
     genre: 'Underwater Odyssey',
     targetGrade: 'Grade 3-4',
-    reward: '45 Orbs',
+    reward: '45 Points',
     status: 'PUBLISHED',
   },
 ];
@@ -78,7 +78,7 @@ export default async function AdminContentPage() {
     const title = (formData.get('title') as string) || 'Untitled Quest Prompt';
     const genre = (formData.get('genre') as string) || 'Creative Adventure';
     const targetGrade = (formData.get('targetGrade') as string) || 'Grade 3';
-    const reward = `${parseInt(formData.get('reward') as string, 10) || 30} Orbs`;
+    const reward = `${parseInt(formData.get('reward') as string, 10) || 30} Points`;
 
     const newPrompt: QuestPrompt = {
       id: `p-${Date.now()}`,

@@ -45,7 +45,7 @@ const INITIAL_POSTS: CommunityPost[] = [
     authorRole: 'Young Author Family',
     title: 'Leo published his first 500-word chapter story!',
     content:
-      'We wanted to share how proud we are of Leo (age 8). He used the vocabulary tools in Word Dash to craft an adventure about a starry dragon who rescues lost animals. The gamified glowing orbs gave him the extra spark to keep revising until it was perfect!',
+      'We wanted to share how proud we are of Leo (age 8). He used the vocabulary tools in Word Dash to craft an adventure about a starry dragon who rescues lost animals. The gamified glowing points gave him the extra spark to keep revising until it was perfect!',
     category: 'spotlight',
     categoryLabel: 'Story Spotlight',
     categoryColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',

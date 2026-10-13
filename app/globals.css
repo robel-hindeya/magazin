@@ -180,7 +180,6 @@ h1, h2, h3, h4, h5, h6, .font-display {
   box-shadow: 0 1px 0 #cbd5e1, 0 3px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* Keyframe Animations */
 @keyframes floatSlow {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
@@ -188,6 +187,51 @@ h1, h2, h3, h4, h5, h6, .font-display {
   50% {
     transform: translateY(-10px) rotate(1.5deg);
   }
+}
+
+@keyframes floatSmooth1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(6px, -15px, 0) rotate(2deg);
+  }
+  66% {
+    transform: translate3d(-5px, -7px, 0) rotate(-1.5deg);
+  }
+}
+
+@keyframes floatSmooth2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(-7px, -13px, 0) rotate(-2deg);
+  }
+  66% {
+    transform: translate3d(5px, -16px, 0) rotate(1.5deg);
+  }
+}
+
+@keyframes floatSmooth3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(7px, -18px, 0) rotate(2.2deg);
+  }
+}
+
+.animate-float-smooth-1 {
+  animation: floatSmooth1 6s ease-in-out infinite;
+}
+
+.animate-float-smooth-2 {
+  animation: floatSmooth2 7s ease-in-out infinite;
+}
+
+.animate-float-smooth-3 {
+  animation: floatSmooth3 6.5s ease-in-out infinite;
 }
 
 @keyframes twinkle {

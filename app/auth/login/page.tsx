@@ -65,7 +65,7 @@ export default function LoginPage() {
               Welcome Back!
             </CardTitle>
             <CardDescription className="text-slate-500 dark:text-purple-200 font-medium text-sm mt-1">
-              Sign in with your phone number and password
+              Sign in
             </CardDescription>
           </div>
         </CardHeader>
@@ -80,7 +80,7 @@ export default function LoginPage() {
 
             {/* Phone Number input */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
+              <label htmlFor="phoneNumber" className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
                 Phone Number
               </label>
               <div className="relative">
@@ -88,6 +88,8 @@ export default function LoginPage() {
                   <Phone className="h-4 w-4 text-purple-500 dark:text-purple-400" />
                 </div>
                 <input
+                  id="phoneNumber"
+                  name="phoneNumber"
                   type="tel"
                   placeholder="e.g. +251 91 111 1111 or 0911111111"
                   value={phoneNumber}
@@ -102,7 +104,7 @@ export default function LoginPage() {
             {/* Password input */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
+                <label htmlFor="password" className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
                   Password
                 </label>
                 <Link
@@ -117,6 +119,8 @@ export default function LoginPage() {
                   <Lock className="h-4 w-4 text-purple-500 dark:text-purple-400" />
                 </div>
                 <input
+                  id="password"
+                  name="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter your password"
                   value={password}

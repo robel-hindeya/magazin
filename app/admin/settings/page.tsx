@@ -132,14 +132,14 @@ export default async function AdminSettingsPage({
           <CardHeader>
             <CardTitle>Economy & Rewards</CardTitle>
             <CardDescription>
-              Rules governing orb distributions and creative quest caps
+              Rules governing point distributions and creative quest caps
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-100">
               <div>
-                <p className="text-xs font-bold text-slate-800">Daily Student Orb Cap</p>
-                <p className="text-[11px] text-slate-500">Maximum orbs a student can earn per 24 hours to balance engagement</p>
+                <p className="text-xs font-bold text-slate-800">Daily Student Point Cap</p>
+                <p className="text-[11px] text-slate-500">Maximum points a student can earn per 24 hours to balance engagement</p>
               </div>
               <input
                 type="number"

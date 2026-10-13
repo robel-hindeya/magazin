@@ -29,7 +29,7 @@ export default async function MagazineLibraryPage() {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 px-5 py-2.5 text-slate-950 shadow-md font-display font-black text-sm border-2 border-emerald-300">
               <Trophy className="h-4 w-4 fill-slate-950" />
-              <span>{kid.orbs} Glowing Orbs</span>
+              <span>{kid.orbs} Glowing Points</span>
             </div>
             <Link
               href="/users/kids"

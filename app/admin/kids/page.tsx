@@ -46,7 +46,7 @@ export default async function AdminKidsPage() {
               <TableHead>Grade / Age</TableHead>
               <TableHead>Creature Companion</TableHead>
               <TableHead>Words Authored</TableHead>
-              <TableHead>Orbs Balance</TableHead>
+              <TableHead>Points Balance</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -75,13 +75,13 @@ export default async function AdminKidsPage() {
                     {kid.words_written}
                   </TableCell>
                   <TableCell>
-                    <span className="font-bold text-amber-600">{kid.orbs} Orbs</span>
+                    <span className="font-bold text-amber-600">{kid.orbs} Points</span>
                   </TableCell>
                   <TableCell className="text-right">
                     <form action={awardBonusOrbsAction} className="inline-block">
                       <input type="hidden" name="kidId" value={kid.id} />
                       <Button type="submit" variant="outline" size="sm" className="text-xs h-8">
-                        +50 Orbs Reward
+                        +50 Points Reward
                       </Button>
                     </form>
                   </TableCell>

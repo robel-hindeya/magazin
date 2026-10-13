@@ -358,7 +358,7 @@ export function MemoryMatchGame({ onBackToArcade, onOrbsEarned }: MemoryMatchGam
           </div>
 
           <div className="px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs border border-emerald-300 dark:border-emerald-500/30 mb-5">
-            +{rewardOrbs} Orbs Earned
+            +{rewardOrbs} Points Earned
           </div>
 
           <div className="flex items-center gap-3">

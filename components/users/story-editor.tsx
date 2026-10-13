@@ -161,7 +161,7 @@ export function StoryEditor({
             </h4>
             <p className="text-xs sm:text-sm mt-1 font-bold text-emerald-800 dark:text-emerald-300">
               You wrote <strong className="font-black">{reward.words} words</strong> and earned{' '}
-              <strong className="text-emerald-600 dark:text-emerald-400 font-black">+{reward.orbsEarned} Glowing Orbs!</strong>
+              <strong className="text-emerald-600 dark:text-emerald-400 font-black">+{reward.orbsEarned} Glowing Points!</strong>
             </p>
           </div>
         )}
@@ -189,7 +189,7 @@ export function StoryEditor({
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
             <span className="text-xs font-medium text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 dark:border dark:border-purple-800/60 px-3 py-1.5 rounded-full inline-block">
-              Every 5 words gives you magical Orbs!
+              Every 5 words gives you magical Points!
             </span>
             <Button
               type="submit"
@@ -200,7 +200,7 @@ export function StoryEditor({
             >
               {submitting
                 ? (mode === 'creative' ? 'Publishing Story...' : 'Sending Message...')
-                : (mode === 'creative' ? 'Publish Story & Claim Orbs!' : 'Send Message to God & Claim Orbs!')}
+                : (mode === 'creative' ? 'Publish Story & Claim Points!' : 'Send Message to God & Claim Points!')}
               <Send className="h-4 w-4 text-purple-900" />
             </Button>
           </div>

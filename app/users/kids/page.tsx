@@ -12,13 +12,13 @@ export default async function KidsDashboardPage() {
 
   return (
     <div className="space-y-10 max-w-7xl pb-12">
-      {/* Top Greeting & Orbs Bar */}
+      {/* Top Greeting & Points Bar */}
       <PageHeader
         title={`Welcome to Selam Kids, ${kid.nickname || 'Explorer'}!`}
         actions={
           <div className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 px-5 py-2.5 text-slate-950 shadow-lg shadow-emerald-500/20 font-display font-black text-sm border-2 border-emerald-300">
             <Trophy className="h-4 w-4 fill-slate-950" />
-            <span>{kid.orbs} Glowing Orbs</span>
+            <span>{kid.orbs} Glowing Points</span>
           </div>
         }
       />

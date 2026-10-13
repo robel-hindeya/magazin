@@ -155,7 +155,7 @@ export function WonderZoneSection() {
     if (rect) {
       const clickX = e.clientX - rect.left;
       const clickY = e.clientY - rect.top;
-      const newParticle = { id: Date.now(), x: clickX, y: clickY, text: '✨ +5 Orbs!' };
+      const newParticle = { id: Date.now(), x: clickX, y: clickY, text: '✨ +5 Points!' };
       setFloatingParticles((prev) => [...prev, newParticle]);
       setTimeout(() => {
         setFloatingParticles((prev) => prev.filter((p) => p.id !== newParticle.id));
@@ -217,7 +217,7 @@ export function WonderZoneSection() {
               Where Words Take <span className="text-emerald-600 dark:text-emerald-400 underline decoration-purple-500 decoration-wavy decoration-3">Wild Shapes</span>!
             </h2>
             <p className="text-slate-600 dark:text-purple-200 text-sm sm:text-base font-medium">
-              Poke the animated companions, pop the floating vocabulary bubbles, and tap the mystery chest to collect hidden glowing orbs!
+              Poke the animated companions, pop the floating vocabulary bubbles, and tap the mystery chest to collect hidden glowing points!
             </p>
           </div>
 
@@ -226,7 +226,7 @@ export function WonderZoneSection() {
             <div className="flex items-center gap-2 rounded-2xl bg-white dark:bg-slate-950/80 border-2 border-emerald-400/80 px-5 py-3 shadow-md dark:shadow-xl">
               <Trophy className="h-5 w-5 text-emerald-500 fill-emerald-500 animate-bounce" />
               <div>
-                <span className="text-[10px] font-bold text-slate-500 dark:text-purple-300 uppercase block">Playground Orbs</span>
+                <span className="text-[10px] font-bold text-slate-500 dark:text-purple-300 uppercase block">Playground Points</span>
                 <span className="font-display font-black text-xl text-emerald-600 dark:text-emerald-400 leading-none">
                   {orbsFound} Collected
                 </span>

@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { InteractiveHeroCharacters } from '@/components/landing/interactive-hero-characters';
 import { TypewriterHeroTitle } from '@/components/landing/typewriter-hero-title';
 import { MagazineCoverSlider } from '@/components/landing/magazine-cover-slider';
@@ -76,7 +75,7 @@ export default function HomePage() {
               <div className="mt-8">
                 <Link href="/auth/register?role=KID">
                   <Button variant="emerald" size="lg" className="font-black text-base bg-emerald-500 hover:bg-emerald-400 text-slate-950">
-                    Join Today as a Young Author &rarr;
+                    Read the Stories &rarr;
                   </Button>
                 </Link>
               </div>
@@ -84,7 +83,7 @@ export default function HomePage() {
 
             {/* Interactive Creature Mockup Box with Ethiopian Wildlife Companion */}
             <div className="rounded-4xl border-4 border-slate-200 dark:border-purple-500/50 bg-white/90 dark:bg-[#1b0d47]/90 backdrop-blur-md p-8 shadow-xl relative group hover:border-emerald-400 transition-all duration-300">
-              <div className="flex items-center justify-between border-b-2 border-slate-100 dark:border-purple-800/60 pb-5">
+              <div className="flex items-center border-b-2 border-slate-100 dark:border-purple-800/60 pb-5">
                 <div className="flex items-center gap-4">
                   <div className="relative h-20 w-20 rounded-2xl bg-amber-100 dark:bg-amber-950/50 border border-amber-300 dark:border-amber-600 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform overflow-hidden shrink-0">
                     <Image
@@ -104,7 +103,6 @@ export default function HomePage() {
                     <p className="text-xs text-purple-600 dark:text-purple-300 font-bold">Simien Mountains • Master Storyteller • Level 5</p>
                   </div>
                 </div>
-                <Badge variant="emerald">350 Orbs</Badge>
               </div>
 
               {/* Story excerpt */}
@@ -112,12 +110,9 @@ export default function HomePage() {
                 When hungry predators disguise a trap as a grand wedding celebration, can clever instincts save the guests from becoming the main course?
               </div>
 
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-                <span className="text-xs font-bold text-slate-600 dark:text-purple-300">
-                  Daily Writing Quest: <strong className="text-slate-900 dark:text-white">185 words written</strong>
-                </span>
+              <div className="mt-6 flex items-center justify-end">
                 <Button variant="emerald" size="sm" className="font-black bg-emerald-500 hover:bg-emerald-400 text-slate-950">
-                  +50 Orbs Claimed!
+                  Continue Reading &rarr;
                 </Button>
               </div>
             </div>

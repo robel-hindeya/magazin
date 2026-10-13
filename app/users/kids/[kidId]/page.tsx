@@ -57,7 +57,7 @@ export default async function ViewKidDetailPage({
           <h4 className="font-bold text-slate-900 text-base">Progress & Literacy Stats</h4>
           <div className="grid grid-cols-2 gap-4">
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-100">
-              <span className="text-xs font-semibold text-slate-500">Orbs Earned</span>
+              <span className="text-xs font-semibold text-slate-500">Points Earned</span>
               <div className="text-2xl font-black text-amber-500 mt-1 flex items-center gap-1.5">
                 <Trophy className="h-5 w-5" />
                 {kid.orbs}

@@ -393,7 +393,7 @@ export function MagazineReaderModal({
                 <Badge variant="magic" className="text-xs font-bold px-3 py-1">
                   PAGE 4 OF {totalPages} • WORD LAB & REWARDS
                 </Badge>
-                <h2 className="font-display font-black text-2xl sm:text-3xl text-amber-300">
+                <h2 className="font-display font-black text-2xl sm:text-3xl text-emerald-400">
                   {currentPage.title}
                 </h2>
                 <p className="text-sm text-purple-200">
@@ -401,9 +401,9 @@ export function MagazineReaderModal({
                 </p>
               </div>
 
-              <div className="bg-gradient-to-b from-[#22104f] to-[#140a33] border-3 border-amber-400 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+              <div className="bg-gradient-to-b from-[#22104f] to-[#140a33] border-3 border-emerald-400/80 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
                 <div className="flex items-center justify-center gap-2">
-                  <Trophy className="h-6 w-6 text-yellow-400 fill-yellow-400" />
+                  <Trophy className="h-6 w-6 text-emerald-400 fill-emerald-400" />
                   <span className="font-display font-black text-lg text-white">
                     {currentPage.puzzleQuestion}
                   </span>
@@ -414,7 +414,7 @@ export function MagazineReaderModal({
                   {currentPage.puzzleOptions?.map((option, idx) => {
                     const isSelected = selectedQuizOption === idx;
                     const isCorrect = idx === currentPage.correctAnswer;
-                    let btnStyle = 'bg-purple-950/80 border-purple-700/60 hover:border-amber-400 text-purple-100';
+                    let btnStyle = 'bg-purple-950/80 border-purple-700/60 hover:border-emerald-400 text-purple-100';
 
                     if (quizSubmitted) {
                       if (isCorrect) {
@@ -442,22 +442,22 @@ export function MagazineReaderModal({
 
                 {/* Feedback & Claim Button */}
                 {quizSubmitted && (
-                  <div className="p-4 rounded-2xl bg-amber-400/10 border border-amber-400/30 space-y-3 animate-in zoom-in-95">
-                    <p className="text-xs sm:text-sm font-bold text-amber-300">
+                  <div className="p-4 rounded-2xl bg-emerald-500/15 border-2 border-emerald-400/50 space-y-3 animate-in zoom-in-95">
+                    <p className="text-xs sm:text-sm font-bold text-emerald-300">
                       🎉 Brilliant Explorer! You found the rich vocabulary choice!
                     </p>
 
                     <Button
                       onClick={handleClaim}
                       disabled={orbsClaimed}
-                      className={`btn-3d ${
+                      className={`gap-2 font-display font-black text-base px-8 py-6 rounded-2xl shadow-xl transition-all ${
                         orbsClaimed
-                          ? 'bg-emerald-600 border-emerald-500 text-white cursor-default'
-                          : 'btn-3d-yellow'
-                      } gap-2 font-display font-black text-base px-8 py-6 rounded-2xl shadow-xl`}
+                          ? 'bg-emerald-600/90 border-2 border-emerald-400 text-slate-950 cursor-default opacity-90'
+                          : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 border-2 border-emerald-300 shadow-emerald-500/30 active:scale-95'
+                      }`}
                     >
-                      <Trophy className="h-5 w-5 text-white" />
-                      {orbsClaimed ? '✓ 50 Glowing Orbs Claimed!' : 'Claim +50 Glowing Orbs!'}
+                      <Trophy className="h-5 w-5 text-slate-950 fill-slate-950" />
+                      {orbsClaimed ? '✓ 50 Glowing Points Claimed!' : 'Claim +50 Glowing Points!'}
                     </Button>
                   </div>
                 )}

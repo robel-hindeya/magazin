@@ -48,7 +48,7 @@ const FOUR_GAMES: GameItem[] = [
   },
   {
     id: 'catcher',
-    title: 'Orb Catcher',
+    title: 'Point Catcher',
     tagline: 'Catch falling starlight and dodge monsters with Toothless',
     tag: 'Reflex',
     tagColor: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
@@ -147,17 +147,17 @@ export function GamesLobby() {
                 Selam <span className="text-emerald-500 dark:text-emerald-400">Games</span>
               </h1>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-purple-300/80 mt-0.5">
-                Choose a game to play and earn glowing orbs
+                Choose a game to play and earn glowing points
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Minimal Orbs Pill */}
+            {/* Minimal Points Pill */}
             <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-purple-50 dark:bg-purple-950/80 border border-purple-200 dark:border-purple-800 text-xs font-bold text-purple-800 dark:text-purple-200 shadow-sm">
               <Trophy className="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400" />
               <span>
-                <strong className="text-emerald-600 dark:text-emerald-400">{totalArcadeOrbs}</strong> Orbs
+                <strong className="text-emerald-600 dark:text-emerald-400">{totalArcadeOrbs}</strong> Points
               </span>
             </div>
 

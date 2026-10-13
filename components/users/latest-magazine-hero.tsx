@@ -150,9 +150,8 @@ export function LatestMagazineHero({
                 {/* Masthead */}
                 <div className="text-center space-y-0.5 relative z-10">
                   <div className="flex items-center justify-between border-b border-white/20 pb-1 text-[9px] uppercase tracking-widest text-purple-200 font-extrabold">
-                    <span>ISSUE #{latestMagazine.issueNumber}</span>
-                    <span>{latestMagazine.releaseDate}</span>
-                    <span className="text-amber-300">FREE WITH ORBS</span>
+                    <span>ISSUE #{String(latestMagazine.issueNumber || 1).padStart(2, '0')}</span>
+                    <span className="text-emerald-300 font-black">FREE EDITION</span>
                   </div>
 
                   <h3 className="font-display font-black text-2xl sm:text-3xl text-yellow-300 tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] mt-1">
@@ -189,23 +188,6 @@ export function LatestMagazineHero({
                   )}
                 </div>
 
-                {/* Bottom Story & Headline Box */}
-                <div className="relative z-10 space-y-1 bg-slate-950/80 backdrop-blur-md p-3 sm:p-3.5 rounded-2xl border border-white/20">
-                  <div className="flex items-center justify-between text-[9px] sm:text-[10px]">
-                    <span className="font-black text-amber-300 uppercase tracking-widest">
-                      ★ COVER STORY FEATURE
-                    </span>
-                    <span className="text-purple-300 font-bold">
-                      {latestMagazine.authorSpotlight?.name
-                        ? `By ${latestMagazine.authorSpotlight.name}`
-                        : latestMagazine.releaseDate}
-                    </span>
-                  </div>
-
-                  <h4 className="font-display font-black text-xs sm:text-sm text-white leading-tight line-clamp-2 drop-shadow-sm">
-                    {latestMagazine.title}
-                  </h4>
-                </div>
 
                 {/* Interactive "CLICK TO READ" Hover Overlay Pill */}
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 z-30">

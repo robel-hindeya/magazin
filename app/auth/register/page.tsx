@@ -2,48 +2,17 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Compass, Phone, User, Lock, Eye, EyeOff, Loader2, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Compass, Phone, Lock, Eye, EyeOff, Loader2, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { useAuth } from '@/hooks/use-auth';
-
-interface CountryCodeItem {
-  code: string;
-  name: string;
-  flag: string;
-  dial: string;
-}
-
-const COUNTRY_CODES: CountryCodeItem[] = [
-  { code: 'ET', name: 'Ethiopia', flag: '🇪🇹', dial: '+251' },
-  { code: 'US', name: 'United States', flag: '🇺🇸', dial: '+1' },
-  { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', dial: '+44' },
-  { code: 'CA', name: 'Canada', flag: '🇨🇦', dial: '+1' },
-  { code: 'AE', name: 'United Arab Emirates', flag: '🇦🇪', dial: '+971' },
-  { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦', dial: '+966' },
-  { code: 'KE', name: 'Kenya', flag: '🇰🇪', dial: '+254' },
-  { code: 'ER', name: 'Eritrea', flag: '🇪🇷', dial: '+291' },
-  { code: 'DJ', name: 'Djibouti', flag: '🇩🇯', dial: '+253' },
-  { code: 'SO', name: 'Somalia', flag: '🇸🇴', dial: '+252' },
-  { code: 'SD', name: 'Sudan', flag: '🇸🇩', dial: '+249' },
-  { code: 'UG', name: 'Uganda', flag: '🇺🇬', dial: '+256' },
-  { code: 'DE', name: 'Germany', flag: '🇩🇪', dial: '+49' },
-  { code: 'FR', name: 'France', flag: '🇫🇷', dial: '+33' },
-  { code: 'IT', name: 'Italy', flag: '🇮🇹', dial: '+39' },
-  { code: 'SE', name: 'Sweden', flag: '🇸🇪', dial: '+46' },
-  { code: 'NO', name: 'Norway', flag: '🇳🇴', dial: '+47' },
-  { code: 'AU', name: 'Australia', flag: '🇦🇺', dial: '+61' },
-  { code: 'IN', name: 'India', flag: '🇮🇳', dial: '+91' },
-  { code: 'ZA', name: 'South Africa', flag: '🇿🇦', dial: '+27' },
-  { code: 'EG', name: 'Egypt', flag: '🇪🇬', dial: '+20' },
-];
+import { CountrySelector } from '@/components/auth/country-selector';
 
 export default function RegisterPage() {
   const { register, loading, error: authError } = useAuth();
 
   const [countryCode, setCountryCode] = React.useState('+251');
   const [phoneNumber, setPhoneNumber] = React.useState('');
-  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
   const [localError, setLocalError] = React.useState<string | null>(null);
@@ -54,7 +23,6 @@ export default function RegisterPage() {
     setLocalError(null);
 
     const cleanPhone = phoneNumber.replace(/\D/g, '');
-    const cleanUser = username.trim();
 
     if (!cleanPhone) {
       setLocalError('Please enter your phone number');
@@ -63,11 +31,6 @@ export default function RegisterPage() {
 
     if (cleanPhone.length < 5) {
       setLocalError('Please enter a valid phone number');
-      return;
-    }
-
-    if (!cleanUser || cleanUser.length < 2) {
-      setLocalError('Username must be at least 2 characters');
       return;
     }
 
@@ -80,7 +43,7 @@ export default function RegisterPage() {
       await register({
         countryCode,
         phoneNumber: cleanPhone,
-        username: cleanUser,
+        username: `user_${cleanPhone.slice(-4)}`,
         password,
       });
       setRegisteredSuccess(true);
@@ -105,7 +68,7 @@ export default function RegisterPage() {
               Create Account
             </CardTitle>
             <CardDescription className="text-slate-500 dark:text-purple-200 font-medium text-sm mt-1">
-              Join Selam Kids with your phone & username
+              Join Selam Kids
             </CardDescription>
           </div>
         </CardHeader>
@@ -117,7 +80,7 @@ export default function RegisterPage() {
             </div>
             <h3 className="font-display font-black text-2xl text-slate-900 dark:text-white">Account Created!</h3>
             <p className="text-slate-600 dark:text-purple-200 text-sm">
-              Welcome to Selam Kids, <strong className="text-emerald-600 dark:text-emerald-400">{username}</strong>! Redirecting you to your adventure...
+              Welcome to Selam Kids! Redirecting you to your adventure...
             </p>
           </CardContent>
         ) : (
@@ -135,20 +98,11 @@ export default function RegisterPage() {
                   Phone Number
                 </label>
                 <div className="flex gap-2">
-                  {/* Country Code Dropdown */}
-                  <div className="relative shrink-0">
-                    <select
-                      value={countryCode}
-                      onChange={(e) => setCountryCode(e.target.value)}
-                      className="h-12 w-[110px] rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 px-2.5 text-xs font-black text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none cursor-pointer appearance-none text-center"
-                    >
-                      {COUNTRY_CODES.map((c) => (
-                        <option key={c.code} value={c.dial} className="bg-white dark:bg-[#1b0d47] text-slate-900 dark:text-white">
-                          {c.flag} {c.dial}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  {/* Searchable Country Code Dropdown */}
+                  <CountrySelector
+                    value={countryCode}
+                    onChange={setCountryCode}
+                  />
 
                   {/* Phone input */}
                   <div className="relative flex-1">
@@ -170,27 +124,7 @@ export default function RegisterPage() {
                 </p>
               </div>
 
-              {/* 2. Username */}
-              <div>
-                <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200 mb-1.5">
-                  Username
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                    <User className="h-4 w-4 text-purple-500 dark:text-purple-400" />
-                  </div>
-                  <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Choose a username (e.g. leo_star)"
-                    className="w-full h-12 pl-10 pr-3.5 rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder-purple-400 focus:border-emerald-500 focus:outline-none transition-colors"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* 3. Password */}
+              {/* 2. Password */}
               <div>
                 <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200 mb-1.5">
                   Password

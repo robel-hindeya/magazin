@@ -20,7 +20,7 @@ export default async function KidsDailyPage() {
       {/* Top Header */}
       <PageHeader
         title="Kids Daily Writing Arena"
-        description="Write your daily adventure, level up your writing streak, and earn glowing orbs!"
+        description="Write your daily adventure, level up your writing streak, and earn glowing points!"
         breadcrumbs={[
           { label: 'Magazine Lounge', href: '/users/kids' },
           { label: 'Kids Daily' },
@@ -33,7 +33,7 @@ export default async function KidsDailyPage() {
             </div>
             <div className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 px-4 py-2 text-slate-950 shadow-md font-display font-black text-xs border border-emerald-300">
               <Trophy className="h-4 w-4 fill-slate-950" />
-              <span>{kid.orbs} Orbs</span>
+              <span>{kid.orbs} Points</span>
             </div>
           </div>
         }
@@ -50,7 +50,7 @@ export default async function KidsDailyPage() {
               Today&apos;s Daily Writing Mission
             </h2>
             <p className="text-xs sm:text-sm text-purple-200 mt-0.5 max-w-xl">
-              Write at least 5 words to earn glowing orbs! Pick Daily Creative Writing for the monthly magazine contest or send a Message to God.
+              Write at least 5 words to earn glowing points! Pick Daily Creative Writing for the monthly magazine contest or send a Message to God.
             </p>
           </div>
         </div>

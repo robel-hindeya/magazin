@@ -48,7 +48,7 @@ export default async function ViewFamilyDetailPage({
             <div key={kid.id} className="p-4 rounded-xl border border-slate-100 bg-slate-50">
               <div className="font-bold text-slate-800 text-sm">{kid.nickname}</div>
               <div className="text-xs text-slate-500 mt-1">
-                {kid.grade_level} • {kid.words_written} words written • {kid.orbs} orbs
+                {kid.grade_level} • {kid.words_written} words written • {kid.orbs} points
               </div>
             </div>
           ))}

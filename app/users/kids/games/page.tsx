@@ -5,7 +5,7 @@ import { LoadingSpinner } from '@/components/ui/loading';
 
 export const metadata: Metadata = {
   title: 'Games Arcade - Selam Kids Portal',
-  description: 'Play fun games and earn glowing orbs for your author profile!',
+  description: 'Play fun games and earn glowing points for your author profile!',
 };
 
 export default function KidsGamesPage() {

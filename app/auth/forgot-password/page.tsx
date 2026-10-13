@@ -5,37 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, ShieldCheck, Phone, Lock, Eye, EyeOff, Loader2, CheckCircle2, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-
-interface CountryCodeItem {
-  code: string;
-  name: string;
-  flag: string;
-  dial: string;
-}
-
-const COUNTRY_CODES: CountryCodeItem[] = [
-  { code: 'ET', name: 'Ethiopia', flag: '🇪🇹', dial: '+251' },
-  { code: 'US', name: 'United States', flag: '🇺🇸', dial: '+1' },
-  { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', dial: '+44' },
-  { code: 'CA', name: 'Canada', flag: '🇨🇦', dial: '+1' },
-  { code: 'AE', name: 'United Arab Emirates', flag: '🇦🇪', dial: '+971' },
-  { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦', dial: '+966' },
-  { code: 'KE', name: 'Kenya', flag: '🇰🇪', dial: '+254' },
-  { code: 'ER', name: 'Eritrea', flag: '🇪🇷', dial: '+291' },
-  { code: 'DJ', name: 'Djibouti', flag: '🇩🇯', dial: '+253' },
-  { code: 'SO', name: 'Somalia', flag: '🇸🇴', dial: '+252' },
-  { code: 'SD', name: 'Sudan', flag: '🇸🇩', dial: '+249' },
-  { code: 'UG', name: 'Uganda', flag: '🇺🇬', dial: '+256' },
-  { code: 'DE', name: 'Germany', flag: '🇩🇪', dial: '+49' },
-  { code: 'FR', name: 'France', flag: '🇫🇷', dial: '+33' },
-  { code: 'IT', name: 'Italy', flag: '🇮🇹', dial: '+39' },
-  { code: 'SE', name: 'Sweden', flag: '🇸🇪', dial: '+46' },
-  { code: 'NO', name: 'Norway', flag: '🇳🇴', dial: '+47' },
-  { code: 'AU', name: 'Australia', flag: '🇦🇺', dial: '+61' },
-  { code: 'IN', name: 'India', flag: '🇮🇳', dial: '+91' },
-  { code: 'ZA', name: 'South Africa', flag: '🇿🇦', dial: '+27' },
-  { code: 'EG', name: 'Egypt', flag: '🇪🇬', dial: '+20' },
-];
+import { CountrySelector } from '@/components/auth/country-selector';
 
 export default function ForgotPasswordPage() {
   const [step, setStep] = React.useState<'PHONE' | 'OTP'>('PHONE');
@@ -189,18 +159,11 @@ export default function ForgotPasswordPage() {
                   Your Phone Number
                 </label>
                 <div className="flex gap-2">
-                  {/* Country Code */}
-                  <select
+                  {/* Searchable Country Code Dropdown */}
+                  <CountrySelector
                     value={countryCode}
-                    onChange={(e) => setCountryCode(e.target.value)}
-                    className="h-12 w-[110px] rounded-2xl border-2 border-slate-200 dark:border-purple-700/80 bg-slate-50 dark:bg-purple-950/70 px-2.5 text-xs font-black text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none cursor-pointer appearance-none text-center shrink-0"
-                  >
-                    {COUNTRY_CODES.map((c) => (
-                      <option key={c.code} value={c.dial} className="bg-white dark:bg-[#1b0d47] text-slate-900 dark:text-white">
-                        {c.flag} {c.dial}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={setCountryCode}
+                  />
 
                   {/* Phone input */}
                   <div className="relative flex-1">

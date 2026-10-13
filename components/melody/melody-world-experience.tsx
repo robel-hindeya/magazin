@@ -290,7 +290,7 @@ export function MelodyWorldExperience() {
         </h1>
 
         <p className="mt-4 text-base sm:text-xl text-slate-600 dark:text-purple-200 max-w-3xl mx-auto font-medium leading-relaxed">
-          Tap the enchanted animal sound chimes, listen to musical chords, pop melodic vocabulary bubbles, and earn glowing star orbs!
+          Tap the enchanted animal sound chimes, listen to musical chords, pop melodic vocabulary bubbles, and earn glowing star points!
         </p>
 
         {/* Floating Melody HUD / Scoreboard */}
@@ -299,10 +299,10 @@ export function MelodyWorldExperience() {
             <Trophy className="h-5 w-5 text-emerald-500 fill-emerald-500 animate-pulse" />
             <div className="text-left">
               <span className="text-[10px] font-black uppercase text-slate-500 dark:text-purple-300 block">
-                Melody Orbs Earned
+                Melody Points Earned
               </span>
               <span className="font-display font-black text-xl text-emerald-600 dark:text-emerald-400 leading-none">
-                +{musicalOrbs} Glowing Orbs
+                +{musicalOrbs} Glowing Points
               </span>
             </div>
           </div>

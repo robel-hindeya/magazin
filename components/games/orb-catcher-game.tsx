@@ -343,10 +343,10 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
           )}
           <div>
             <h2 className="font-display font-black text-lg sm:text-xl text-slate-900 dark:text-white">
-              Orb Catcher
+              Point Catcher
             </h2>
             <p className="text-xs text-slate-500 dark:text-purple-300/80 font-medium">
-              Catch green orbs & stars, dodge red monsters
+              Catch green points & stars, dodge red monsters
             </p>
           </div>
         </div>
@@ -455,7 +455,7 @@ export function OrbCatcherGame({ onBackToArcade, onOrbsEarned }: OrbCatcherGameP
             <p className="text-slate-600 dark:text-purple-300 text-xs font-medium mt-1">Final Score: {score}</p>
 
             <div className="px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs border border-emerald-300 dark:border-emerald-500/30 my-3">
-              +{Math.floor(score / 10)} Orbs Earned
+              +{Math.floor(score / 10)} Points Earned
             </div>
 
             <div className="flex items-center gap-3">

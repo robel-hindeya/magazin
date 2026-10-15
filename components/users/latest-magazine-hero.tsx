@@ -162,10 +162,10 @@ export function LatestMagazineHero({
                   </span>
                 </div>
 
-                {/* Cover Main & Secondary Characters Area */}
+                {/* Cover Main & Secondary Characters Area (Poster Size Increased +25%) */}
                 <div className="relative flex-1 flex items-center justify-center my-1 sm:my-2">
-                  {/* Main Character */}
-                  <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 group-hover:scale-108 transition-transform duration-300">
+                  {/* Main Character Poster (+25% size) */}
+                  <div className="relative w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] md:w-[280px] md:h-[280px] group-hover:scale-108 transition-transform duration-300">
                     <Image
                       src={latestMagazine.characterMain.src}
                       alt={latestMagazine.characterMain.alt}
@@ -175,9 +175,9 @@ export function LatestMagazineHero({
                     />
                   </div>
 
-                  {/* Secondary Character floating in corner */}
+                  {/* Secondary Character floating in corner (+25% size) */}
                   {latestMagazine.characterSecondary && (
-                    <div className="absolute -bottom-1 -right-1 w-18 h-18 sm:w-20 sm:h-20 group-hover:scale-115 transition-transform duration-300">
+                    <div className="absolute -bottom-1 -right-1 w-[80px] h-[80px] sm:w-[96px] sm:h-[96px] group-hover:scale-115 transition-transform duration-300">
                       <Image
                         src={latestMagazine.characterSecondary.src}
                         alt={latestMagazine.characterSecondary.alt}

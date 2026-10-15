@@ -143,6 +143,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
     pathname.startsWith('/users/kids/magazines') ||
     pathname.startsWith('/users/kids/magazine') ||
     pathname.startsWith('/users/kids/daily') ||
+    pathname.startsWith('/users/kids/story') ||
     pathname.startsWith('/users/community');
 
   // Complete roster of apps & features in the Super App Launcher
@@ -161,7 +162,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
       id: 'story',
       title: 'Story',
       desc: 'Write For Next Issue',
-      href: user ? '/users/kids#story-editor-section' : '/#story',
+      href: user ? '/users/kids/story' : '/auth/login',
       icon: Sparkles,
       iconBg: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30',
       badge: 'Contest',

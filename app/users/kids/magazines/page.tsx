@@ -14,7 +14,7 @@ export default async function MagazineLibraryPage() {
   const kid = await kidService.getMyProfile(user);
 
   return (
-    <div className="space-y-6 sm:space-y-8 max-w-4xl mx-auto pb-20 sm:pb-16">
+    <div className="space-y-6 sm:space-y-8 max-w-4xl mx-auto pb-24 sm:pb-20 px-3 sm:px-6">
       {/* Page Header */}
       <PageHeader
         title="Magazine Library"

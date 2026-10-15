@@ -101,9 +101,9 @@ export function MagazineGrid({
         </div>
       )}
 
-      {/* Magazine Responsive Grid: 2, 2 Left and Right Posters */}
+      {/* Magazine Responsive Grid: 2, 2 Left and Right Posters with Spacious Margins */}
       {filteredIssues.length > 0 && (
-        <div className="grid grid-cols-2 gap-3 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8 md:gap-x-12 gap-y-8 sm:gap-y-12 md:gap-y-16 max-w-4xl mx-auto pt-2 pb-8">
           {filteredIssues.map((magazine) => {
             return (
               <div
@@ -125,7 +125,7 @@ export function MagazineGrid({
 
                 {/* Glossy Cover Canvas */}
                 <div
-                  className={`relative w-full h-[270px] xs:h-[310px] sm:h-[410px] md:h-[450px] rounded-2xl sm:rounded-3xl p-1 bg-gradient-to-b ${
+                  className={`relative w-full h-[285px] xs:h-[325px] sm:h-[425px] md:h-[465px] rounded-2xl sm:rounded-3xl p-1 bg-gradient-to-b ${
                     magazine.borderGradient || 'from-amber-300 via-purple-500 to-amber-300'
                   } shadow-xl shadow-purple-950/30 group-hover:shadow-2xl transition-shadow`}
                 >

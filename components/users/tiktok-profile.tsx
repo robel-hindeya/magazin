@@ -5,9 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  ArrowLeft,
   Share2,
-  MoreHorizontal,
   Grid3X3,
   Bookmark,
   Award,
@@ -293,45 +291,7 @@ export function TikTokProfile({
 
   return (
     <div className="max-w-md sm:max-w-xl mx-auto min-h-screen bg-white dark:bg-[#0c0c12] text-slate-900 dark:text-white rounded-3xl sm:border border-slate-200/80 dark:border-white/10 shadow-2xl overflow-hidden transition-colors relative pb-28">
-      {/* =====================================================================
-          TIKTOK TOP APP BAR (Sticky)
-          ===================================================================== */}
-      <div className="sticky top-0 z-30 bg-white/95 dark:bg-[#0c0c12]/95 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-slate-100 dark:border-white/10">
-        <Link
-          href="/users/kids"
-          className="p-1 rounded-full text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
-          title="Back to Kids Zoo HQ"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </Link>
 
-        {/* Center Title Handle */}
-        <div className="flex items-center gap-1.5 cursor-pointer select-none">
-          <span className="font-display font-black text-sm sm:text-base tracking-tight truncate max-w-[180px]">
-            {displayName}
-          </span>
-          <CheckCircle2 className="h-4 w-4 text-cyan-400 fill-cyan-400 text-white shrink-0" />
-        </div>
-
-        {/* Right Action Icons */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setIsShareModalOpen(true)}
-            className="p-1.5 rounded-full text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
-            title="Share Profile"
-          >
-            <Share2 className="h-5 w-5" />
-          </button>
-
-          <button
-            onClick={() => setIsQuickMenuOpen(true)}
-            className="p-1.5 rounded-full text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
-            title="Quick Options"
-          >
-            <MoreHorizontal className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
 
       {savedStatus && (
         <div className="mx-4 mt-3 rounded-xl bg-emerald-500 text-white text-xs font-black py-2 px-3 text-center shadow-md animate-fade-in">

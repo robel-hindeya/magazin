@@ -119,11 +119,13 @@ const CAROUSEL_ITEMS: MagazinePosterItem[] = [...AUTHENTIC_POSTERS, ...AUTHENTIC
 export interface MagazineCoverSliderProps {
   title?: string;
   subtitle?: string;
+  subtitleClassName?: string;
 }
 
 export function MagazineCoverSlider({
   title = 'Kids Magazine',
   subtitle = 'Explore our diverse Ethiopian themed Kids Magazines',
+  subtitleClassName = '',
 }: MagazineCoverSliderProps = {}) {
   const [activeItemIndex, setActiveItemIndex] = useState<number>(0);
   const [previewMagazine, setPreviewMagazine] = useState<MagazineIssue | null>(null);
@@ -350,7 +352,7 @@ export function MagazineCoverSlider({
           {title}
         </h2>
         {subtitle && (
-          <p className="mt-3 text-base sm:text-xl text-slate-600 dark:text-purple-200 font-medium">
+          <p className={`mt-3 text-base sm:text-xl text-emerald-600 dark:text-emerald-400 font-semibold tracking-wide ${subtitleClassName}`}>
             {subtitle}
           </p>
         )}

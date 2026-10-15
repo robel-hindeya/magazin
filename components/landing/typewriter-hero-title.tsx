@@ -64,13 +64,13 @@ export function TypewriterHeroTitle({
     >
       {prefix} <br />
       <span className="inline-flex items-center justify-center min-h-[1.25em] transition-all">
-        <span className="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 bg-clip-text text-transparent">
+        <span className="text-emerald-500 dark:text-emerald-400">
           {displayText || '\u00A0'}
         </span>
         {/* Glowing typing caret */}
         <span
           aria-hidden="true"
-          className="inline-block w-[3px] sm:w-[4px] lg:w-[6px] h-[0.85em] ml-1.5 sm:ml-2 bg-gradient-to-b from-emerald-400 to-cyan-400 rounded-full align-middle animate-pulse shadow-[0_0_14px_rgba(52,211,153,0.9)]"
+          className="inline-block w-[3px] sm:w-[4px] lg:w-[6px] h-[0.85em] ml-1.5 sm:ml-2 bg-emerald-500 dark:bg-emerald-400 rounded-full align-middle animate-pulse shadow-[0_0_14px_rgba(16,185,129,0.85)]"
         />
       </span>
     </h1>

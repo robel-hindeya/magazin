@@ -1,7 +1,7 @@
 import { requireAuth } from '@/backend/auth/guards';
 import { KidService } from '@/backend/services/kid.service';
 import { PageHeader } from '@/components/dashboard/page-header';
-import { Trophy, PenTool } from 'lucide-react';
+import { PenTool } from 'lucide-react';
 import { StoryEditor } from '@/components/users/story-editor';
 import { LatestMagazineHero } from '@/components/users/latest-magazine-hero';
 
@@ -12,15 +12,9 @@ export default async function KidsDashboardPage() {
 
   return (
     <div className="space-y-10 max-w-7xl pb-12">
-      {/* Top Greeting & Points Bar */}
+      {/* Top Greeting */}
       <PageHeader
         title={`Welcome to Selam Kids, ${kid.nickname || 'Explorer'}!`}
-        actions={
-          <div className="flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400 px-5 py-2.5 text-slate-950 shadow-lg shadow-emerald-500/20 font-display font-black text-sm border-2 border-emerald-300">
-            <Trophy className="h-4 w-4 fill-slate-950" />
-            <span>{kid.orbs} Glowing Points</span>
-          </div>
-        }
       />
 
       {/* =========================================================================

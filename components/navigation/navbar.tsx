@@ -111,28 +111,11 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
       : '/users/kids'
     : '/';
 
-  // Mobile Profile button target
-  const profileHref = user
-    ? user.role === ROLES.SUPERADMIN
-      ? '/superadmin'
-      : user.role === ROLES.ADMIN
-      ? '/admin'
-      : user.role === ROLES.TEACHER
-      ? '/users/teachers'
-      : user.role === ROLES.FAMILY
-      ? '/users/families'
-      : '/users/kids/profile'
-    : '/auth/login';
+  // Mobile Profile button target - always opens kids explorer profile
+  const profileHref = user ? '/users/kids/profile' : '/auth/login';
 
   const isActiveHome = logoHref === '/' ? pathname === '/' : pathname === logoHref;
-  const isActiveProfile =
-    pathname.startsWith('/users/kids/profile') ||
-    pathname.startsWith('/users/families') ||
-    pathname.startsWith('/users/settings') ||
-    pathname.startsWith('/auth') ||
-    pathname.startsWith('/admin') ||
-    pathname.startsWith('/superadmin') ||
-    pathname.startsWith('/users/teachers');
+  const isActiveProfile = pathname.startsWith('/users/kids/profile');
   const isActiveApps =
     isSuperAppOpen ||
     pathname.startsWith('/games') ||
@@ -420,7 +403,19 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
           </div>
 
           <ThemeToggle variant="compact" />
-          {!user && (
+          {user ? (
+            <Link
+              href="/users/kids/profile"
+              className="flex items-center justify-center h-8 w-8 rounded-full overflow-hidden bg-purple-100 dark:bg-purple-900/60 ring-2 ring-emerald-400 hover:scale-105 transition-transform shrink-0"
+              title="My Profile"
+            >
+              <Avatar
+                fallback={user.fullName || user.email || 'Explorer'}
+                src={user.avatarUrl}
+                size="sm"
+              />
+            </Link>
+          ) : (
             <Link href="/auth/login">
               <Button variant="magic" size="sm" className="h-8 px-3.5 text-xs font-black">
                 Sign In
@@ -619,21 +614,30 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
               {/* Bottom Quick Bar inside Drawer */}
               <div className="pt-2 border-t border-slate-100 dark:border-purple-900/40">
                 {user ? (
-                  <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/60 dark:border-purple-900/50">
-                    <Avatar
-                      fallback={user.fullName || user.email}
-                      src={user.avatarUrl}
-                      size="sm"
-                    />
-                    <div>
-                      <div className="text-xs font-black text-slate-900 dark:text-white">
-                        {user.fullName || user.email}
-                      </div>
-                      <div className="text-[10px] text-purple-600 dark:text-purple-300 font-bold uppercase tracking-wider">
-                        {user.role} Explorer
+                  <Link
+                    href="/users/kids/profile"
+                    onClick={() => setIsSuperAppOpen(false)}
+                    className="flex items-center justify-between p-3 rounded-2xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/60 dark:border-purple-900/50 hover:bg-purple-100 dark:hover:bg-purple-900/60 transition-colors group cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Avatar
+                        fallback={user.fullName || user.email}
+                        src={user.avatarUrl}
+                        size="sm"
+                      />
+                      <div>
+                        <div className="text-xs font-black text-slate-900 dark:text-white">
+                          {user.fullName || user.email}
+                        </div>
+                        <div className="text-[10px] text-purple-600 dark:text-purple-300 font-bold uppercase tracking-wider">
+                          {user.role} Explorer
+                        </div>
                       </div>
                     </div>
-                  </div>
+                    <span className="text-[11px] font-black text-emerald-600 dark:text-emerald-400 group-hover:translate-x-0.5 transition-transform">
+                      View Profile →
+                    </span>
+                  </Link>
                 ) : (
                   <div className="grid grid-cols-2 gap-2">
                     <Link

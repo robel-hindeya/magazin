@@ -198,16 +198,6 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
       badgeBg: 'bg-pink-100 dark:bg-pink-950/70 text-pink-700 dark:text-pink-300',
     },
     {
-      id: 'family',
-      title: 'Family Connect',
-      desc: 'Parent Gate & Hub',
-      href: '/users/families',
-      icon: Shield,
-      iconBg: 'bg-teal-500/15 text-teal-600 dark:text-teal-400 border border-teal-500/30',
-      badge: 'Parents',
-      badgeBg: 'bg-teal-100 dark:bg-teal-950/70 text-teal-700 dark:text-teal-300',
-    },
-    {
       id: 'games',
       title: 'Games',
       desc: 'Word Dash & Coloring',
@@ -639,15 +629,12 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
             {/* Super App Grid */}
             <div className="p-4 sm:p-5 overflow-y-auto space-y-4">
               <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
-                {superApps.map((app, index) => (
+                {superApps.map((app) => (
                   <Link
                     key={app.id}
                     href={app.href}
                     onClick={() => setIsSuperAppOpen(false)}
-                    className={cn(
-                      'flex flex-col items-center text-center p-2.5 sm:p-3 rounded-2xl bg-slate-50 dark:bg-[#1a1040]/70 hover:bg-emerald-50/70 dark:hover:bg-purple-900/40 border border-slate-200/70 dark:border-purple-800/50 active:scale-95 transition-all group relative overflow-hidden',
-                      index === 6 && 'col-start-2'
-                    )}
+                    className="flex flex-col items-center text-center p-2.5 sm:p-3 rounded-2xl bg-slate-50 dark:bg-[#1a1040]/70 hover:bg-emerald-50/70 dark:hover:bg-purple-900/40 border border-slate-200/70 dark:border-purple-800/50 active:scale-95 transition-all group relative overflow-hidden"
                   >
                     <div
                       className={cn(

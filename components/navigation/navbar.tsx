@@ -411,7 +411,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
             >
               <Avatar
                 fallback={user.fullName || user.email || 'Explorer'}
-                src={user.avatarUrl}
+                src={user.avatarUrl || '/images/characters/simba.png'}
                 size="sm"
               />
             </Link>

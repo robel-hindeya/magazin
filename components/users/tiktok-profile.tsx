@@ -242,10 +242,9 @@ export function TikTokProfile({
 
   const [displayName, setDisplayName] = React.useState(user.fullName || kid.nickname || 'Explorer');
   const [nickname, setNickname] = React.useState(kid.nickname || 'Leo');
+  const cleanGrade = (kid.grade_level || 'Grade 3').replace(/^Grade\s*/i, '');
   const [bioText, setBioText] = React.useState(
-    '✨ Magical Story Creator & Beast Whisperer 🐾 | Grade ' +
-      (kid.grade_level || '3') +
-      ' Explorer 🦁'
+    `✨ Magical Story Creator & Beast Whisperer 🐾 | Grade ${cleanGrade} Explorer 🦁`
   );
 
   const [isLoggingOut, setIsLoggingOut] = React.useState(false);
@@ -285,7 +284,10 @@ export function TikTokProfile({
   };
 
   const currentAvatarSrc =
-    selectedCharacter.imageUrl || kid.creature_image_url || '/images/characters/simba.png';
+    user.avatarUrl ||
+    selectedCharacter.imageUrl ||
+    kid.creature_image_url ||
+    '/images/characters/simba.png';
 
   const userHandle = `@${nickname.toLowerCase().replace(/[^a-z0-9_]/g, '') || 'explorer'}`;
 
@@ -302,14 +304,14 @@ export function TikTokProfile({
           TIKTOK PROFILE HERO SECTION (Selam Kids Brand Colors)
           ===================================================================== */}
       <div className="pt-8 pb-4 px-4 flex flex-col items-center text-center">
-        {/* Large Avatar (Clean, no border color) */}
+        {/* Large Avatar (Clean, visible on mobile & desktop) */}
         <div className="relative group cursor-pointer mb-3" onClick={() => setIsEditProfileOpen(true)}>
-          <div className="relative h-26 w-26 sm:h-28 sm:w-28 rounded-full overflow-hidden bg-purple-50 dark:bg-[#1a0d3d] transition-transform duration-300 group-hover:scale-105 shadow-md">
+          <div className="relative h-28 w-28 sm:h-32 sm:w-32 rounded-full overflow-hidden bg-purple-100/50 dark:bg-[#1a0d3d] transition-transform duration-300 group-hover:scale-105 shadow-md flex items-center justify-center">
             <Image
               src={currentAvatarSrc}
               alt={selectedCharacter.name}
               fill
-              sizes="112px"
+              sizes="(max-width: 640px) 112px, 128px"
               className="object-contain p-2"
               priority
             />
@@ -884,96 +886,102 @@ export function TikTokProfile({
             </div>
 
             {/* Change Photo / Beast Carousel in Edit Sheet */}
-            <div className="text-center py-2">
-              <div className="relative inline-block mb-2">
-                <div className="relative h-20 w-20 rounded-full overflow-hidden bg-purple-50 dark:bg-purple-950/60 shadow-md">
-                  <Image
-                    src={selectedCharacter.imageUrl}
-                    alt={selectedCharacter.name}
-                    fill
-                    sizes="80px"
-                    className="object-contain p-1.5"
+            <form action={updateCreatureAction} className="space-y-4">
+              <input type="hidden" name="creatureName" value={selectedCharacter.name} />
+              <input type="hidden" name="creatureType" value={selectedCharacter.id} />
+              <input type="hidden" name="creatureImageUrl" value={selectedCharacter.imageUrl} />
+              <input type="hidden" name="gradeLevel" value={kid.grade_level || 'Grade 3'} />
+              <input type="hidden" name="nickname" value={nickname} />
+
+              <div className="text-center py-2">
+                <div className="relative inline-block mb-2">
+                  <div className="relative h-20 w-20 rounded-full overflow-hidden bg-purple-50 dark:bg-purple-950/60 shadow-md">
+                    <Image
+                      src={selectedCharacter.imageUrl}
+                      alt={selectedCharacter.name}
+                      fill
+                      sizes="80px"
+                      className="object-contain p-1.5"
+                    />
+                  </div>
+                </div>
+                <p className="text-xs font-black text-purple-700 dark:text-purple-300">
+                  Choose Companion Avatar
+                </p>
+
+                <div className="flex items-center justify-center gap-2 mt-2 overflow-x-auto py-1">
+                  {CREATURE_CHARACTERS.map((char) => (
+                    <button
+                      key={char.id}
+                      type="button"
+                      onClick={() => setSelectedCharacter(char)}
+                      className={cn(
+                        'relative h-10 w-10 rounded-full border-2 p-1 shrink-0 transition-transform cursor-pointer',
+                        selectedCharacter.id === char.id
+                          ? 'border-emerald-400 scale-110 ring-2 ring-emerald-400/40 bg-emerald-50 dark:bg-emerald-950/50'
+                          : 'border-purple-200 dark:border-purple-800/40 opacity-70 hover:opacity-100'
+                      )}
+                    >
+                      <Image
+                        src={char.imageUrl}
+                        alt={char.name}
+                        fill
+                        sizes="40px"
+                        className="object-contain p-0.5"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-purple-200 mb-1">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    className="w-full rounded-xl border border-purple-200 dark:border-purple-800/80 bg-slate-50 dark:bg-[#180b3a] px-3.5 py-2 text-sm text-slate-900 dark:text-white font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-purple-200 mb-1">
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    name="nickname"
+                    value={nickname}
+                    onChange={(e) => setNickname(e.target.value)}
+                    className="w-full rounded-xl border border-purple-200 dark:border-purple-800/80 bg-slate-50 dark:bg-[#180b3a] px-3.5 py-2 text-sm text-slate-900 dark:text-white font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-purple-200 mb-1">
+                    Bio
+                  </label>
+                  <textarea
+                    value={bioText}
+                    onChange={(e) => setBioText(e.target.value)}
+                    rows={3}
+                    className="w-full rounded-xl border border-purple-200 dark:border-purple-800/80 bg-slate-50 dark:bg-[#180b3a] p-3 text-xs text-slate-900 dark:text-white resize-none"
                   />
                 </div>
               </div>
-              <p className="text-xs font-black text-purple-700 dark:text-purple-300">
-                Choose Companion Avatar
-              </p>
 
-              <div className="flex items-center justify-center gap-2 mt-2 overflow-x-auto py-1">
-                {CREATURE_CHARACTERS.map((char) => (
-                  <button
-                    key={char.id}
-                    type="button"
-                    onClick={() => setSelectedCharacter(char)}
-                    className={cn(
-                      'relative h-10 w-10 rounded-full border-2 p-1 shrink-0 transition-transform',
-                      selectedCharacter.id === char.id
-                        ? 'border-emerald-400 scale-110 ring-2 ring-emerald-400/40 bg-emerald-50 dark:bg-emerald-950/50'
-                        : 'border-purple-200 dark:border-purple-800/40 opacity-70 hover:opacity-100'
-                    )}
-                  >
-                    <Image
-                      src={char.imageUrl}
-                      alt={char.name}
-                      fill
-                      sizes="40px"
-                      className="object-contain p-0.5"
-                    />
-                  </button>
-                ))}
+              <div className="pt-2">
+                <Button
+                  type="submit"
+                  className="w-full py-3 rounded-2xl font-display font-black text-xs sm:text-sm bg-gradient-to-r from-emerald-500 via-teal-500 to-purple-600 text-slate-950 shadow-lg shadow-emerald-500/20 active:scale-95 transition-transform"
+                >
+                  Save Profile Changes
+                </Button>
               </div>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-purple-200 mb-1">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  className="w-full rounded-xl border border-purple-200 dark:border-purple-800/80 bg-slate-50 dark:bg-[#180b3a] px-3.5 py-2 text-sm text-slate-900 dark:text-white font-bold"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-purple-200 mb-1">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
-                  className="w-full rounded-xl border border-purple-200 dark:border-purple-800/80 bg-slate-50 dark:bg-[#180b3a] px-3.5 py-2 text-sm text-slate-900 dark:text-white font-bold"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 dark:text-purple-200 mb-1">
-                  Bio
-                </label>
-                <textarea
-                  value={bioText}
-                  onChange={(e) => setBioText(e.target.value)}
-                  rows={3}
-                  className="w-full rounded-xl border border-purple-200 dark:border-purple-800/80 bg-slate-50 dark:bg-[#180b3a] p-3 text-xs text-slate-900 dark:text-white resize-none"
-                />
-              </div>
-            </div>
-
-            <div className="pt-2">
-              <Button
-                onClick={() => {
-                  setIsEditProfileOpen(false);
-                  setActiveTab(3); // Switch to Studio to persist if desired
-                }}
-                className="w-full py-3 rounded-2xl font-display font-black text-xs sm:text-sm bg-gradient-to-r from-emerald-500 via-teal-500 to-purple-600 text-slate-950 shadow-lg shadow-emerald-500/20 active:scale-95 transition-transform"
-              >
-                Done
-              </Button>
-            </div>
+            </form>
           </div>
         </div>
       )}

@@ -645,23 +645,9 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
                       <app.icon className="h-6 w-6" />
                     </div>
 
-                    <span className="font-display font-extrabold text-[12px] sm:text-[13px] text-slate-900 dark:text-white leading-tight line-clamp-1">
+                    <span className="font-display font-extrabold text-xs sm:text-[13px] text-slate-900 dark:text-white leading-tight line-clamp-1">
                       {app.title}
                     </span>
-                    <span className="text-[10px] font-medium text-slate-500 dark:text-purple-300/70 line-clamp-1 mt-0.5">
-                      {app.desc}
-                    </span>
-
-                    {app.badge && (
-                      <span
-                        className={cn(
-                          'mt-1.5 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider',
-                          app.badgeBg
-                        )}
-                      >
-                        {app.badge}
-                      </span>
-                    )}
                   </Link>
                 ))}
               </div>

@@ -152,7 +152,7 @@ export function MagazineGrid({
 
                   {/* Inner Cover Art */}
                   <div
-                    className={`relative w-full h-full rounded-[18px] sm:rounded-[22px] overflow-hidden bg-gradient-to-br ${magazine.gradient} p-2.5 xs:p-3 sm:p-5 flex flex-col justify-between border-2 border-white/25 text-white select-none`}
+                    className={`relative w-full h-full rounded-[18px] sm:rounded-[22px] overflow-hidden bg-gradient-to-br ${magazine.gradient} p-2 xs:p-2.5 sm:p-3.5 md:p-4 flex flex-col justify-between border-2 border-white/25 text-white select-none`}
                   >
                     {/* Top Masthead */}
                     <div className="text-center space-y-0.5 relative z-10">
@@ -168,9 +168,9 @@ export function MagazineGrid({
                       </span>
                     </div>
 
-                    {/* Main Character */}
-                    <div className="relative flex-1 flex items-center justify-center my-1 sm:my-2">
-                      <div className="relative w-24 h-24 xs:w-28 xs:h-28 sm:w-44 sm:h-44 md:w-50 md:h-50 group-hover:scale-108 transition-transform duration-300">
+                    {/* Main Character Poster (+25% size like in /users/kids) */}
+                    <div className="relative flex-1 flex items-center justify-center my-0.5 sm:my-1.5">
+                      <div className="relative w-[120px] h-[120px] xs:w-[140px] xs:h-[140px] sm:w-[220px] sm:h-[220px] md:w-[250px] md:h-[250px] group-hover:scale-108 transition-transform duration-300">
                         <Image
                           src={magazine.characterMain.src}
                           alt={magazine.characterMain.alt}
@@ -180,13 +180,14 @@ export function MagazineGrid({
                         />
                       </div>
 
+                      {/* Secondary Character (+25% size) */}
                       {magazine.characterSecondary && (
-                        <div className="absolute -bottom-1 -right-1 w-9 h-9 xs:w-11 xs:h-11 sm:w-14 sm:h-14 md:w-16 md:h-16 group-hover:scale-115 transition-transform duration-300">
+                        <div className="absolute -bottom-1 -right-1 w-[45px] h-[45px] xs:w-[55px] xs:h-[55px] sm:w-[70px] sm:h-[70px] md:w-[80px] md:h-[80px] group-hover:scale-115 transition-transform duration-300">
                           <Image
                             src={magazine.characterSecondary.src}
                             alt={magazine.characterSecondary.alt}
                             fill
-                            sizes="64px"
+                            sizes="80px"
                             className="object-contain drop-shadow-md"
                           />
                         </div>

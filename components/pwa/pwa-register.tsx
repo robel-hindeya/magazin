@@ -11,7 +11,7 @@ interface BeforeInstallPromptEvent extends Event {
 
 export function PwaRegister() {
   const [deferredPrompt, setDeferredPrompt] = React.useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstallable, setIsInstallable] = React.useState<boolean>(false);
+  const [, setIsInstallable] = React.useState<boolean>(false);
   const [isIos, setIsIos] = React.useState<boolean>(false);
   const [isStandalone, setIsStandalone] = React.useState<boolean>(false);
   const [showPromptBanner, setShowPromptBanner] = React.useState<boolean>(false);
@@ -36,7 +36,7 @@ export function PwaRegister() {
     if (typeof window !== 'undefined') {
       const isStandaloneMode =
         window.matchMedia('(display-mode: standalone)').matches ||
-        (navigator as any).standalone === true ||
+        (navigator as unknown as { standalone?: boolean }).standalone === true ||
         document.referrer.includes('android-app://');
       setIsStandalone(isStandaloneMode);
 

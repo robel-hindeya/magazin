@@ -10,7 +10,6 @@ import {
   KeyRound,
   ArrowLeft,
   Trophy,
-  BookOpen,
   X,
   HelpCircle,
   Loader2,

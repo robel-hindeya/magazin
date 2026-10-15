@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { WifiOff, RefreshCw, BookOpen, Home } from 'lucide-react';
+import { WifiOff, RefreshCw, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function OfflinePage() {
@@ -17,7 +17,7 @@ export default function OfflinePage() {
       </div>
 
       <h1 className="font-display font-black text-2xl sm:text-4xl text-slate-900 dark:text-white leading-tight mb-2">
-        You're Offline
+        You&apos;re Offline
       </h1>
 
       <p className="max-w-md text-sm sm:text-base text-slate-600 dark:text-purple-200/80 font-medium mb-8">

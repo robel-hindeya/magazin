@@ -10,7 +10,8 @@ import { ThemeToggle } from '@/components/theme/theme-toggle';
 import { CreatureCustomizerForm } from '@/components/users/creature-customizer-form';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { Check, Settings, Palette, Shield } from 'lucide-react';
+import { Check, Settings, Palette, Shield, LogOut } from 'lucide-react';
+import { SignOutButton } from '@/components/auth/sign-out-button';
 
 export default async function KidProfilePage({
   searchParams,
@@ -70,6 +71,13 @@ export default async function KidProfilePage({
           { label: 'Zoo HQ', href: '/users/kids' },
           { label: 'Profile & Settings' },
         ]}
+        actions={
+          <SignOutButton
+            variant="destructive"
+            size="sm"
+            className="shadow-sm font-black text-xs px-4"
+          />
+        }
       />
 
       {/* Quick Jump Pills */}
@@ -97,6 +105,12 @@ export default async function KidProfilePage({
           className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-purple-100 text-purple-900 dark:bg-purple-900/60 dark:text-purple-200 border border-purple-200 dark:border-purple-800 hover:bg-purple-200 dark:hover:bg-purple-800 transition-colors"
         >
           🔒 Security
+        </a>
+        <a
+          href="#session-settings"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-rose-100 text-rose-900 dark:bg-rose-950/60 dark:text-rose-200 border border-rose-200 dark:border-rose-900 hover:bg-rose-200 dark:hover:bg-rose-900 transition-colors"
+        >
+          👋 Sign Out
         </a>
       </div>
 
@@ -241,6 +255,42 @@ export default async function KidProfilePage({
               Reset Password
             </Button>
           </Link>
+        </CardContent>
+      </Card>
+
+      {/* 5. SESSION & SIGN OUT */}
+      <Card
+        id="session-settings"
+        className="shadow-xl border-4 border-rose-200/80 dark:border-rose-900/40 bg-white dark:bg-[#12092e] rounded-4xl overflow-hidden transition-colors"
+      >
+        <CardHeader className="bg-gradient-to-r from-rose-50 via-pink-50 to-purple-50 dark:from-[#2a0b18] dark:via-[#1e0a24] dark:to-[#170820] border-b-2 border-rose-100 dark:border-rose-900/40 p-6 sm:p-8 transition-colors">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500 text-white shadow-md shadow-rose-500/30">
+              <LogOut className="h-6 w-6" />
+            </div>
+            <div>
+              <CardTitle className="font-display font-black text-xl sm:text-2xl text-slate-900 dark:text-white">
+                Explorer Session & Sign Out
+              </CardTitle>
+              <CardDescription className="text-slate-600 dark:text-purple-200/80 font-medium text-xs sm:text-sm mt-0.5">
+                Ready to take a break? Safely sign out of your account on this device.
+              </CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+
+        <CardContent className="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <p className="text-sm font-display font-black text-slate-900 dark:text-white">Active Explorer Session</p>
+            <p className="text-xs text-slate-500 dark:text-purple-300/70 font-medium mt-0.5">
+              Signed in as <span className="font-bold text-slate-700 dark:text-purple-200">{accountIdentifier}</span>
+            </p>
+          </div>
+          <SignOutButton
+            variant="destructive"
+            size="default"
+            className="shadow-md font-black text-xs sm:text-sm px-6 py-2.5"
+          />
         </CardContent>
       </Card>
     </div>

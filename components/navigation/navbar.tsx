@@ -5,10 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import {
-  LogOut,
   Shield,
   Compass,
-  Settings,
   Home,
   User as UserIcon,
   BookOpen,
@@ -25,7 +23,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Avatar } from '@/components/ui/avatar';
-import { Dropdown } from '@/components/ui/dropdown';
 import { AuthUser } from '@/types/auth';
 import { ROLES, UserRole } from '@/backend/constants/roles';
 import { cn } from '@/lib/utils';
@@ -210,16 +207,6 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
     },
   ];
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      router.push('/auth/login');
-      router.refresh();
-    } catch (err) {
-      console.error('Logout error:', err);
-    }
-  };
-
   const getRoleBadgeVariant = (role: UserRole) => {
     switch (role) {
       case ROLES.KID:
@@ -236,29 +223,6 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
         return 'default';
     }
   };
-
-  const dropdownItems = [
-    {
-      label: 'My Settings',
-      icon: <Settings className="h-4 w-4 text-purple-600" />,
-      onClick: () =>
-        router.push(
-          user?.role === 'SUPERADMIN'
-            ? '/superadmin/settings'
-            : user?.role === 'ADMIN'
-            ? '/admin/settings'
-            : user?.role === 'KID'
-            ? '/users/kids/profile#settings'
-            : '/users/settings'
-        ),
-    },
-    {
-      label: 'Sign Out',
-      icon: <LogOut className="h-4 w-4 text-rose-600" />,
-      variant: 'destructive' as const,
-      onClick: handleLogout,
-    },
-  ];
 
   return (
     <>
@@ -397,19 +361,6 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
                 <Badge variant={getRoleBadgeVariant(user.role)} className="shadow-sm">
                   {user.role}
                 </Badge>
-
-                <Dropdown
-                  trigger={
-                    <button className="flex items-center gap-2 rounded-full ring-2 ring-emerald-400 p-0.5 focus:outline-none hover:scale-105 transition-transform cursor-pointer">
-                      <Avatar
-                        fallback={user.fullName || user.email}
-                        src={user.avatarUrl}
-                        size="sm"
-                      />
-                    </button>
-                  }
-                  items={dropdownItems}
-                />
               </div>
             ) : (
               <div className="flex items-center gap-3">
@@ -469,20 +420,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
           </div>
 
           <ThemeToggle variant="compact" />
-          {user ? (
-            <Dropdown
-              trigger={
-                <button className="rounded-full ring-2 ring-emerald-400 p-0.5 focus:outline-none cursor-pointer">
-                  <Avatar
-                    fallback={user.fullName || user.email}
-                    src={user.avatarUrl}
-                    size="sm"
-                  />
-                </button>
-              }
-              items={dropdownItems}
-            />
-          ) : (
+          {!user && (
             <Link href="/auth/login">
               <Button variant="magic" size="sm" className="h-8 px-3.5 text-xs font-black">
                 Sign In

@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { redirect } from 'next/navigation';
+import { SignOutButton } from '@/components/auth/sign-out-button';
 
 export default async function TeacherProfilePage() {
   const user = await requireAuth();
@@ -39,6 +40,13 @@ export default async function TeacherProfilePage() {
           { label: 'Classroom HQ', href: '/users/teachers' },
           { label: 'Educator Profile' },
         ]}
+        actions={
+          <SignOutButton
+            variant="destructive"
+            size="sm"
+            className="shadow-sm font-black text-xs px-4"
+          />
+        }
       />
 
       <Card className="shadow-sm">

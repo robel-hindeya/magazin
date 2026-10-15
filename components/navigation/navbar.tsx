@@ -403,19 +403,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
           </div>
 
           <ThemeToggle variant="compact" />
-          {user ? (
-            <Link
-              href="/users/kids/profile"
-              className="flex items-center justify-center h-8 w-8 rounded-full overflow-hidden bg-purple-100 dark:bg-purple-900/60 ring-2 ring-emerald-400 hover:scale-105 transition-transform shrink-0"
-              title="My Profile"
-            >
-              <Avatar
-                fallback={user.fullName || user.email || 'Explorer'}
-                src={user.avatarUrl || '/images/characters/simba.png'}
-                size="sm"
-              />
-            </Link>
-          ) : (
+          {!user && (
             <Link href="/auth/login">
               <Button variant="magic" size="sm" className="h-8 px-3.5 text-xs font-black">
                 Sign In

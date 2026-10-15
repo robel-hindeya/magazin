@@ -8,7 +8,6 @@ import {
   BookOpen,
   Sparkles,
   ArrowRight,
-  Eye,
   Library,
 } from 'lucide-react';
 import {
@@ -186,15 +185,6 @@ export function LatestMagazineHero({
                       />
                     </div>
                   )}
-                </div>
-
-
-                {/* Interactive "CLICK TO READ" Pill - Always clearly visible on mobile touchscreens */}
-                <div className="absolute bottom-3.5 left-1/2 -translate-x-1/2 opacity-95 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 z-30">
-                  <span className="btn-3d btn-3d-yellow flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-display font-black text-slate-950 shadow-2xl whitespace-nowrap scale-95 group-hover:scale-100 transition-transform">
-                    <Eye className="h-3.5 w-3.5" />
-                    TAP TO READ POSTER
-                  </span>
                 </div>
               </div>
             </div>

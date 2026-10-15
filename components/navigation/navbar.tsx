@@ -37,6 +37,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isAdminArea = pathname.startsWith('/admin') || pathname.startsWith('/superadmin');
+  const isLandingPage = pathname === '/' || pathname === '';
 
   // Interactive user points tracking in navbar
   const [points, setPoints] = React.useState<number>(() => {
@@ -330,14 +331,16 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
           <div className="flex items-center gap-3">
             <ThemeToggle variant="icon" />
 
-            {/* Glowing Points in Navbar */}
-            <div
-              className="flex items-center gap-1.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 px-3.5 py-1.5 rounded-full font-display font-black text-xs shadow-md shadow-amber-400/20 border border-yellow-200 animate-in fade-in transition-all hover:scale-105 select-none"
-              title={`${points} Glowing Points`}
-            >
-              <Trophy className="h-3.5 w-3.5 fill-slate-950 text-slate-950" />
-              <span>{points} Points</span>
-            </div>
+            {/* Glowing Points in Navbar (Hidden on Landing Page) */}
+            {!isLandingPage && (
+              <div
+                className="flex items-center gap-1.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 px-3.5 py-1.5 rounded-full font-display font-black text-xs shadow-md shadow-amber-400/20 border border-yellow-200 animate-in fade-in transition-all hover:scale-105 select-none"
+                title={`${points} Glowing Points`}
+              >
+                <Trophy className="h-3.5 w-3.5 fill-slate-950 text-slate-950" />
+                <span>{points} Points</span>
+              </div>
+            )}
 
             {user ? (
               <div className="flex items-center gap-3">
@@ -393,14 +396,16 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
         </Link>
 
         <div className="flex items-center gap-2">
-          {/* Mobile Points Badge */}
-          <div
-            className="flex items-center gap-1 bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 px-2.5 py-1 rounded-full font-display font-black text-xs shadow-sm border border-yellow-200 select-none"
-            title={`${points} Points`}
-          >
-            <Trophy className="h-3 w-3 fill-slate-950 text-slate-950" />
-            <span>{points} pts</span>
-          </div>
+          {/* Mobile Points Badge (Hidden on Landing Page) */}
+          {!isLandingPage && (
+            <div
+              className="flex items-center gap-1 bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 px-2.5 py-1 rounded-full font-display font-black text-xs shadow-sm border border-yellow-200 select-none"
+              title={`${points} Points`}
+            >
+              <Trophy className="h-3 w-3 fill-slate-950 text-slate-950" />
+              <span>{points} pts</span>
+            </div>
+          )}
 
           <ThemeToggle variant="compact" />
           {!user && (

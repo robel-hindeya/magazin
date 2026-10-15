@@ -360,10 +360,12 @@ export function StoryPosters() {
             </div>
 
             {/* Modal Footer Controls */}
-            <div className="p-4 sm:p-5 bg-slate-50 dark:bg-[#180b3a] border-t border-purple-100 dark:border-purple-800/60 flex items-center justify-between shrink-0">
+            <div className="p-3 sm:p-5 bg-slate-50 dark:bg-[#180b3a] border-t border-purple-100 dark:border-purple-800/60 flex items-center justify-between shrink-0 gap-2">
               <button
                 onClick={() => handleToggleLike(selectedStory.id)}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-purple-900/40 border border-slate-200 dark:border-purple-700 text-xs font-bold text-slate-800 dark:text-white shadow-sm hover:scale-105 transition-transform cursor-pointer"
+                className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-white dark:bg-purple-900/40 border border-slate-200 dark:border-purple-700 text-xs font-bold text-slate-800 dark:text-white shadow-sm hover:scale-105 transition-transform cursor-pointer shrink-0"
+                title={hasLiked[selectedStory.id] ? 'Liked!' : 'Like Story'}
+                aria-label="Like Story"
               >
                 <Heart
                   className={cn(
@@ -373,20 +375,21 @@ export function StoryPosters() {
                       : 'text-slate-400'
                   )}
                 />
-                <span>
+                <span className="hidden sm:inline">
                   {hasLiked[selectedStory.id] ? 'Liked!' : 'Like Story'} (
                   {likes[selectedStory.id]})
                 </span>
               </button>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0">
                 <Button
                   onClick={() => handleSwitchStory(selectedStory.id)}
                   variant="outline"
                   size="sm"
-                  className="font-bold text-xs gap-1.5"
+                  className="font-bold text-xs gap-1 sm:gap-1.5 px-3 sm:px-4"
                 >
-                  <span>See Next Story</span>
+                  <span className="hidden sm:inline">See Next Story</span>
+                  <span className="sm:hidden">Next</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Button>
 
@@ -394,9 +397,10 @@ export function StoryPosters() {
                   onClick={handleCloseStory}
                   variant="emerald"
                   size="sm"
-                  className="font-black text-xs px-4"
+                  className="font-black text-xs px-3.5 sm:px-4"
                 >
-                  Done Reading
+                  <span className="hidden sm:inline">Done Reading</span>
+                  <span className="sm:hidden">Done</span>
                 </Button>
               </div>
             </div>

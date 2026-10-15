@@ -352,7 +352,7 @@ export function MagazineCoverSlider({
           {title}
         </h2>
         {subtitle && (
-          <p className={`mt-3 text-base sm:text-xl text-emerald-600 dark:text-emerald-400 font-semibold tracking-wide ${subtitleClassName}`}>
+          <p className={`mt-3 text-base sm:text-xl text-black dark:text-white font-semibold tracking-wide ${subtitleClassName}`}>
             {subtitle}
           </p>
         )}

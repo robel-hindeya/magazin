@@ -67,12 +67,12 @@ export default function HomePage() {
       <section id="story" className="w-full bg-transparent py-24 text-slate-900 dark:text-white relative overflow-hidden transition-colors">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="font-display font-black text-4xl sm:text-5xl leading-tight text-slate-900 dark:text-white">
+            <div className="text-center flex flex-col items-center">
+              <h2 className="font-display font-black text-4xl sm:text-5xl leading-tight text-slate-900 dark:text-white text-center">
                 Classic Animal Tales and Stories
               </h2>
 
-              <div className="mt-8">
+              <div className="mt-8 flex justify-center">
                 <Link href="/auth/register?role=KID">
                   <Button variant="emerald" size="lg" className="font-black text-base bg-emerald-500 hover:bg-emerald-400 text-slate-950">
                     Read the Stories &rarr;
@@ -110,10 +110,12 @@ export default function HomePage() {
                 When hungry predators disguise a trap as a grand wedding celebration, can clever instincts save the guests from becoming the main course?
               </div>
 
-              <div className="mt-6 flex items-center justify-end">
-                <Button variant="emerald" size="sm" className="font-black bg-emerald-500 hover:bg-emerald-400 text-slate-950">
-                  Continue Reading &rarr;
-                </Button>
+              <div className="mt-6 flex items-center justify-center">
+                <Link href="/auth/register?role=KID">
+                  <Button variant="emerald" size="sm" className="font-black bg-emerald-500 hover:bg-emerald-400 text-slate-950">
+                    Continue Reading &rarr;
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

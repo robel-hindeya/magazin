@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {
   Maximize,
@@ -494,13 +495,28 @@ export function FullscreenMagazineReader({
             </div>
           )}
 
-          {/* Loading state */}
+          {/* Loading state with Selam Kids Icon */}
           {(isLoadingPdf || isRenderingPage) && (
-            <div className="sticky top-1/2 -translate-y-1/2 z-30 flex flex-col items-center justify-center bg-slate-950/70 backdrop-blur-xs rounded-3xl p-6 max-w-xs mx-auto space-y-3 shadow-2xl">
-              <Loader2 className="h-10 w-10 text-amber-400 animate-spin" />
-              <p className="font-display font-bold text-xs text-amber-200">
-                {isLoadingPdf ? 'Opening Selam Kids Magazine...' : `Loading Page ${currentPage}...`}
-              </p>
+            <div className="sticky top-1/2 -translate-y-1/2 z-30 flex flex-col items-center justify-center bg-slate-950/85 backdrop-blur-md rounded-3xl p-6 max-w-xs mx-auto space-y-3 shadow-2xl border-2 border-yellow-400/40 select-none animate-in fade-in zoom-in-95">
+              <div className="relative flex items-center justify-center">
+                <div className="absolute -inset-3 rounded-full bg-amber-400/25 blur-lg animate-pulse" />
+                <div className="relative h-16 w-16 animate-bounce duration-1000">
+                  <Image
+                    src="/images/logo.png"
+                    alt="Selam Kids"
+                    fill
+                    sizes="64px"
+                    className="object-contain drop-shadow-[0_8px_16px_rgba(251,191,36,0.4)]"
+                    priority
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Loader2 className="h-4 w-4 text-amber-400 animate-spin shrink-0" />
+                <p className="font-display font-black text-xs text-amber-200">
+                  {isLoadingPdf ? 'Opening Selam Kids Magazine...' : `Loading Page ${currentPage}...`}
+                </p>
+              </div>
             </div>
           )}
 

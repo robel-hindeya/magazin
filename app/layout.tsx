@@ -6,6 +6,7 @@ import { KidService } from '@/backend/services/kid.service';
 import { ROLES } from '@/backend/constants/roles';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { PwaRegister } from '@/components/pwa/pwa-register';
+import { PageReloadIndicator } from '@/components/ui/page-reload-indicator';
 
 export const dynamic = 'force-dynamic';
 
@@ -88,6 +89,7 @@ export default async function RootLayout({
       </head>
       <body className="min-h-screen bg-white dark:bg-[#070314] font-sans antialiased text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
         <ThemeProvider>
+          <PageReloadIndicator />
           <PwaRegister />
           <Navbar user={user} initialPoints={initialPoints} />
           <main className="flex-1 flex flex-col pb-16 lg:pb-0">{children}</main>

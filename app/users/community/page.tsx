@@ -38,6 +38,7 @@ interface CommunityPost {
   content: string;
   category: 'spotlight' | 'tips' | 'prompts' | 'discussion';
   categoryLabel: string;
+  categoryBadgeStyle: string;
   childInfo?: string;
   imageUrl?: string;
   likes: number;
@@ -67,13 +68,14 @@ const INITIAL_POSTS: CommunityPost[] = [
     authorHandle: '@sarah_jenkins',
     authorRole: 'Young Author Family',
     authorInitial: 'S',
-    avatarBg: 'from-purple-500 to-indigo-600',
+    avatarBg: 'from-purple-600 to-indigo-600',
     isVerified: true,
     title: 'Leo published his first 500-word chapter story!',
     content:
       'We wanted to share how proud we are of Leo (age 8)! He used the vocabulary tools in Word Dash to craft an adventure about a starry dragon who rescues lost animals in the Simien Mountains. The glowing points gave him the extra spark to keep revising until it was perfect! 🌟✨ #YoungAuthor #LalibelaSecrets',
     category: 'spotlight',
     categoryLabel: 'Story Spotlight',
+    categoryBadgeStyle: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
     childInfo: 'Child: Leo • Grade 3 Author',
     imageUrl: '/images/characters/simba.png',
     likes: 38,
@@ -98,7 +100,7 @@ const INITIAL_POSTS: CommunityPost[] = [
         id: 'c2',
         author: 'Elena Rostova',
         handle: '@elena_illustrator',
-        avatarBg: 'from-amber-500 to-orange-600',
+        avatarBg: 'from-amber-500 to-yellow-500',
         text: 'The starry dragon concept is brilliant. Would love to see his illustrations next!',
         time: '35m',
         likes: 2,
@@ -111,13 +113,14 @@ const INITIAL_POSTS: CommunityPost[] = [
     authorHandle: '@davidchen_dad',
     authorRole: 'Parent',
     authorInitial: 'D',
-    avatarBg: 'from-cyan-500 to-blue-600',
+    avatarBg: 'from-teal-500 to-emerald-600',
     isVerified: false,
     title: 'Our 20-minute evening family writing routine',
     content:
       'After dinner, we set a 20-minute timer where everyone—parents included—writes or doodles together. Our daughter pairs her writing with Selam Kids Color Studio. It completely removed homework pressure and turned writing into a joyful nightly ritual! 📚☕ #ParentTip #FamilyWriting',
     category: 'tips',
     categoryLabel: 'Parent Tip',
+    categoryBadgeStyle: 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30',
     likes: 54,
     userLiked: true,
     reposts: 14,
@@ -144,13 +147,14 @@ const INITIAL_POSTS: CommunityPost[] = [
     authorHandle: '@coach_marcus',
     authorRole: 'Educator',
     authorInitial: 'M',
-    avatarBg: 'from-emerald-600 to-emerald-800',
+    avatarBg: 'from-emerald-600 to-teal-700',
     isVerified: true,
     title: 'Monthly Creative Challenge: The Creature with Two Shadows',
     content:
       'Here is a fun challenge for this week: "You discover an animal in the Whispering Forest that casts two different colored shadows." Ask your kids what power each shadow has and challenge them to use 3 sensory adjectives! Post your kids\' creations below! 🦁🌳 #WritingPrompt #CreativeKids',
     category: 'prompts',
     categoryLabel: 'Writing Prompt',
+    categoryBadgeStyle: 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30',
     imageUrl: '/images/characters/cloud-guy.png',
     likes: 92,
     userLiked: false,
@@ -165,7 +169,7 @@ const INITIAL_POSTS: CommunityPost[] = [
         id: 'c4',
         author: 'The Patel Family',
         handle: '@patel_explorers',
-        avatarBg: 'from-violet-500 to-purple-700',
+        avatarBg: 'from-indigo-500 to-purple-700',
         text: 'Our son chose a golden mountain owl whose shadow creates starlight at night!',
         time: '18h',
         likes: 12,
@@ -270,7 +274,7 @@ export default function CommunityPage() {
       authorHandle: '@my_family',
       authorRole: 'Young Author Family',
       authorInitial: 'M',
-      avatarBg: 'from-emerald-500 via-teal-500 to-cyan-500',
+      avatarBg: 'from-emerald-500 via-teal-500 to-emerald-600',
       isVerified: true,
       content: tweetText.trim(),
       category: newCategory,
@@ -283,6 +287,14 @@ export default function CommunityPage() {
           : newCategory === 'prompts'
           ? 'Writing Prompt'
           : 'Discussion',
+      categoryBadgeStyle:
+        newCategory === 'spotlight'
+          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
+          : newCategory === 'tips'
+          ? 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30'
+          : newCategory === 'prompts'
+          ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30'
+          : 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border-cyan-500/30',
       likes: 1,
       userLiked: true,
       reposts: 0,
@@ -311,7 +323,7 @@ export default function CommunityPage() {
             id: Date.now().toString(),
             author: 'My Family',
             handle: '@my_family',
-            avatarBg: 'from-emerald-500 via-teal-500 to-cyan-500',
+            avatarBg: 'from-emerald-500 via-teal-500 to-emerald-600',
             text: replyText.trim(),
             time: 'Just now',
             likes: 0,
@@ -343,23 +355,23 @@ export default function CommunityPage() {
   });
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#000000] text-slate-900 dark:text-neutral-100 flex justify-center -mx-4 -my-4 sm:-mx-6 sm:-my-6 lg:-mx-8 lg:-my-8">
+    <div className="min-h-screen bg-slate-50/70 dark:bg-[#070314] text-slate-900 dark:text-slate-100 flex justify-center -mx-4 -my-4 sm:-mx-6 sm:-my-6 lg:-mx-8 lg:-my-8 transition-colors">
       {/* Central Feed Container (Twitter Main Feed + Right Sidebar) */}
       <div className="w-full max-w-6xl flex justify-between">
         
         {/* =========================================================================
-            MAIN TIMELINE (Bordered feed like X/Twitter)
+            MAIN TIMELINE (Bordered feed like X/Twitter in Selam Kids brand style)
             ========================================================================= */}
-        <main className="w-full max-w-2xl min-h-screen border-x border-slate-200 dark:border-neutral-800 pb-20">
+        <main className="w-full max-w-2xl min-h-screen bg-white dark:bg-[#0c0522] border-x border-purple-100 dark:border-purple-900/40 pb-20 shadow-xs">
           
           {/* Sticky Header: Tabs */}
-          <div className="sticky top-0 z-30 bg-white/85 dark:bg-[#000000]/85 backdrop-blur-md border-b border-slate-200 dark:border-neutral-800">
+          <div className="sticky top-0 z-30 bg-white/95 dark:bg-[#0c0522]/95 backdrop-blur-md border-b border-purple-100 dark:border-purple-900/40">
             <div className="flex items-center justify-between px-4 py-3">
               <div className="flex items-center gap-2">
-                <span className="font-display font-black text-xl text-slate-900 dark:text-white">
-                  Family Connect
+                <span className="font-display font-black text-xl text-slate-900 dark:text-white tracking-wide">
+                  Family <span className="text-emerald-500 dark:text-emerald-400">Connect</span>
                 </span>
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 shadow-xs">
                   X Feed
                 </span>
               </div>
@@ -367,14 +379,14 @@ export default function CommunityPage() {
                 type="button"
                 onClick={() => setShowCategoryPicker(!showCategoryPicker)}
                 title="Filter Topics"
-                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors text-slate-500 dark:text-neutral-400"
+                className="p-2 rounded-full hover:bg-purple-50 dark:hover:bg-purple-900/40 transition-colors text-slate-600 dark:text-purple-300"
               >
                 <SlidersHorizontal className="h-4 w-4" />
               </button>
             </div>
 
             {/* Twitter-style Navigation Tabs with Bottom Underline Indicator */}
-            <div className="flex items-center overflow-x-auto no-scrollbar border-t border-slate-100 dark:border-neutral-800/80">
+            <div className="flex items-center overflow-x-auto no-scrollbar border-t border-purple-100/70 dark:border-purple-900/30">
               {[
                 { id: 'for-you', label: 'For you' },
                 { id: 'spotlight', label: 'Story Spotlight' },
@@ -387,19 +399,19 @@ export default function CommunityPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as any)}
-                    className="relative flex-1 min-w-[100px] py-3.5 px-3 text-center text-xs sm:text-sm font-bold transition-colors hover:bg-slate-50 dark:hover:bg-neutral-900/40 cursor-pointer whitespace-nowrap"
+                    className="relative flex-1 min-w-[100px] py-3.5 px-3 text-center text-xs sm:text-sm font-bold transition-colors hover:bg-purple-50/50 dark:hover:bg-purple-900/20 cursor-pointer whitespace-nowrap"
                   >
                     <span
                       className={
                         isActive
                           ? 'font-black text-slate-950 dark:text-white'
-                          : 'text-slate-500 dark:text-neutral-400 font-semibold'
+                          : 'text-slate-500 dark:text-purple-300/70 hover:text-emerald-600 dark:hover:text-emerald-400 font-semibold'
                       }
                     >
                       {tab.label}
                     </span>
                     {isActive && (
-                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-1 rounded-full bg-emerald-500" />
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-1 rounded-full bg-emerald-500 shadow-[0_2px_10px_rgba(16,185,129,0.5)]" />
                     )}
                   </button>
                 );
@@ -410,9 +422,9 @@ export default function CommunityPage() {
           {/* =======================================================================
               TWEET COMPOSER ("What is happening?!")
               ======================================================================= */}
-          <div className="p-4 border-b border-slate-200 dark:border-neutral-800 flex gap-3">
-            {/* User Avatar */}
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center font-black text-slate-950 shrink-0 text-sm shadow-sm select-none">
+          <div className="p-4 border-b border-purple-100 dark:border-purple-900/40 flex gap-3">
+            {/* User Avatar with Selam Kids Brand Ring */}
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 via-teal-500 to-emerald-600 ring-2 ring-emerald-300 dark:ring-emerald-700/60 shadow-md shadow-emerald-500/20 flex items-center justify-center font-black text-slate-950 shrink-0 text-sm select-none">
               M
             </div>
 
@@ -423,9 +435,9 @@ export default function CommunityPage() {
                 <button
                   type="button"
                   onClick={() => setShowCategoryPicker(!showCategoryPicker)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-600 dark:text-emerald-400 border border-slate-200 dark:border-neutral-700 hover:bg-emerald-500/10 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors shadow-xs"
                 >
-                  <Globe className="h-3 w-3" />
+                  <Globe className="h-3 w-3 text-emerald-500" />
                   <span>
                     {newCategory === 'spotlight'
                       ? 'Story Spotlight'
@@ -440,7 +452,7 @@ export default function CommunityPage() {
 
               {/* Category selector dropdown if toggled */}
               {showCategoryPicker && (
-                <div className="mb-3 flex flex-wrap gap-1.5 p-2 rounded-2xl bg-slate-50 dark:bg-neutral-900/60 border border-slate-200 dark:border-neutral-800 animate-in fade-in">
+                <div className="mb-3 flex flex-wrap gap-1.5 p-2 rounded-2xl bg-purple-50/70 dark:bg-[#13092e] border border-purple-200/80 dark:border-purple-800/60 animate-in fade-in">
                   {[
                     { id: 'spotlight', label: '🌟 Story Spotlight' },
                     { id: 'tips', label: '💡 Parent Tip' },
@@ -456,8 +468,8 @@ export default function CommunityPage() {
                       }}
                       className={`text-xs px-2.5 py-1 rounded-full font-bold transition-all ${
                         newCategory === cat.id
-                          ? 'bg-emerald-500 text-slate-950 font-black'
-                          : 'bg-white dark:bg-neutral-800 text-slate-600 dark:text-neutral-300 border border-slate-200 dark:border-neutral-700'
+                          ? 'bg-emerald-500 text-slate-950 font-black shadow-xs'
+                          : 'bg-white dark:bg-purple-950/80 text-slate-700 dark:text-purple-200 border border-purple-200 dark:border-purple-800/50'
                       }`}
                     >
                       {cat.label}
@@ -472,12 +484,12 @@ export default function CommunityPage() {
                 onChange={(e) => setTweetText(e.target.value)}
                 placeholder="What is happening in your family's writing adventure?!"
                 rows={2}
-                className="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-neutral-500 text-base sm:text-lg focus:outline-none resize-none font-medium leading-relaxed"
+                className="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-300/50 text-base sm:text-lg focus:outline-none resize-none font-medium leading-relaxed"
               />
 
               {/* Attached Image Preview */}
               {imagePreview && (
-                <div className="relative mt-2 mb-3 rounded-2xl overflow-hidden border border-slate-200 dark:border-neutral-800 max-h-72">
+                <div className="relative mt-2 mb-3 rounded-2xl overflow-hidden border border-purple-200 dark:border-purple-800/60 max-h-72 shadow-sm">
                   <img
                     src={imagePreview}
                     alt="Upload preview"
@@ -489,7 +501,7 @@ export default function CommunityPage() {
                       setImagePreview(null);
                       if (fileInputRef.current) fileInputRef.current.value = '';
                     }}
-                    className="absolute top-2 right-2 p-1.5 rounded-full bg-slate-900/80 text-white hover:bg-slate-900 transition-colors"
+                    className="absolute top-2 right-2 p-1.5 rounded-full bg-slate-950/80 text-white hover:bg-slate-900 transition-colors shadow-md"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -497,7 +509,7 @@ export default function CommunityPage() {
               )}
 
               {/* Toolbar & Post Button */}
-              <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-neutral-800">
+              <div className="flex items-center justify-between pt-3 border-t border-purple-100/80 dark:border-purple-900/30">
                 <div className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400">
                   <input
                     ref={fileInputRef}
@@ -510,7 +522,7 @@ export default function CommunityPage() {
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     title="Media / Image"
-                    className="p-2 rounded-full hover:bg-emerald-500/10 transition-colors cursor-pointer"
+                    className="p-2 rounded-full hover:bg-emerald-50 dark:hover:bg-purple-900/40 transition-colors cursor-pointer"
                   >
                     <ImagePlus className="h-5 w-5" />
                   </button>
@@ -518,7 +530,7 @@ export default function CommunityPage() {
                     type="button"
                     onClick={() => setTweetText((prev) => prev + ' 🌟')}
                     title="Emoji"
-                    className="p-2 rounded-full hover:bg-emerald-500/10 transition-colors cursor-pointer"
+                    className="p-2 rounded-full hover:bg-emerald-50 dark:hover:bg-purple-900/40 transition-colors cursor-pointer"
                   >
                     <Smile className="h-5 w-5" />
                   </button>
@@ -526,7 +538,7 @@ export default function CommunityPage() {
                     type="button"
                     onClick={() => setTweetText((prev) => prev + ' #LalibelaSecrets ')}
                     title="Add Hashtag"
-                    className="p-2 rounded-full hover:bg-emerald-500/10 transition-colors cursor-pointer"
+                    className="p-2 rounded-full hover:bg-emerald-50 dark:hover:bg-purple-900/40 transition-colors cursor-pointer"
                   >
                     <Sparkles className="h-5 w-5" />
                   </button>
@@ -534,7 +546,7 @@ export default function CommunityPage() {
 
                 <div className="flex items-center gap-3">
                   {tweetText.length > 0 && (
-                    <span className="text-xs text-slate-400 dark:text-neutral-500 font-mono">
+                    <span className="text-xs text-slate-400 dark:text-purple-300/60 font-mono">
                       {280 - tweetText.length}
                     </span>
                   )}
@@ -542,10 +554,10 @@ export default function CommunityPage() {
                     type="button"
                     disabled={!tweetText.trim() && !imagePreview}
                     onClick={() => handleCreateTweet()}
-                    className={`rounded-full px-5 py-2 font-display font-black text-xs sm:text-sm transition-all active:scale-95 shadow-sm ${
+                    className={`btn-3d rounded-full px-5 py-2 font-display font-black text-xs sm:text-sm transition-all active:scale-95 shadow-md ${
                       tweetText.trim() || imagePreview
-                        ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 cursor-pointer'
-                        : 'bg-emerald-500/40 text-slate-950/50 cursor-not-allowed'
+                        ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 border border-emerald-300 shadow-emerald-500/25 cursor-pointer'
+                        : 'bg-emerald-500/30 text-slate-950/40 border border-emerald-500/20 cursor-not-allowed'
                     }`}
                   >
                     Post
@@ -560,7 +572,7 @@ export default function CommunityPage() {
               ======================================================================= */}
           <div>
             {filteredPosts.length === 0 ? (
-              <div className="p-12 text-center text-slate-400 dark:text-neutral-500">
+              <div className="p-12 text-center text-slate-400 dark:text-purple-300/50">
                 <p className="font-display font-bold text-base mb-1">No posts found</p>
                 <p className="text-xs">Be the first to share a post in this category!</p>
               </div>
@@ -568,12 +580,12 @@ export default function CommunityPage() {
               filteredPosts.map((post) => (
                 <article
                   key={post.id}
-                  className="p-4 sm:p-5 border-b border-slate-100 dark:border-neutral-800/80 hover:bg-slate-50/70 dark:hover:bg-neutral-950/60 transition-colors cursor-pointer"
+                  className="p-4 sm:p-5 border-b border-purple-100/80 dark:border-purple-900/40 hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors cursor-pointer"
                 >
                   <div className="flex gap-3">
-                    {/* Author Avatar */}
+                    {/* Author Avatar with gradient */}
                     <div
-                      className={`w-10 h-10 rounded-full bg-gradient-to-tr ${post.avatarBg} flex items-center justify-center font-black text-white shrink-0 text-sm shadow-sm select-none`}
+                      className={`w-10 h-10 rounded-full bg-gradient-to-tr ${post.avatarBg} shadow-sm flex items-center justify-center font-black text-white shrink-0 text-sm select-none`}
                     >
                       {post.authorInitial}
                     </div>
@@ -591,18 +603,18 @@ export default function CommunityPage() {
                             <CheckCircle2 className="h-4 w-4 text-emerald-500 fill-emerald-500 text-white shrink-0" />
                           )}
 
-                          <span className="text-xs text-slate-500 dark:text-neutral-500 truncate">
+                          <span className="text-xs text-slate-500 dark:text-purple-300/70 truncate">
                             {post.authorHandle}
                           </span>
 
-                          <span className="text-xs text-slate-400 dark:text-neutral-600">·</span>
+                          <span className="text-xs text-slate-400 dark:text-purple-400/50">·</span>
 
-                          <span className="text-xs text-slate-500 dark:text-neutral-500 shrink-0">
+                          <span className="text-xs text-slate-500 dark:text-purple-300/70 shrink-0">
                             {post.timeAgo}
                           </span>
 
-                          {/* Category Badge */}
-                          <span className="ml-1 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-neutral-800 text-slate-600 dark:text-neutral-300 border border-slate-200 dark:border-neutral-700/60">
+                          {/* Category Badge with brand styling */}
+                          <span className={`ml-1 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${post.categoryBadgeStyle}`}>
                             {post.categoryLabel}
                           </span>
                         </div>
@@ -617,20 +629,20 @@ export default function CommunityPage() {
 
                       {/* Milestone Badge if present */}
                       {post.childInfo && (
-                        <div className="mt-1.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold border border-amber-500/20">
-                          <Award className="h-3.5 w-3.5 shrink-0" />
+                        <div className="mt-1.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-amber-400/15 text-amber-800 dark:text-amber-300 text-xs font-bold border border-amber-400/30">
+                          <Award className="h-3.5 w-3.5 text-amber-500 shrink-0" />
                           <span>{post.childInfo}</span>
                         </div>
                       )}
 
                       {/* Tweet Content */}
-                      <p className="mt-2 text-sm text-slate-800 dark:text-neutral-200 leading-relaxed font-normal whitespace-pre-line">
+                      <p className="mt-2 text-sm text-slate-800 dark:text-purple-100 leading-relaxed font-normal whitespace-pre-line">
                         {post.content}
                       </p>
 
-                      {/* Attached Media / Image in Twitter rounded frame */}
+                      {/* Attached Media / Image in Selam Kids rounded frame */}
                       {post.imageUrl && (
-                        <div className="mt-3 rounded-2xl overflow-hidden border border-slate-200 dark:border-neutral-800 bg-slate-100 dark:bg-neutral-900 max-h-[380px]">
+                        <div className="mt-3 rounded-2xl overflow-hidden border border-purple-200 dark:border-purple-800/60 bg-slate-50 dark:bg-purple-950/30 max-h-[380px] shadow-sm">
                           <img
                             src={post.imageUrl}
                             alt={post.title || 'Attached artwork'}
@@ -641,7 +653,7 @@ export default function CommunityPage() {
                       )}
 
                       {/* Twitter Action Bar: Reply, Repost, Like, Views, Bookmark, Share */}
-                      <div className="flex items-center justify-between mt-3 pt-1 text-slate-500 dark:text-neutral-500 max-w-md">
+                      <div className="flex items-center justify-between mt-3 pt-1 text-slate-500 dark:text-purple-300/70 max-w-md">
                         {/* Reply */}
                         <button
                           type="button"
@@ -651,9 +663,9 @@ export default function CommunityPage() {
                               activeReplyPostId === post.id ? null : post.id
                             );
                           }}
-                          className="group flex items-center gap-1.5 hover:text-sky-500 transition-colors cursor-pointer text-xs"
+                          className="group flex items-center gap-1.5 hover:text-emerald-500 transition-colors cursor-pointer text-xs"
                         >
-                          <span className="p-2 rounded-full group-hover:bg-sky-500/10 transition-colors">
+                          <span className="p-2 rounded-full group-hover:bg-emerald-500/10 transition-colors">
                             <MessageCircle className="h-4 w-4" />
                           </span>
                           <span>{post.commentsCount > 0 ? post.commentsCount : ''}</span>
@@ -702,7 +714,7 @@ export default function CommunityPage() {
                         </button>
 
                         {/* Views */}
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-neutral-600">
+                        <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-purple-400/50">
                           <span className="p-2">
                             <BarChart2 className="h-4 w-4" />
                           </span>
@@ -719,13 +731,13 @@ export default function CommunityPage() {
                             }}
                             className={`p-2 rounded-full transition-colors cursor-pointer ${
                               post.bookmarked
-                                ? 'text-sky-500'
-                                : 'hover:text-sky-500 hover:bg-sky-500/10'
+                                ? 'text-amber-500'
+                                : 'hover:text-amber-500 hover:bg-amber-500/10'
                             }`}
                           >
                             <Bookmark
                               className={`h-4 w-4 ${
-                                post.bookmarked ? 'fill-sky-500' : ''
+                                post.bookmarked ? 'fill-amber-500' : ''
                               }`}
                             />
                           </button>
@@ -741,7 +753,7 @@ export default function CommunityPage() {
                                 });
                               }
                             }}
-                            className="p-2 rounded-full hover:text-sky-500 hover:bg-sky-500/10 transition-colors cursor-pointer"
+                            className="p-2 rounded-full hover:text-emerald-500 hover:bg-emerald-500/10 transition-colors cursor-pointer"
                           >
                             <Share className="h-4 w-4" />
                           </button>
@@ -752,7 +764,7 @@ export default function CommunityPage() {
                           THREAD REPLIES SECTION (Twitter Thread layout)
                           ============================================================= */}
                       {activeReplyPostId === post.id && (
-                        <div className="mt-4 pt-3 border-t border-slate-100 dark:border-neutral-800 space-y-3 animate-in fade-in duration-150">
+                        <div className="mt-4 pt-3 border-t border-purple-100 dark:border-purple-900/40 space-y-3 animate-in fade-in duration-150">
                           {/* Existing Replies */}
                           {post.comments.map((comment) => (
                             <div key={comment.id} className="flex gap-2.5 pt-1">
@@ -761,22 +773,22 @@ export default function CommunityPage() {
                               >
                                 {comment.author.charAt(0)}
                               </div>
-                              <div className="flex-1 min-w-0 bg-slate-50 dark:bg-neutral-900/60 rounded-2xl p-3 border border-slate-100 dark:border-neutral-800">
+                              <div className="flex-1 min-w-0 bg-purple-50/50 dark:bg-purple-950/40 rounded-2xl p-3 border border-purple-100 dark:border-purple-900/40">
                                 <div className="flex items-center justify-between text-xs mb-1">
                                   <div className="flex items-center gap-1.5">
                                     <span className="font-bold text-slate-900 dark:text-white">
                                       {comment.author}
                                     </span>
-                                    <span className="text-slate-400 dark:text-neutral-500">
+                                    <span className="text-slate-400 dark:text-purple-300/60">
                                       {comment.handle}
                                     </span>
-                                    <span className="text-slate-400 dark:text-neutral-600">·</span>
-                                    <span className="text-slate-400 dark:text-neutral-500">
+                                    <span className="text-slate-400 dark:text-purple-400/50">·</span>
+                                    <span className="text-slate-400 dark:text-purple-300/60">
                                       {comment.time}
                                     </span>
                                   </div>
                                 </div>
-                                <p className="text-xs text-slate-700 dark:text-neutral-300 leading-relaxed font-normal">
+                                <p className="text-xs text-slate-700 dark:text-purple-200 leading-relaxed font-normal">
                                   {comment.text}
                                 </p>
                               </div>
@@ -785,7 +797,7 @@ export default function CommunityPage() {
 
                           {/* Reply Input Form */}
                           <div className="flex items-center gap-2 pt-2">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center font-black text-slate-950 shrink-0 text-xs">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center font-black text-slate-950 shrink-0 text-xs">
                               M
                             </div>
                             <input
@@ -796,13 +808,13 @@ export default function CommunityPage() {
                                 if (e.key === 'Enter') handleAddReply(post.id);
                               }}
                               placeholder="Post your reply..."
-                              className="flex-1 rounded-full bg-slate-100 dark:bg-neutral-900 border border-transparent focus:border-emerald-500 px-4 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none"
+                              className="flex-1 rounded-full bg-slate-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/60 focus:border-emerald-500 px-4 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-300/50 focus:outline-none"
                             />
                             <button
                               type="button"
                               onClick={() => handleAddReply(post.id)}
                               disabled={!replyText.trim()}
-                              className="rounded-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-slate-950 font-black text-xs px-4 py-2 transition-all"
+                              className="btn-3d rounded-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-slate-950 font-black text-xs px-4 py-2 transition-all border border-emerald-300"
                             >
                               Reply
                             </button>
@@ -818,13 +830,13 @@ export default function CommunityPage() {
         </main>
 
         {/* =========================================================================
-            RIGHT SIDEBAR (Twitter Widgets: Search, What's happening, Who to follow)
+            RIGHT SIDEBAR (Twitter Widgets styled in Selam Kids Brand Palette)
             ========================================================================= */}
         <aside className="hidden lg:block w-80 shrink-0 space-y-4 pl-6 pt-3 sticky top-4 self-start">
           
-          {/* Pill Search Input */}
+          {/* Pill Search Input with Brand Focus */}
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-neutral-500">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 dark:text-purple-400">
               <Search className="h-4 w-4" />
             </div>
             <input
@@ -832,28 +844,31 @@ export default function CommunityPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search Family Connect"
-              className="w-full rounded-full bg-slate-100 dark:bg-neutral-900 border border-transparent focus:border-emerald-500 focus:bg-white dark:focus:bg-black pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-neutral-500 focus:outline-none transition-all"
+              className="w-full rounded-full bg-purple-50/70 dark:bg-purple-950/50 border border-purple-200/60 dark:border-purple-800/60 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#0c0522] pl-10 pr-4 py-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-300/50 focus:outline-none transition-all shadow-xs"
             />
           </div>
 
-          {/* Subscribe to Premium Card */}
-          <div className="rounded-2xl border border-slate-200 dark:border-neutral-800 bg-slate-50/50 dark:bg-neutral-900/40 p-4 space-y-2">
-            <h3 className="font-display font-black text-sm text-slate-900 dark:text-white">
-              Young Author Club
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-neutral-400 leading-relaxed font-normal">
-              Unlock Ethiopian audio narration, exclusive magazine badges, and printable worksheets!
+          {/* Subscribe to Premium Card in Selam Kids Gold / Emerald Brand Colors */}
+          <div className="rounded-2xl border border-amber-300/70 dark:border-amber-400/30 bg-gradient-to-br from-amber-50/80 via-white to-amber-50/40 dark:from-purple-950/60 dark:via-[#140c36] dark:to-purple-950/40 p-4 space-y-2 shadow-sm">
+            <div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400">
+              <Sparkles className="h-4 w-4" />
+              <h3 className="font-display font-black text-sm text-slate-900 dark:text-white">
+                Young Author Club
+              </h3>
+            </div>
+            <p className="text-xs text-slate-600 dark:text-purple-200/80 leading-relaxed font-normal">
+              Unlock Ethiopian audio narration, exclusive magazine badges, and printable creative worksheets!
             </p>
             <button
               type="button"
-              className="rounded-full bg-slate-950 hover:bg-slate-800 dark:bg-white dark:hover:bg-neutral-200 text-white dark:text-slate-950 font-black text-xs px-4 py-2 transition-all cursor-pointer shadow-sm"
+              className="btn-3d rounded-full bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:from-amber-300 hover:to-yellow-200 text-slate-950 font-display font-black text-xs px-4 py-2 transition-all cursor-pointer shadow-md shadow-amber-400/20 border border-yellow-200"
             >
               Subscribe
             </button>
           </div>
 
-          {/* What's Happening (Trends Widget) */}
-          <div className="rounded-2xl border border-slate-200 dark:border-neutral-800 bg-slate-50/50 dark:bg-neutral-900/40 p-4 space-y-3">
+          {/* What's Happening (Trends Widget in Brand Purple / Emerald) */}
+          <div className="rounded-2xl border border-purple-100 dark:border-purple-900/40 bg-white dark:bg-[#12082e]/80 p-4 space-y-3 shadow-xs">
             <div className="flex items-center justify-between">
               <h3 className="font-display font-black text-sm text-slate-900 dark:text-white">
                 What&apos;s happening
@@ -873,13 +888,13 @@ export default function CommunityPage() {
                   onClick={() => setSearchQuery(trend.topic)}
                   className="cursor-pointer group block"
                 >
-                  <p className="text-[11px] text-slate-400 dark:text-neutral-500">
+                  <p className="text-[11px] text-purple-600/70 dark:text-purple-300/60 font-semibold">
                     {trend.category}
                   </p>
-                  <p className="font-bold text-slate-900 dark:text-neutral-100 group-hover:underline">
+                  <p className="font-bold text-slate-900 dark:text-purple-100 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors">
                     {trend.topic}
                   </p>
-                  <p className="text-[10px] text-slate-400 dark:text-neutral-500">
+                  <p className="text-[10px] text-slate-400 dark:text-purple-400/50">
                     {trend.posts}
                   </p>
                 </div>
@@ -887,8 +902,8 @@ export default function CommunityPage() {
             </div>
           </div>
 
-          {/* Who to follow Widget */}
-          <div className="rounded-2xl border border-slate-200 dark:border-neutral-800 bg-slate-50/50 dark:bg-neutral-900/40 p-4 space-y-3">
+          {/* Who to follow Widget in Brand Palette */}
+          <div className="rounded-2xl border border-purple-100 dark:border-purple-900/40 bg-white dark:bg-[#12082e]/80 p-4 space-y-3 shadow-xs">
             <h3 className="font-display font-black text-sm text-slate-900 dark:text-white">
               Who to follow
             </h3>
@@ -900,14 +915,14 @@ export default function CommunityPage() {
                   handle: '@coach_marcus',
                   role: 'Educator',
                   initial: 'M',
-                  bg: 'from-emerald-600 to-emerald-800',
+                  bg: 'from-emerald-600 to-teal-700',
                 },
                 {
                   name: 'Elena Rostova',
                   handle: '@elena_illustrator',
                   role: 'Children’s Illustrator',
                   initial: 'E',
-                  bg: 'from-amber-500 to-orange-600',
+                  bg: 'from-amber-500 to-yellow-600',
                 },
                 {
                   name: 'Selam Creators',
@@ -922,15 +937,15 @@ export default function CommunityPage() {
                   <div key={user.handle} className="flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2 min-w-0">
                       <div
-                        className={`w-9 h-9 rounded-full bg-gradient-to-tr ${user.bg} flex items-center justify-center font-bold text-white shrink-0 text-xs`}
+                        className={`w-9 h-9 rounded-full bg-gradient-to-tr ${user.bg} shadow-sm flex items-center justify-center font-bold text-white shrink-0 text-xs`}
                       >
                         {user.initial}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-bold text-slate-900 dark:text-white truncate hover:underline cursor-pointer">
+                        <p className="font-bold text-slate-900 dark:text-white truncate hover:underline hover:text-emerald-600 dark:hover:text-emerald-400 cursor-pointer transition-colors">
                           {user.name}
                         </p>
-                        <p className="text-[11px] text-slate-400 dark:text-neutral-500 truncate">
+                        <p className="text-[11px] text-slate-400 dark:text-purple-300/60 truncate">
                           {user.handle}
                         </p>
                       </div>
@@ -939,10 +954,10 @@ export default function CommunityPage() {
                     <button
                       type="button"
                       onClick={() => toggleFollow(user.handle)}
-                      className={`rounded-full px-3.5 py-1 text-xs font-bold transition-all cursor-pointer ${
+                      className={`btn-3d rounded-full px-3.5 py-1 text-xs font-bold transition-all cursor-pointer ${
                         isFollowed
-                          ? 'border border-slate-300 dark:border-neutral-700 text-slate-700 dark:text-neutral-300 hover:border-rose-500 hover:text-rose-500'
-                          : 'bg-slate-950 dark:bg-white text-white dark:text-slate-950 hover:bg-slate-800 dark:hover:bg-neutral-200'
+                          ? 'border border-purple-200 dark:border-purple-700/80 bg-purple-50/50 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 hover:border-rose-400 hover:text-rose-500'
+                          : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black border border-emerald-300 shadow-sm'
                       }`}
                     >
                       {isFollowed ? 'Following' : 'Follow'}
@@ -954,7 +969,7 @@ export default function CommunityPage() {
           </div>
 
           {/* Footer Terms */}
-          <div className="px-2 text-[11px] text-slate-400 dark:text-neutral-600 space-y-1">
+          <div className="px-2 text-[11px] text-slate-400 dark:text-purple-400/60 space-y-1">
             <div className="flex flex-wrap gap-x-2 gap-y-0.5">
               <span className="hover:underline cursor-pointer">Terms of Service</span>
               <span className="hover:underline cursor-pointer">Privacy Policy</span>

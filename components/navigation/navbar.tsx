@@ -145,9 +145,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
     pathname.startsWith('/users/kids/daily') ||
     pathname.startsWith('/users/community');
 
-  // Complete roster of apps in the Selam Super App Launcher:
-  // Row 1: Magazine, Story, Family Connect
-  // Row 2: Daily Writing, Melody World, Games
+  // Complete roster of apps & features in the Super App Launcher
   const superApps = [
     {
       id: 'magazines',
@@ -162,7 +160,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
     {
       id: 'story',
       title: 'Story',
-      desc: 'Write For Next Magazine',
+      desc: 'Write For Next Issue',
       href: user ? '/users/kids#story-editor-section' : '/#story',
       icon: Sparkles,
       iconBg: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30',
@@ -170,10 +168,10 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
       badgeBg: 'bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300',
     },
     {
-      id: 'family-connect',
-      title: 'Family Connect',
-      desc: 'Young Authors & Parents',
-      href: user ? '/users/community' : '/#community',
+      id: 'community',
+      title: 'Community',
+      desc: 'Young Authors Club',
+      href: '/users/community',
       icon: Users,
       iconBg: 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30',
       badge: 'Club',
@@ -183,7 +181,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
       id: 'daily',
       title: 'Daily Writing',
       desc: 'Daily Writing Quests',
-      href: user ? '/users/kids/daily' : '/auth/login',
+      href: '/users/kids/daily',
       icon: Flame,
       iconBg: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30',
       badge: 'Daily',
@@ -198,6 +196,16 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
       iconBg: 'bg-pink-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30',
       badge: 'Audio',
       badgeBg: 'bg-pink-100 dark:bg-pink-950/70 text-pink-700 dark:text-pink-300',
+    },
+    {
+      id: 'family',
+      title: 'Family Connect',
+      desc: 'Parent Gate & Hub',
+      href: '/users/families',
+      icon: Shield,
+      iconBg: 'bg-teal-500/15 text-teal-600 dark:text-teal-400 border border-teal-500/30',
+      badge: 'Parents',
+      badgeBg: 'bg-teal-100 dark:bg-teal-950/70 text-teal-700 dark:text-teal-300',
     },
     {
       id: 'games',
@@ -631,12 +639,15 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
             {/* Super App Grid */}
             <div className="p-4 sm:p-5 overflow-y-auto space-y-4">
               <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
-                {superApps.map((app) => (
+                {superApps.map((app, index) => (
                   <Link
                     key={app.id}
                     href={app.href}
                     onClick={() => setIsSuperAppOpen(false)}
-                    className="flex flex-col items-center text-center p-2.5 sm:p-3 rounded-2xl bg-slate-50 dark:bg-[#1a1040]/70 hover:bg-emerald-50/70 dark:hover:bg-purple-900/40 border border-slate-200/70 dark:border-purple-800/50 active:scale-95 transition-all group relative overflow-hidden"
+                    className={cn(
+                      'flex flex-col items-center text-center p-2.5 sm:p-3 rounded-2xl bg-slate-50 dark:bg-[#1a1040]/70 hover:bg-emerald-50/70 dark:hover:bg-purple-900/40 border border-slate-200/70 dark:border-purple-800/50 active:scale-95 transition-all group relative overflow-hidden',
+                      index === 6 && 'col-start-2'
+                    )}
                   >
                     <div
                       className={cn(

@@ -476,7 +476,7 @@ export function FullscreenMagazineReader({
         {/* Central Display Area: ONE PAGE ALONE, SCROLL UP AND DOWN, NEVER CROPPED */}
         <div
           ref={scrollContainerRef}
-          className="relative z-10 flex-1 w-full overflow-y-auto overflow-x-hidden my-auto p-2 sm:p-4 min-h-[60vh] max-h-[78vh] sm:max-h-[82vh]"
+          className="relative z-10 flex-1 w-full overflow-y-auto overflow-x-hidden no-scrollbar [scrollbar-width:none] [&::-webkit-scrollbar]:hidden my-auto p-2 sm:p-4 min-h-[60vh] max-h-[78vh] sm:max-h-[82vh]"
         >
           {loadError && (
             <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-slate-950/80 rounded-3xl p-6 text-center space-y-3">

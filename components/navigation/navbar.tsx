@@ -680,28 +680,20 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
               {/* Bottom Quick Bar inside Drawer */}
               <div className="pt-2 border-t border-slate-100 dark:border-purple-900/40">
                 {user ? (
-                  <div className="flex items-center justify-between p-3 rounded-2xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/60 dark:border-purple-900/50">
-                    <div className="flex items-center gap-2.5">
-                      <Avatar
-                        fallback={user.fullName || user.email}
-                        src={user.avatarUrl}
-                        size="sm"
-                      />
-                      <div>
-                        <div className="text-xs font-black text-slate-900 dark:text-white">
-                          {user.fullName || user.email}
-                        </div>
-                        <div className="text-[10px] text-purple-600 dark:text-purple-300 font-bold uppercase tracking-wider">
-                          {user.role} Explorer
-                        </div>
+                  <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/60 dark:border-purple-900/50">
+                    <Avatar
+                      fallback={user.fullName || user.email}
+                      src={user.avatarUrl}
+                      size="sm"
+                    />
+                    <div>
+                      <div className="text-xs font-black text-slate-900 dark:text-white">
+                        {user.fullName || user.email}
+                      </div>
+                      <div className="text-[10px] text-purple-600 dark:text-purple-300 font-bold uppercase tracking-wider">
+                        {user.role} Explorer
                       </div>
                     </div>
-                    <button
-                      onClick={handleLogout}
-                      className="px-3 py-1.5 text-xs font-black text-rose-600 hover:bg-rose-100 dark:hover:bg-rose-950/50 rounded-xl transition-colors cursor-pointer"
-                    >
-                      Sign Out
-                    </button>
                   </div>
                 ) : (
                   <div className="grid grid-cols-2 gap-2">

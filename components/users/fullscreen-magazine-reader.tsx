@@ -372,39 +372,40 @@ export function FullscreenMagazineReader({
       {/* =========================================================================
           TOP ACTION BAR: Breadcrumbs, Title, 100% Size Controls & Fullscreen
           ========================================================================= */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-gradient-to-r dark:from-purple-950 dark:via-[#1c0e44] dark:to-purple-950 p-3 sm:p-4 rounded-3xl border-2 border-slate-200 dark:border-purple-700/60 shadow-sm dark:shadow-xl text-slate-900 dark:text-white transition-colors">
-        {/* Left: Back / Lock Status */}
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between gap-2 sm:gap-3 bg-white dark:bg-gradient-to-r dark:from-purple-950 dark:via-[#1c0e44] dark:to-purple-950 p-2.5 sm:p-4 rounded-2xl sm:rounded-3xl border-2 border-slate-200 dark:border-purple-700/60 shadow-sm dark:shadow-xl text-slate-900 dark:text-white transition-colors">
+        {/* Left: Back / Lock Status + Title */}
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
           {!isFullscreen ? (
             <Link
               href="/users/kids"
-              className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-white bg-emerald-50 dark:bg-purple-900/80 hover:bg-emerald-100 px-3.5 py-2 rounded-2xl border border-emerald-200 dark:border-purple-700 transition-all"
+              className="shrink-0 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-white bg-emerald-50 dark:bg-purple-900/80 hover:bg-emerald-100 p-2 sm:px-3.5 sm:py-2 rounded-xl sm:rounded-2xl border border-emerald-200 dark:border-purple-700 transition-all"
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="hidden sm:inline">Back to Magazines</span>
             </Link>
           ) : (
-            <div className="flex items-center gap-2 bg-amber-400 text-slate-950 px-3 py-1.5 rounded-full text-xs font-black shadow-md">
+            <div className="shrink-0 flex items-center gap-1.5 sm:gap-2 bg-amber-400 text-slate-950 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-black shadow-md">
               <Lock className="h-3.5 w-3.5" />
-              <span>FULLSCREEN LOCKED (Code: {secretPasscode})</span>
+              <span className="hidden sm:inline">FULLSCREEN LOCKED (Code: {secretPasscode})</span>
+              <span className="sm:hidden">LOCKED ({secretPasscode})</span>
             </div>
           )}
 
-          <div>
-            <h2 className="font-display font-black text-slate-900 dark:text-white text-sm sm:text-base leading-tight">
+          <div className="min-w-0 flex-1">
+            <h2 className="font-display font-black text-slate-900 dark:text-white text-xs sm:text-base leading-tight line-clamp-2">
               Issue #{magazine.issueNumber}: {magazine.title}
             </h2>
           </div>
         </div>
 
         {/* Right: Fullscreen Mode */}
-        <div className="flex items-center gap-2">
+        <div className="shrink-0 flex items-center gap-2">
           {/* Fullscreen Button */}
           {!isFullscreen ? (
             <button
               onClick={handleStartFullscreenFlow}
               title="Click this icon to change to Full Screen Reading Mode!"
-              className="group btn-3d relative flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 px-4 py-2 text-slate-950 font-display font-black text-xs sm:text-sm shadow-xl shadow-amber-400/40 border-2 border-yellow-100 hover:scale-105 active:scale-95 transition-all"
+              className="group btn-3d relative flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 px-3 py-2 sm:px-4 sm:py-2 text-slate-950 font-display font-black text-xs sm:text-sm shadow-xl shadow-amber-400/40 border-2 border-yellow-100 hover:scale-105 active:scale-95 transition-all"
             >
               <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75" />
@@ -416,10 +417,11 @@ export function FullscreenMagazineReader({
           ) : (
             <button
               onClick={handleRequestExit}
-              className="btn-3d flex items-center gap-2 rounded-2xl bg-rose-600 hover:bg-rose-500 border-2 border-rose-300 px-4 py-2 text-white font-display font-black text-xs shadow-xl transition-all active:scale-95 animate-pulse"
+              className="btn-3d flex items-center gap-1.5 sm:gap-2 rounded-xl sm:rounded-2xl bg-rose-600 hover:bg-rose-500 border-2 border-rose-300 px-3 py-2 sm:px-4 sm:py-2 text-white font-display font-black text-xs shadow-xl transition-all active:scale-95 animate-pulse"
             >
               <KeyRound className="h-4 w-4" />
-              <span>Exit (Passcode)</span>
+              <span className="hidden sm:inline">Exit (Passcode)</span>
+              <span className="sm:hidden">Exit</span>
             </button>
           )}
         </div>

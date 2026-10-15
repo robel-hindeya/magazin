@@ -292,55 +292,55 @@ export function TikTokProfile({
   const userHandle = `@${nickname.toLowerCase().replace(/[^a-z0-9_]/g, '') || 'explorer'}`;
 
   return (
-    <div className="max-w-md sm:max-w-xl mx-auto min-h-screen bg-white dark:bg-[#0f0728] text-slate-900 dark:text-white rounded-3xl sm:border border-purple-200/80 dark:border-purple-900/60 shadow-2xl overflow-hidden transition-colors relative pb-28">
+    <div className="w-full max-w-5xl mx-auto min-h-screen text-slate-900 dark:text-white transition-colors relative pb-24 px-3 sm:px-6 lg:px-8">
 
       {savedStatus && (
-        <div className="mx-4 mt-3 rounded-xl bg-emerald-500 text-white text-xs font-black py-2 px-3 text-center shadow-md animate-fade-in">
+        <div className="max-w-md mx-auto mb-4 rounded-xl bg-emerald-500 text-white text-xs font-black py-2.5 px-4 text-center shadow-md animate-fade-in">
           ✨ Profile updated successfully!
         </div>
       )}
 
       {/* =====================================================================
-          TIKTOK PROFILE HERO SECTION (Selam Kids Brand Colors)
+          TIKTOK PROFILE HERO SECTION (PC & Mobile Responsive, Borderless)
           ===================================================================== */}
-      <div className="pt-8 pb-4 px-4 flex flex-col items-center text-center">
+      <div className="pt-6 sm:pt-10 pb-6 px-4 flex flex-col items-center text-center">
         {/* Large Avatar (Clean, visible on mobile & desktop) */}
         <div className="relative group cursor-pointer mb-3" onClick={() => setIsEditProfileOpen(true)}>
-          <div className="relative h-28 w-28 sm:h-32 sm:w-32 rounded-full overflow-hidden bg-purple-100/50 dark:bg-[#1a0d3d] transition-transform duration-300 group-hover:scale-105 shadow-md flex items-center justify-center">
+          <div className="relative h-28 w-28 sm:h-36 sm:w-36 rounded-full overflow-hidden bg-purple-100/50 dark:bg-[#1a0d3d] transition-transform duration-300 group-hover:scale-105 shadow-md flex items-center justify-center">
             <Image
               src={currentAvatarSrc}
               alt={selectedCharacter.name}
               fill
-              sizes="(max-width: 640px) 112px, 128px"
+              sizes="(max-width: 640px) 112px, 144px"
               className="object-contain p-2"
               priority
             />
           </div>
 
           {/* Camera / Plus Badge on Avatar */}
-          <div className="absolute bottom-1 right-1 h-7 w-7 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-            <Camera className="h-3.5 w-3.5 fill-slate-950" />
+          <div className="absolute bottom-1 right-1 h-7 w-7 sm:h-8 sm:w-8 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+            <Camera className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-slate-950" />
           </div>
         </div>
 
         {/* User Handle & Badge */}
-        <h1 className="font-display font-black text-xl sm:text-2xl text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-1.5">
+        <h1 className="font-display font-black text-2xl sm:text-3xl text-slate-900 dark:text-white tracking-tight flex items-center justify-center gap-2">
           {displayName}
-          <CheckCircle2 className="h-5 w-5 text-emerald-500 fill-emerald-500 text-white" />
+          <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-500 fill-emerald-500 text-white" />
         </h1>
-        <p className="text-xs font-extrabold text-purple-700 dark:text-purple-300 mt-0.5">
+        <p className="text-xs sm:text-sm font-extrabold text-purple-700 dark:text-purple-300 mt-0.5">
           {userHandle}
         </p>
 
         {/* ===================================================================
             TIKTOK 3 STATS BAR (Following, Followers, Likes / Orbs)
             =================================================================== */}
-        <div className="flex items-center justify-center gap-8 sm:gap-12 my-5 w-full max-w-xs">
+        <div className="flex items-center justify-center gap-8 sm:gap-14 my-5 sm:my-6 w-full max-w-md">
           <div className="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity">
-            <span className="font-display font-black text-lg text-slate-900 dark:text-white tracking-tight">
+            <span className="font-display font-black text-lg sm:text-xl text-slate-900 dark:text-white tracking-tight">
               142
             </span>
-            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
               Following
             </span>
           </div>
@@ -348,10 +348,10 @@ export function TikTokProfile({
           <div className="h-5 w-[1px] bg-purple-200 dark:bg-purple-900/60" />
 
           <div className="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity">
-            <span className="font-display font-black text-lg text-slate-900 dark:text-white tracking-tight">
+            <span className="font-display font-black text-lg sm:text-xl text-slate-900 dark:text-white tracking-tight">
               2.8K
             </span>
-            <span className="text-[11px] font-bold text-slate-500 dark:text-purple-300/70">
+            <span className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-purple-300/70">
               Followers
             </span>
           </div>
@@ -359,30 +359,30 @@ export function TikTokProfile({
           <div className="h-5 w-[1px] bg-purple-200 dark:bg-purple-900/60" />
 
           <div className="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity">
-            <span className="font-display font-black text-lg text-slate-900 dark:text-white tracking-tight flex items-center gap-0.5">
+            <span className="font-display font-black text-lg sm:text-xl text-slate-900 dark:text-white tracking-tight flex items-center gap-0.5">
               <span>{kid.orbs || 75}</span>
-              <Sparkles className="h-3.5 w-3.5 text-amber-400 fill-amber-400 inline" />
+              <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-amber-400 fill-amber-400 inline" />
             </span>
-            <span className="text-[11px] font-bold text-slate-500 dark:text-purple-300/70">
+            <span className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-purple-300/70">
               Orbs / Likes
             </span>
           </div>
         </div>
 
         {/* ===================================================================
-            TIKTOK ACTION BUTTONS ROW (Selam Kids Brand Colors)
+            TIKTOK ACTION BUTTONS ROW (Selam Kids Brand Colors, Clean Borderless)
             =================================================================== */}
-        <div className="flex items-center justify-center gap-2.5 w-full max-w-sm mb-4">
+        <div className="flex items-center justify-center gap-2.5 w-full max-w-sm sm:max-w-md mb-4">
           <button
             onClick={() => setIsEditProfileOpen(true)}
-            className="flex-1 py-2.5 px-4 rounded-xl font-display font-black text-xs sm:text-sm bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/50 dark:hover:bg-purple-900/80 text-purple-950 dark:text-purple-100 border border-purple-200 dark:border-purple-700 shadow-sm transition-all active:scale-95 cursor-pointer"
+            className="flex-1 py-2.5 px-4 rounded-xl font-display font-black text-xs sm:text-sm bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/50 dark:hover:bg-purple-900/80 text-purple-950 dark:text-purple-100 shadow-sm transition-all active:scale-95 cursor-pointer"
           >
             Edit profile
           </button>
 
           <button
             onClick={() => setIsShareModalOpen(true)}
-            className="py-2.5 px-3.5 rounded-xl font-display font-black text-xs sm:text-sm bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/50 dark:hover:bg-purple-900/80 text-purple-950 dark:text-purple-100 border border-purple-200 dark:border-purple-700 shadow-sm transition-all active:scale-95 cursor-pointer flex items-center justify-center"
+            className="py-2.5 px-3.5 rounded-xl font-display font-black text-xs sm:text-sm bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/50 dark:hover:bg-purple-900/80 text-purple-950 dark:text-purple-100 shadow-sm transition-all active:scale-95 cursor-pointer flex items-center justify-center"
             title="Share profile"
           >
             <Share2 className="h-4 w-4" />
@@ -391,7 +391,7 @@ export function TikTokProfile({
           <button
             onClick={handleLogout}
             disabled={isLoggingOut}
-            className="py-2.5 px-4 rounded-xl font-display font-black text-xs sm:text-sm bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/50 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-300 border border-rose-200 dark:border-rose-900/60 shadow-sm transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
+            className="py-2.5 px-4 rounded-xl font-display font-black text-xs sm:text-sm bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/50 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-300 shadow-sm transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
             title="Sign Out"
           >
             <LogOut className="h-3.5 w-3.5" />
@@ -400,21 +400,21 @@ export function TikTokProfile({
         </div>
 
         {/* ===================================================================
-            TIKTOK BIO & COMPANION CARD (Selam Kids Brand Colors)
+            TIKTOK BIO & COMPANION TAGS (Borderless & Clean for PC & Phone)
             =================================================================== */}
-        <div className="w-full max-w-sm text-left bg-purple-50/70 dark:bg-purple-950/30 rounded-2xl p-3.5 border border-purple-200/80 dark:border-purple-900/60 space-y-2">
-          <p className="text-xs text-slate-700 dark:text-purple-200 font-medium leading-relaxed">
+        <div className="w-full max-w-xl text-center space-y-3 mt-1">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-purple-200 font-medium leading-relaxed">
             {bioText}
           </p>
 
-          <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] font-bold text-slate-600 dark:text-purple-300">
-            <span className="inline-flex items-center gap-1 bg-white dark:bg-purple-900/50 px-2.5 py-1 rounded-lg border border-purple-200/80 dark:border-purple-800/60 shadow-2xs">
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-[11px] sm:text-xs font-bold text-slate-600 dark:text-purple-300">
+            <span className="inline-flex items-center gap-1.5 bg-purple-100/80 dark:bg-purple-900/40 px-3 py-1.5 rounded-full text-slate-700 dark:text-purple-200">
               🦁 Companion: <strong className="text-purple-700 dark:text-purple-300">{selectedCharacter.name}</strong>
             </span>
-            <span className="inline-flex items-center gap-1 bg-white dark:bg-purple-900/50 px-2.5 py-1 rounded-lg border border-purple-200/80 dark:border-purple-800/60 shadow-2xs">
+            <span className="inline-flex items-center gap-1.5 bg-purple-100/80 dark:bg-purple-900/40 px-3 py-1.5 rounded-full text-slate-700 dark:text-purple-200">
               ✍️ <strong className="text-emerald-600 dark:text-emerald-400">{kid.words_written || 142}</strong> words
             </span>
-            <span className="inline-flex items-center gap-1 bg-white dark:bg-purple-900/50 px-2.5 py-1 rounded-lg border border-purple-200/80 dark:border-purple-800/60 shadow-2xs">
+            <span className="inline-flex items-center gap-1.5 bg-purple-100/80 dark:bg-purple-900/40 px-3 py-1.5 rounded-full text-slate-700 dark:text-purple-200">
               📍 Selam Kids Zoo HQ
             </span>
           </div>
@@ -422,10 +422,10 @@ export function TikTokProfile({
       </div>
 
       {/* =====================================================================
-          TIKTOK 4 ICON TABS HEADER (Selam Kids Brand Accent & Active Underline)
+          TIKTOK 4 ICON TABS HEADER (Centered for PC, Brand Underline)
           ===================================================================== */}
-      <div className="sticky top-0 z-20 bg-white/95 dark:bg-[#0f0728]/95 backdrop-blur-md border-b-2 border-purple-100 dark:border-purple-900/60 shadow-xs">
-        <div className="grid grid-cols-4 text-center">
+      <div className="sticky top-0 z-20 bg-white/95 dark:bg-[#0f0728]/95 backdrop-blur-md border-b border-purple-100 dark:border-purple-900/40 my-3">
+        <div className="max-w-xl mx-auto grid grid-cols-4 text-center">
           {/* Tab 0: Story Creations / Videos */}
           <button
             onClick={() => setActiveTab(0)}
@@ -501,16 +501,16 @@ export function TikTokProfile({
       </div>
 
       {/* =====================================================================
-          TAB 0: TIKTOK 3-COLUMN PORTRAIT STORIES GRID
+          TAB 0: TIKTOK PORTRAIT STORIES GRID (Responsive for Mobile & PC)
           ===================================================================== */}
       {activeTab === 0 && (
         <div className="p-1 sm:p-2">
-          <div className="grid grid-cols-3 gap-1 sm:gap-1.5">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-3.5">
             {SAMPLE_STORIES.map((story) => (
               <div
                 key={story.id}
                 onClick={() => setSelectedStory(story)}
-                className="relative aspect-[9/16] rounded-lg overflow-hidden bg-gradient-to-br from-slate-900 to-purple-950 cursor-pointer group shadow-sm hover:opacity-95 transition-all"
+                className="relative aspect-[9/16] rounded-xl overflow-hidden bg-gradient-to-br from-slate-900 to-purple-950 cursor-pointer group shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all"
               >
                 {/* Background visual card with character */}
                 <div
@@ -527,7 +527,7 @@ export function TikTokProfile({
                       src={story.characterImage}
                       alt={story.title}
                       fill
-                      sizes="112px"
+                      sizes="(max-width: 640px) 112px, (max-width: 1024px) 140px, 180px"
                       className="object-contain drop-shadow-lg"
                     />
                   </div>
@@ -570,12 +570,12 @@ export function TikTokProfile({
             ))}
           </div>
 
-          <div className="mt-6 text-center">
+          <div className="mt-8 text-center">
             <Link href="/users/kids/story">
               <Button
                 variant="magic"
                 size="sm"
-                className="font-black text-xs px-6 py-2 shadow-md rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white"
+                className="font-black text-xs px-6 py-2.5 shadow-md rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white hover:scale-105 transition-transform"
               >
                 <Sparkles className="h-3.5 w-3.5 mr-1.5" />
                 Create New Story in Studio
@@ -586,23 +586,23 @@ export function TikTokProfile({
       )}
 
       {/* =====================================================================
-          TAB 1: TIKTOK 3-COLUMN PORTRAIT MAGAZINES LIBRARY
+          TAB 1: TIKTOK PORTRAIT MAGAZINES LIBRARY (Responsive for Mobile & PC)
           ===================================================================== */}
       {activeTab === 1 && (
         <div className="p-1 sm:p-2">
-          <div className="grid grid-cols-3 gap-1 sm:gap-1.5">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2.5 sm:gap-4">
             {magazines.map((issue) => (
               <div
                 key={issue.id}
                 onClick={() => router.push(`/users/kids/magazine/${issue.id}`)}
-                className="relative aspect-[3/4] rounded-lg overflow-hidden bg-slate-900 cursor-pointer group shadow-sm hover:opacity-95 transition-all"
+                className="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-900 cursor-pointer group shadow-sm hover:scale-[1.02] hover:shadow-lg transition-all"
               >
                 {/* Issue Cover Image */}
                 <Image
                   src={issue.characterMain.src}
                   alt={issue.title}
                   fill
-                  sizes="160px"
+                  sizes="(max-width: 640px) 160px, (max-width: 1024px) 200px, 240px"
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
 
@@ -615,10 +615,10 @@ export function TikTokProfile({
 
                 {/* Bottom Title & Readers */}
                 <div className="absolute bottom-1.5 left-1.5 right-1.5 text-white">
-                  <p className="text-[10px] font-black leading-tight line-clamp-1 drop-shadow-md">
+                  <p className="text-[10px] sm:text-xs font-black leading-tight line-clamp-1 drop-shadow-md">
                     {issue.title}
                   </p>
-                  <div className="flex items-center gap-1 text-[9px] text-emerald-300 font-extrabold mt-0.5">
+                  <div className="flex items-center gap-1 text-[9px] sm:text-[10px] text-emerald-300 font-extrabold mt-0.5">
                     <BookOpen className="h-2.5 w-2.5" />
                     <span>Tap to Read</span>
                   </div>
@@ -627,12 +627,12 @@ export function TikTokProfile({
             ))}
           </div>
 
-          <div className="mt-6 text-center">
+          <div className="mt-8 text-center">
             <Link href="/users/kids/magazines">
               <Button
                 variant="outline"
                 size="sm"
-                className="font-black text-xs px-6 py-2 rounded-full border-2 border-slate-200 dark:border-white/20"
+                className="font-black text-xs px-6 py-2.5 rounded-full border border-purple-200 dark:border-purple-800"
               >
                 View Full Magazine Archive
               </Button>
@@ -642,47 +642,47 @@ export function TikTokProfile({
       )}
 
       {/* =====================================================================
-          TAB 2: BADGES & TROPHIES
+          TAB 2: BADGES & TROPHIES (Responsive for Mobile & PC)
           ===================================================================== */}
       {activeTab === 2 && (
-        <div className="p-3 sm:p-4 space-y-3">
+        <div className="p-3 sm:p-4 space-y-4 max-w-4xl mx-auto">
           <div className="text-center pb-2">
-            <h3 className="font-display font-black text-base text-slate-900 dark:text-white">
+            <h3 className="font-display font-black text-lg text-slate-900 dark:text-white">
               Explorer Trophy Case
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
               Read stories, create adventures, and level up your companion beast!
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
             {ACHIEVEMENTS.map((badge) => (
               <div
                 key={badge.id}
                 className={cn(
-                  'p-3.5 rounded-2xl border transition-all flex flex-col items-center text-center',
+                  'p-4 rounded-2xl transition-all flex flex-col items-center text-center shadow-xs',
                   badge.unlocked
-                    ? 'bg-slate-50 dark:bg-white/5 border-purple-200/80 dark:border-purple-800/60 shadow-sm'
-                    : 'bg-slate-100/50 dark:bg-white/5 border-dashed border-slate-300 dark:border-white/10 opacity-60'
+                    ? 'bg-purple-50/70 dark:bg-purple-950/30'
+                    : 'bg-slate-100/50 dark:bg-white/5 opacity-60'
                 )}
               >
                 <div
                   className={cn(
-                    'h-12 w-12 rounded-2xl flex items-center justify-center text-2xl shadow-md mb-2 bg-gradient-to-br',
+                    'h-14 w-14 rounded-2xl flex items-center justify-center text-2xl shadow-md mb-2 bg-gradient-to-br',
                     badge.color
                   )}
                 >
                   {badge.icon}
                 </div>
-                <h4 className="font-display font-black text-xs text-slate-900 dark:text-white">
+                <h4 className="font-display font-black text-xs sm:text-sm text-slate-900 dark:text-white">
                   {badge.title}
                 </h4>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">
+                <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
                   {badge.desc}
                 </p>
                 <span
                   className={cn(
-                    'mt-2 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider',
+                    'mt-2 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider',
                     badge.unlocked
                       ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
                       : 'bg-slate-200 text-slate-700 dark:bg-white/10 dark:text-slate-400'
@@ -697,15 +697,15 @@ export function TikTokProfile({
       )}
 
       {/* =====================================================================
-          TAB 3: CREATURE STUDIO & ACCOUNT SETTINGS
+          TAB 3: CREATURE STUDIO & ACCOUNT SETTINGS (Responsive for Mobile & PC)
           ===================================================================== */}
       {activeTab === 3 && (
-        <div className="p-4 space-y-6">
+        <div className="max-w-2xl mx-auto p-4 space-y-6">
           {/* 1. Companion Beast Customizer */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-display font-black text-base text-slate-900 dark:text-white flex items-center gap-1.5">
+                <h3 className="font-display font-black text-base sm:text-lg text-slate-900 dark:text-white flex items-center gap-1.5">
                   <Sparkles className="h-4 w-4 text-purple-500" />
                   Companion Beast
                 </h3>
@@ -713,7 +713,7 @@ export function TikTokProfile({
                   Select your active avatar companion
                 </p>
               </div>
-              <span className="text-xs font-black text-purple-600 dark:text-purple-300 bg-purple-100 dark:bg-purple-950/60 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-black text-purple-600 dark:text-purple-300 bg-purple-100 dark:bg-purple-950/60 px-3 py-1 rounded-full">
                 {selectedCharacter.name}
               </span>
             </div>
@@ -725,7 +725,7 @@ export function TikTokProfile({
               <input type="hidden" name="gradeLevel" value={kid.grade_level || 'Grade 3'} />
               <input type="hidden" name="nickname" value={nickname} />
 
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5">
                 {CREATURE_CHARACTERS.map((char) => {
                   const isSelected = selectedCharacter.id === char.id;
                   return (
@@ -734,10 +734,10 @@ export function TikTokProfile({
                       type="button"
                       onClick={() => setSelectedCharacter(char)}
                       className={cn(
-                        'relative p-2.5 rounded-2xl border-2 flex flex-col items-center transition-all cursor-pointer',
+                        'relative p-2.5 rounded-2xl flex flex-col items-center transition-all cursor-pointer',
                         isSelected
-                          ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 shadow-md scale-102 ring-2 ring-emerald-400/40'
-                          : 'border-purple-200/80 dark:border-purple-900/50 hover:border-purple-300 dark:hover:border-purple-700 bg-purple-50/40 dark:bg-purple-950/20'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/60 shadow-md scale-105 ring-2 ring-emerald-400'
+                          : 'hover:scale-102 bg-purple-50/50 dark:bg-purple-950/20'
                       )}
                     >
                       <div className="relative h-14 w-14 mb-1">
@@ -820,7 +820,7 @@ export function TikTokProfile({
               <Palette className="h-4 w-4 text-pink-500" />
               Day / Night Realm Theme
             </h3>
-            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/80 dark:border-purple-900/60">
+            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-purple-50/60 dark:bg-purple-950/30">
               <div>
                 <p className="text-xs font-bold text-slate-800 dark:text-white">Active Realm</p>
                 <p className="text-[10px] text-slate-500 dark:text-purple-300/70">
@@ -840,7 +840,7 @@ export function TikTokProfile({
               Security & Sign Out
             </h3>
 
-            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-purple-50/60 dark:bg-purple-950/30 border border-purple-200/80 dark:border-purple-900/60">
+            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-purple-50/60 dark:bg-purple-950/30">
               <div>
                 <p className="text-xs font-bold text-slate-800 dark:text-white">Account Password</p>
                 <p className="text-[10px] text-slate-500 dark:text-purple-300/70">

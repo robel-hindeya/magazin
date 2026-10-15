@@ -59,7 +59,7 @@ export default async function KidProfilePage({
     (user.metadata?.phoneNumber as string) || user.email || 'Registered Explorer Account';
 
   return (
-    <div className="py-2 sm:py-4">
+    <main className="w-full min-h-screen">
       <TikTokProfile
         user={user}
         kid={kid}
@@ -68,6 +68,6 @@ export default async function KidProfilePage({
         updateProfileNameAction={updateProfileNameAction}
         savedStatus={resolvedParams.saved}
       />
-    </div>
+    </main>
   );
 }

@@ -20,6 +20,7 @@ import {
   X,
   Flame,
   Users,
+  Download,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -694,6 +695,31 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
                   </Link>
                 ))}
               </div>
+
+              {/* Install PWA App Action inside Drawer */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSuperAppOpen(false);
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('selam-kids-open-install'));
+                  }
+                }}
+                className="w-full flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-display text-xs font-black shadow-md shadow-purple-600/30 cursor-pointer active:scale-98 transition-all my-2"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="h-7 w-7 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+                    <Download className="h-4 w-4" />
+                  </div>
+                  <div className="text-left">
+                    <div className="leading-tight">Install Selam Kids App</div>
+                    <div className="text-[10px] text-purple-200 font-medium">Add to phone home screen</div>
+                  </div>
+                </div>
+                <span className="text-[10px] bg-yellow-400 text-slate-950 font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shrink-0">
+                  Install
+                </span>
+              </button>
 
               {/* Bottom Quick Bar inside Drawer */}
               <div className="pt-2 border-t border-slate-100 dark:border-purple-900/40">

@@ -9,8 +9,6 @@ import {
   Unlock,
   KeyRound,
   ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
   Trophy,
   BookOpen,
   X,
@@ -474,16 +472,6 @@ export function FullscreenMagazineReader({
           </div>
         </div>
 
-        {/* Previous Page Floating Side Button (Pinned to reader vertical center) */}
-        <button
-          onClick={handlePrev}
-          disabled={currentPage === 1}
-          aria-label="Previous Page"
-          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
-          title="Previous Page (or Left Arrow)"
-        >
-          <ChevronLeft className="h-7 w-7" />
-        </button>
 
         {/* Central Display Area: ONE PAGE ALONE, SCROLL UP AND DOWN, NEVER CROPPED */}
         <div
@@ -525,16 +513,6 @@ export function FullscreenMagazineReader({
           </div>
         </div>
 
-        {/* Next Page Floating Side Button (Pinned to reader vertical center) */}
-        <button
-          onClick={handleNext}
-          disabled={currentPage === totalPages}
-          aria-label="Next Page"
-          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-slate-950/80 hover:bg-amber-400 text-white hover:text-slate-950 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md disabled:opacity-20 disabled:pointer-events-none transition-all active:scale-90"
-          title="Next Page (or Right Arrow)"
-        >
-          <ChevronRight className="h-7 w-7" />
-        </button>
 
         {/* =========================================================================
             BOTTOM NAVIGATION BAR: Big Next Page button, scrubber & indicators
@@ -546,9 +524,8 @@ export function FullscreenMagazineReader({
             disabled={currentPage === 1}
             variant="outline"
             size="sm"
-            className="btn-3d rounded-2xl font-display font-black text-xs gap-1.5 px-4 py-2 text-slate-200 border-purple-600 hover:border-amber-400 hover:text-white disabled:opacity-30"
+            className="btn-3d rounded-2xl font-display font-black text-xs px-4 py-2 text-slate-200 border-purple-600 hover:border-amber-400 hover:text-white disabled:opacity-30"
           >
-            <ChevronLeft className="h-4 w-4" />
             <span>Previous Page</span>
           </Button>
 
@@ -580,10 +557,9 @@ export function FullscreenMagazineReader({
           <Button
             onClick={handleNext}
             disabled={currentPage === totalPages}
-            className="btn-3d btn-3d-yellow rounded-2xl font-display font-black text-xs gap-1.5 px-5 py-2 text-slate-950 disabled:opacity-30"
+            className="btn-3d btn-3d-yellow rounded-2xl font-display font-black text-xs px-5 py-2 text-slate-950 disabled:opacity-30"
           >
             <span>Next Page</span>
-            <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
       </div>

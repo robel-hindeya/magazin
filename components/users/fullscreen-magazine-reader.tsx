@@ -9,6 +9,7 @@ import {
   Unlock,
   KeyRound,
   ArrowLeft,
+  ArrowRight,
   Trophy,
   X,
   HelpCircle,
@@ -450,7 +451,7 @@ export function FullscreenMagazineReader({
               PAGE {currentPage} OF {totalPages}
             </Badge>
             <span className="text-[11px] text-purple-300 font-bold hidden sm:inline">
-              ✦ Use Next Page or Arrow Keys to Turn Pages
+              ✦ Use Next or Arrow Keys to Turn Pages
             </span>
           </div>
 
@@ -517,48 +518,26 @@ export function FullscreenMagazineReader({
             BOTTOM NAVIGATION BAR: Big Next Page button, scrubber & indicators
             ========================================================================= */}
         <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 px-3 sm:px-6 py-2.5 bg-slate-950/80 border-2 border-purple-800/80 rounded-3xl backdrop-blur-md mt-2">
-          {/* Previous Page Button */}
+          {/* Back Button */}
           <Button
             onClick={handlePrev}
             disabled={currentPage === 1}
             variant="outline"
             size="sm"
-            className="btn-3d rounded-2xl font-display font-black text-xs px-4 py-2 text-slate-200 border-purple-600 hover:border-amber-400 hover:text-white disabled:opacity-30"
+            className="btn-3d rounded-2xl font-display font-black text-xs px-5 py-2.5 text-slate-200 border-purple-600 hover:border-amber-400 hover:text-white disabled:opacity-30 flex items-center gap-1.5 cursor-pointer"
           >
-            <span>Previous Page</span>
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back</span>
           </Button>
 
-          {/* Middle: Page Scrubber / Quick Page Indicator */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-purple-200">
-              Page <span className="text-amber-400 font-black">{currentPage}</span> of {totalPages}
-            </span>
-
-            {/* Quick jump input slider for 21 pages */}
-            <input
-              type="range"
-              min={1}
-              max={totalPages}
-              value={currentPage}
-              onChange={(e) => {
-                const val = parseInt(e.target.value, 10);
-                if (!isNaN(val)) {
-                  playSound('flip');
-                  setCurrentPage(val);
-                }
-              }}
-              className="w-24 sm:w-40 h-2 bg-purple-900 rounded-lg appearance-none cursor-pointer accent-amber-400"
-              title="Drag to jump to any page"
-            />
-          </div>
-
-          {/* Next Page Button */}
+          {/* Next Button */}
           <Button
             onClick={handleNext}
             disabled={currentPage === totalPages}
-            className="btn-3d btn-3d-yellow rounded-2xl font-display font-black text-xs px-5 py-2 text-slate-950 disabled:opacity-30"
+            className="btn-3d btn-3d-yellow rounded-2xl font-display font-black text-xs px-6 py-2.5 text-slate-950 disabled:opacity-30 flex items-center gap-1.5 cursor-pointer shadow-lg"
           >
-            <span>Next Page</span>
+            <span>Next</span>
+            <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
       </div>

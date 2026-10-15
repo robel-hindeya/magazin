@@ -23,9 +23,10 @@ export interface SidebarProps {
   subtitle?: string;
   items: SidebarItem[];
   footer?: React.ReactNode;
+  className?: string;
 }
 
-export function Sidebar({ title, subtitle, items, footer }: SidebarProps) {
+export function Sidebar({ title, subtitle, items, footer, className }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [pinModalOpen, setPinModalOpen] = React.useState(false);
@@ -64,7 +65,12 @@ export function Sidebar({ title, subtitle, items, footer }: SidebarProps) {
 
   return (
     <>
-      <aside className="w-64 shrink-0 border-r-2 border-slate-200/80 bg-white dark:bg-[#0c0522] dark:border-purple-900/40 md:sticky md:top-20 md:h-[calc(100vh-5rem)] md:self-start flex flex-col justify-between p-4 shadow-sm transition-colors md:overflow-y-auto z-30">
+      <aside
+        className={cn(
+          "hidden lg:flex w-64 shrink-0 border-r-2 border-slate-200/80 bg-white dark:bg-[#0c0522] dark:border-purple-900/40 lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] lg:self-start flex-col justify-between p-4 shadow-sm transition-colors lg:overflow-y-auto z-30",
+          className
+        )}
+      >
         <div>
           {!isKidsArea && (displayTitle || displaySubtitle) && (
             <div className="px-3 py-3 mb-3 bg-purple-50/70 dark:bg-purple-950/60 rounded-2xl border border-purple-100/80 dark:border-purple-800/60">

@@ -16,6 +16,10 @@ import {
   Sparkles,
   Music,
   Trophy,
+  LayoutGrid,
+  X,
+  Flame,
+  Users,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -67,6 +71,37 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
     };
   }, []);
 
+  // Super App drawer state for mobile view
+  const [isSuperAppOpen, setIsSuperAppOpen] = React.useState(false);
+
+  // Close super app drawer whenever the page route changes
+  React.useEffect(() => {
+    setIsSuperAppOpen(false);
+  }, [pathname]);
+
+  // Lock background body scroll when super app modal is open
+  React.useEffect(() => {
+    if (isSuperAppOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isSuperAppOpen]);
+
+  // Keyboard accessibility: ESC key closes drawer
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsSuperAppOpen(false);
+    };
+    if (isSuperAppOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isSuperAppOpen]);
+
   // When logged in, clicking the logo routes to /users/kids (or their respective portal) instead of the landing page
   const logoHref = user
     ? user.role === ROLES.ADMIN
@@ -77,6 +112,131 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
       ? '/users/teachers'
       : '/users/kids'
     : '/';
+
+  // Mobile Profile button target
+  const profileHref = user
+    ? user.role === ROLES.SUPERADMIN
+      ? '/superadmin'
+      : user.role === ROLES.ADMIN
+      ? '/admin'
+      : user.role === ROLES.TEACHER
+      ? '/users/teachers'
+      : user.role === ROLES.FAMILY
+      ? '/users/families'
+      : '/users/kids/profile'
+    : '/auth/login';
+
+  const isActiveHome = logoHref === '/' ? pathname === '/' : pathname === logoHref;
+  const isActiveProfile =
+    pathname.startsWith('/users/kids/profile') ||
+    pathname.startsWith('/users/families') ||
+    pathname.startsWith('/users/settings') ||
+    pathname.startsWith('/auth') ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/superadmin') ||
+    pathname.startsWith('/users/teachers');
+  const isActiveApps =
+    isSuperAppOpen ||
+    pathname.startsWith('/games') ||
+    pathname.startsWith('/melody-world') ||
+    pathname.startsWith('/users/kids/magazines') ||
+    pathname.startsWith('/users/kids/magazine') ||
+    pathname.startsWith('/users/kids/daily') ||
+    pathname.startsWith('/users/community');
+
+  // Complete roster of apps & features in the Super App Launcher
+  const superApps = [
+    {
+      id: 'magazines',
+      title: 'Magazines',
+      desc: 'Ethiopian Kids Issues',
+      href: user ? '/users/kids/magazines' : '/#magazines',
+      icon: BookOpen,
+      iconBg: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30',
+      badge: '10 Issues',
+      badgeBg: 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300',
+    },
+    {
+      id: 'games',
+      title: 'Games Arcade',
+      desc: 'Word Dash & Coloring',
+      href: '/games',
+      icon: Gamepad2,
+      iconBg: 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 border border-cyan-500/30',
+      badge: '3 Games',
+      badgeBg: 'bg-cyan-100 dark:bg-cyan-950/70 text-cyan-700 dark:text-cyan-300',
+    },
+    {
+      id: 'melody',
+      title: 'Melody World',
+      desc: 'Songs & Audio Tales',
+      href: '/melody-world',
+      icon: Music,
+      iconBg: 'bg-pink-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30',
+      badge: 'Audio',
+      badgeBg: 'bg-pink-100 dark:bg-pink-950/70 text-pink-700 dark:text-pink-300',
+    },
+    {
+      id: 'story',
+      title: 'Story Studio',
+      desc: 'Write For Next Magazine',
+      href: user ? '/users/kids#story-editor-section' : '/#story',
+      icon: Sparkles,
+      iconBg: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30',
+      badge: 'Contest',
+      badgeBg: 'bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300',
+    },
+    {
+      id: 'daily',
+      title: 'Daily Writing',
+      desc: 'Daily Writing Quests',
+      href: '/users/kids/daily',
+      icon: Flame,
+      iconBg: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30',
+      badge: 'Daily',
+      badgeBg: 'bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300',
+    },
+    {
+      id: 'community',
+      title: 'Community',
+      desc: 'Young Authors Club',
+      href: '/users/community',
+      icon: Users,
+      iconBg: 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30',
+      badge: 'Club',
+      badgeBg: 'bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300',
+    },
+    {
+      id: 'family',
+      title: 'Family Hub',
+      desc: 'Parent Gate & PIN Control',
+      href: '/users/families',
+      icon: Shield,
+      iconBg: 'bg-teal-500/15 text-teal-600 dark:text-teal-400 border border-teal-500/30',
+      badge: 'Parents',
+      badgeBg: 'bg-teal-100 dark:bg-teal-950/70 text-teal-700 dark:text-teal-300',
+    },
+    {
+      id: 'profile',
+      title: 'My Profile',
+      desc: 'Avatars & Glowing Points',
+      href: user ? '/users/kids/profile' : '/auth/login',
+      icon: Trophy,
+      iconBg: 'bg-yellow-500/15 text-yellow-600 dark:text-yellow-400 border border-yellow-500/30',
+      badge: `${points} Pts`,
+      badgeBg: 'bg-yellow-100 dark:bg-yellow-950/70 text-yellow-800 dark:text-yellow-300',
+    },
+    {
+      id: 'settings',
+      title: 'Settings',
+      desc: 'Theme & Preferences',
+      href: user ? '/users/settings' : '/auth/login',
+      icon: Settings,
+      iconBg: 'bg-slate-500/15 text-slate-600 dark:text-slate-300 border border-slate-500/30',
+      badge: 'Safety',
+      badgeBg: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300',
+    },
+  ];
 
   const handleLogout = async () => {
     try {
@@ -361,16 +521,20 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
       </header>
 
       {/* =========================================================================
-          RESPONSIVE PHONE & TABLET BOTTOM NAVBAR ("under" navigation < 1024px)
-          (Removed "more", "trial", "how it works")
+          RESPONSIVE PHONE & TABLET BOTTOM NAVBAR (< 1024px)
+          Exactly 3 Buttons: [Home] [Apps (Centered Super App Launcher)] [Profile]
           ========================================================================= */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-[#0f0728]/95 backdrop-blur-xl border-t-2 border-slate-200/80 dark:border-purple-900/70 shadow-2xl px-4 py-1.5 h-16 flex items-center justify-around transition-colors">
-        {/* 1. Home */}
+      <nav
+        aria-label="Mobile Navigation"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-[#0f0728]/95 backdrop-blur-xl border-t-2 border-slate-200/80 dark:border-purple-900/70 shadow-[0_-8px_25px_rgba(0,0,0,0.12)] px-4 h-16 grid grid-cols-3 items-center transition-colors pb-safe"
+      >
+        {/* 1. HOME (Left) */}
         <Link
           href={logoHref}
+          onClick={() => setIsSuperAppOpen(false)}
           className={cn(
-            'flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all',
-            (logoHref === '/' ? pathname === '/' : pathname === logoHref)
+            'flex flex-col items-center justify-center py-1 rounded-xl transition-all',
+            isActiveHome && !isSuperAppOpen
               ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
               : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
           )}
@@ -379,90 +543,207 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
           <span className="text-[11px] font-display font-bold">Home</span>
         </Link>
 
-        {/* 2. Magazin, 3. Story, 4. Melody World, 5. Games */}
-        {!isAdminArea && (
-          <>
-            <Link
-              href={user ? '/users/kids/magazines' : '/#magazines'}
-              className={cn(
-                'flex flex-col items-center justify-center py-1 px-1.5 rounded-xl transition-all',
-                pathname.startsWith('/users/kids/magazine')
-                  ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
-                  : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
-              )}
-            >
-              <BookOpen className="h-4 w-4 mb-0.5 text-emerald-500 dark:text-emerald-400" />
-              <span className="text-[10px] font-display font-bold">Magazin</span>
-            </Link>
-
-            <Link
-              href={user ? '/users/kids#story-editor-section' : '/#story'}
-              className={cn(
-                'flex flex-col items-center justify-center py-1 px-1.5 rounded-xl transition-all',
-                pathname === '/users/kids'
-                  ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
-                  : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
-              )}
-            >
-              <Sparkles className="h-4 w-4 mb-0.5 text-purple-500 dark:text-purple-400" />
-              <span className="text-[10px] font-display font-bold">Story</span>
-            </Link>
-
-            <Link
-              href="/melody-world"
-              className={cn(
-                'flex flex-col items-center justify-center py-1 px-1.5 rounded-xl transition-all',
-                pathname.startsWith('/melody-world')
-                  ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
-                  : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
-              )}
-            >
-              <Music className="h-4 w-4 mb-0.5 text-pink-500 dark:text-pink-400" />
-              <span className="text-[10px] font-display font-bold">Melody</span>
-            </Link>
-
-            <Link
-              href="/games"
-              className={cn(
-                'flex flex-col items-center justify-center py-1 px-1.5 rounded-xl transition-all',
-                pathname.startsWith('/games')
-                  ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
-                  : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
-              )}
-            >
-              <Gamepad2 className="h-4 w-4 mb-0.5 text-cyan-500 dark:text-cyan-400" />
-              <span className="text-[10px] font-display font-bold">Games</span>
-            </Link>
-          </>
-        )}
-
-        {/* 4. Portal (if signed in) or Sign In (if signed out) */}
-        {user ? (
-          <Link
-            href={
-              user.role === ROLES.SUPERADMIN
-                ? '/superadmin'
-                : user.role === ROLES.ADMIN
-                ? '/admin'
-                : user.role === ROLES.KID || user.role === ROLES.FAMILY
-                ? '/users/kids'
-                : '/users/teachers'
-            }
-            className="flex flex-col items-center justify-center py-1 px-3 rounded-xl text-emerald-600 dark:text-emerald-400 font-black"
+        {/* 2. APPS (Center - Elevated Super App Button) */}
+        <div className="flex justify-center items-center">
+          <button
+            type="button"
+            onClick={() => setIsSuperAppOpen((prev) => !prev)}
+            aria-label="Open Super App Launcher"
+            aria-expanded={isSuperAppOpen}
+            className="relative -top-3.5 flex flex-col items-center justify-center focus:outline-none group cursor-pointer"
           >
-            <Compass className="h-5 w-5 mb-0.5" />
-            <span className="text-[11px] font-display font-bold">Portal</span>
-          </Link>
-        ) : (
-          <Link
-            href="/auth/login"
-            className="flex flex-col items-center justify-center py-1 px-3 rounded-xl text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white"
-          >
+            <div
+              className={cn(
+                'h-12 w-12 rounded-2xl flex items-center justify-center shadow-lg transition-all duration-200 group-hover:scale-105 group-active:scale-95 border-2',
+                isSuperAppOpen
+                  ? 'bg-emerald-500 text-white shadow-emerald-500/50 border-white ring-4 ring-emerald-300 dark:ring-emerald-700'
+                  : 'bg-gradient-to-tr from-emerald-500 via-teal-400 to-emerald-400 text-slate-950 shadow-emerald-500/40 border-white dark:border-[#0f0728]'
+              )}
+            >
+              {isSuperAppOpen ? (
+                <X className="h-6 w-6 text-white stroke-[2.5]" />
+              ) : (
+                <LayoutGrid className="h-6 w-6 text-slate-950 stroke-[2.5]" />
+              )}
+            </div>
+            <span
+              className={cn(
+                'text-[11px] font-display font-extrabold mt-0.5 transition-colors',
+                isSuperAppOpen || isActiveApps
+                  ? 'text-emerald-600 dark:text-emerald-400'
+                  : 'text-slate-700 dark:text-purple-200'
+              )}
+            >
+              Apps
+            </span>
+          </button>
+        </div>
+
+        {/* 3. PROFILE (Right) */}
+        <Link
+          href={profileHref}
+          onClick={() => setIsSuperAppOpen(false)}
+          className={cn(
+            'flex flex-col items-center justify-center py-1 rounded-xl transition-all',
+            isActiveProfile && !isSuperAppOpen
+              ? 'text-emerald-600 dark:text-emerald-400 font-black scale-105'
+              : 'text-slate-600 dark:text-purple-300 hover:text-slate-900 dark:hover:text-white'
+          )}
+        >
+          {user?.avatarUrl ? (
+            <div className="relative h-5 w-5 mb-0.5 rounded-full overflow-hidden ring-1 ring-emerald-400">
+              <Avatar
+                size="sm"
+                src={user.avatarUrl}
+                fallback={user.fullName || user.email}
+              />
+            </div>
+          ) : (
             <UserIcon className="h-5 w-5 mb-0.5" />
-            <span className="text-[11px] font-display font-bold">Sign In</span>
-          </Link>
-        )}
+          )}
+          <span className="text-[11px] font-display font-bold">Profile</span>
+        </Link>
       </nav>
+
+      {/* =========================================================================
+          SUPER APP MODAL / DRAWER (< 1024px)
+          Opens when user taps "Apps" in the center of mobile navbar
+          ========================================================================= */}
+      {isSuperAppOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Selam Super App Launcher"
+        >
+          {/* Backdrop Blur */}
+          <div
+            className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm transition-opacity animate-in fade-in duration-200"
+            onClick={() => setIsSuperAppOpen(false)}
+          />
+
+          {/* Drawer Body */}
+          <div className="relative z-10 w-full max-h-[85vh] bg-white dark:bg-[#120a30] rounded-t-[32px] border-t-2 border-slate-200/90 dark:border-purple-800/80 shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300">
+            {/* Top Drag Handle */}
+            <div className="pt-3 pb-1 flex justify-center">
+              <div className="w-12 h-1.5 bg-slate-300 dark:bg-purple-800 rounded-full" />
+            </div>
+
+            {/* Header */}
+            <div className="px-5 py-3 flex items-center justify-between border-b border-slate-100 dark:border-purple-900/40">
+              <div className="flex items-center gap-2.5">
+                <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 shadow-md shadow-emerald-500/20">
+                  <LayoutGrid className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-display font-black text-lg text-slate-900 dark:text-white leading-tight">
+                    Selam Super App
+                  </h3>
+                  <p className="text-[11px] font-medium text-slate-500 dark:text-purple-300/80">
+                    All games, stories, magazines & tools
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsSuperAppOpen(false)}
+                className="h-8 w-8 rounded-full bg-slate-100 dark:bg-purple-900/60 text-slate-600 dark:text-purple-200 flex items-center justify-center hover:bg-slate-200 dark:hover:bg-purple-800 transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Super App Grid */}
+            <div className="p-4 sm:p-5 overflow-y-auto space-y-4">
+              <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
+                {superApps.map((app) => (
+                  <Link
+                    key={app.id}
+                    href={app.href}
+                    onClick={() => setIsSuperAppOpen(false)}
+                    className="flex flex-col items-center text-center p-2.5 sm:p-3 rounded-2xl bg-slate-50 dark:bg-[#1a1040]/70 hover:bg-emerald-50/70 dark:hover:bg-purple-900/40 border border-slate-200/70 dark:border-purple-800/50 active:scale-95 transition-all group relative overflow-hidden"
+                  >
+                    <div
+                      className={cn(
+                        'h-12 w-12 rounded-2xl flex items-center justify-center mb-1.5 shadow-sm transition-transform group-hover:scale-110',
+                        app.iconBg
+                      )}
+                    >
+                      <app.icon className="h-6 w-6" />
+                    </div>
+
+                    <span className="font-display font-extrabold text-[12px] sm:text-[13px] text-slate-900 dark:text-white leading-tight line-clamp-1">
+                      {app.title}
+                    </span>
+                    <span className="text-[10px] font-medium text-slate-500 dark:text-purple-300/70 line-clamp-1 mt-0.5">
+                      {app.desc}
+                    </span>
+
+                    {app.badge && (
+                      <span
+                        className={cn(
+                          'mt-1.5 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider',
+                          app.badgeBg
+                        )}
+                      >
+                        {app.badge}
+                      </span>
+                    )}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Bottom Quick Bar inside Drawer */}
+              <div className="pt-2 border-t border-slate-100 dark:border-purple-900/40">
+                {user ? (
+                  <div className="flex items-center justify-between p-3 rounded-2xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/60 dark:border-purple-900/50">
+                    <div className="flex items-center gap-2.5">
+                      <Avatar
+                        fallback={user.fullName || user.email}
+                        src={user.avatarUrl}
+                        size="sm"
+                      />
+                      <div>
+                        <div className="text-xs font-black text-slate-900 dark:text-white">
+                          {user.fullName || user.email}
+                        </div>
+                        <div className="text-[10px] text-purple-600 dark:text-purple-300 font-bold uppercase tracking-wider">
+                          {user.role} Explorer
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="px-3 py-1.5 text-xs font-black text-rose-600 hover:bg-rose-100 dark:hover:bg-rose-950/50 rounded-xl transition-colors cursor-pointer"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link
+                      href="/auth/login"
+                      onClick={() => setIsSuperAppOpen(false)}
+                      className="py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-purple-900/40 text-slate-900 dark:text-white text-xs font-black text-center hover:bg-slate-200 dark:hover:bg-purple-900/70 transition-colors"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/auth/register"
+                      onClick={() => setIsSuperAppOpen(false)}
+                      className="py-2.5 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black text-center shadow-md transition-colors"
+                    >
+                      Start Free Trial
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -20,8 +20,14 @@ import {
   Globe,
   SlidersHorizontal,
   TrendingUp,
-  UserPlus,
+  Camera,
+  MapPin,
+  Calendar,
+  Link as LinkIcon,
+  ArrowLeft,
   UserCheck,
+  UserPlus,
+  Check,
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -53,6 +59,7 @@ interface CommunityPost {
     id: string;
     author: string;
     handle: string;
+    avatar?: string;
     avatarBg: string;
     text: string;
     time: string;
@@ -60,6 +67,138 @@ interface CommunityPost {
     userLiked?: boolean;
   }[];
 }
+
+interface UserProfile {
+  name: string;
+  handle: string;
+  role: 'Parent' | 'Educator' | 'Young Author Family';
+  initial: string;
+  avatarBg: string;
+  avatar?: string;
+  bannerGradient: string;
+  isVerified: boolean;
+  bio: string;
+  location: string;
+  joinedDate: string;
+  following: number;
+  followers: number;
+  storiesCount: number;
+  childInfo?: string;
+  website?: string;
+}
+
+const PRESET_CHARACTERS = [
+  { id: 'cloud', name: 'Cloud Mascot', image: '/images/characters/cloud-guy.png' },
+  { id: 'simba', name: 'Lion Simba', image: '/images/characters/simba.png' },
+  { id: 'toothless', name: 'Night Fury', image: '/images/characters/toothless.png' },
+  { id: 'wolf', name: 'Ethiopian Wolf', image: '/images/characters/ethiopian-wolf.png' },
+  { id: 'ibex', name: 'Walia Ibex', image: '/images/characters/walia-ibex.png' },
+  { id: 'nyala', name: 'Mountain Nyala', image: '/images/characters/mountain-nyala.png' },
+  { id: 'lion', name: 'Abyssinian Lion', image: '/images/characters/abyssinian-lion.png' },
+  { id: 'baboon', name: 'Gelada Baboon', image: '/images/characters/gelada-baboon.png' },
+];
+
+const INITIAL_PROFILES: Record<string, UserProfile> = {
+  '@my_family': {
+    name: 'My Family',
+    handle: '@my_family',
+    role: 'Young Author Family',
+    initial: 'M',
+    avatarBg: 'from-emerald-500 via-teal-500 to-emerald-600',
+    bannerGradient: 'from-emerald-900 via-teal-950 to-purple-950',
+    isVerified: true,
+    bio: 'Exploring Ethiopian wonders, reading ancient mysteries, and writing creative bedtime adventures with Selam Kids! 🚀✨',
+    location: 'Addis Ababa & Global',
+    joinedDate: 'Joined September 2025',
+    following: 48,
+    followers: 124,
+    storiesCount: 5,
+    childInfo: 'Child: Explorer Kid • Grade 2',
+    website: 'selamkids.com',
+  },
+  '@sarah_jenkins': {
+    name: 'Sarah Jenkins',
+    handle: '@sarah_jenkins',
+    role: 'Young Author Family',
+    initial: 'S',
+    avatarBg: 'from-purple-600 to-indigo-600',
+    avatar: '/images/characters/simba.png',
+    bannerGradient: 'from-purple-900 via-indigo-950 to-emerald-950',
+    isVerified: true,
+    bio: 'Proud mom cheering on our 8yo son Leo! Big fans of Simien wildlife adventures, mythology, and creative literacy. 🌟🦁',
+    location: 'Seattle, WA',
+    joinedDate: 'Joined August 2025',
+    following: 112,
+    followers: 840,
+    storiesCount: 14,
+    childInfo: 'Child: Leo • Grade 3 Author',
+    website: 'selamkids.com/leo-stories',
+  },
+  '@davidchen_dad': {
+    name: 'David Chen',
+    handle: '@davidchen_dad',
+    role: 'Parent',
+    initial: 'D',
+    avatarBg: 'from-teal-500 to-emerald-600',
+    bannerGradient: 'from-teal-950 via-cyan-950 to-purple-950',
+    isVerified: false,
+    bio: 'Father of two passionate young doodlers and storytellers. Advocating for relaxed 20-minute daily family writing habits. ☕📚',
+    location: 'Toronto, Canada',
+    joinedDate: 'Joined October 2025',
+    following: 76,
+    followers: 432,
+    storiesCount: 8,
+  },
+  '@coach_marcus': {
+    name: 'Coach Marcus',
+    handle: '@coach_marcus',
+    role: 'Educator',
+    initial: 'M',
+    avatarBg: 'from-emerald-600 to-teal-700',
+    avatar: '/images/characters/cloud-guy.png',
+    bannerGradient: 'from-emerald-950 via-amber-950 to-purple-950',
+    isVerified: true,
+    bio: 'Elementary Creative Writing Specialist. Passionate about empowering kids to invent magical animals with descriptive sensory adjectives! 🌳✏️',
+    location: 'Nairobi & Virtual HQ',
+    joinedDate: 'Joined July 2025',
+    following: 204,
+    followers: 2450,
+    storiesCount: 32,
+    website: 'coachmarcus.edu',
+  },
+  '@elena_illustrator': {
+    name: 'Elena Rostova',
+    handle: '@elena_illustrator',
+    role: 'Educator',
+    initial: 'E',
+    avatarBg: 'from-amber-500 to-yellow-500',
+    bannerGradient: 'from-amber-950 via-rose-950 to-purple-950',
+    isVerified: true,
+    bio: 'Children’s book illustrator and creative mentor. Helping young authors turn their stories into vivid visual masterpieces! 🎨✨',
+    location: 'Stockholm, Sweden',
+    joinedDate: 'Joined June 2025',
+    following: 95,
+    followers: 1890,
+    storiesCount: 21,
+  },
+  '@selam_creators': {
+    name: 'Selam Creators',
+    handle: '@selam_creators',
+    role: 'Young Author Family',
+    initial: 'S',
+    avatarBg: 'from-purple-600 to-indigo-700',
+    avatar: '/images/logo.png',
+    bannerGradient: 'from-purple-900 via-emerald-950 to-[#070314]',
+    isVerified: true,
+    bio: 'Official Selam Kids Creator Community! Discover writing prompts, Ethiopian folklore quests, and young author highlights. 🇪🇹✨',
+    location: 'Addis Ababa, Ethiopia',
+    joinedDate: 'Joined January 2025',
+    following: 15,
+    followers: 12500,
+    storiesCount: 94,
+    website: 'selamkids.com',
+  },
+};
 
 const INITIAL_POSTS: CommunityPost[] = [
   {
@@ -69,6 +208,7 @@ const INITIAL_POSTS: CommunityPost[] = [
     authorRole: 'Young Author Family',
     authorInitial: 'S',
     avatarBg: 'from-purple-600 to-indigo-600',
+    authorAvatar: '/images/characters/simba.png',
     isVerified: true,
     title: 'Leo published his first 500-word chapter story!',
     content:
@@ -148,6 +288,7 @@ const INITIAL_POSTS: CommunityPost[] = [
     authorRole: 'Educator',
     authorInitial: 'M',
     avatarBg: 'from-emerald-600 to-teal-700',
+    authorAvatar: '/images/characters/cloud-guy.png',
     isVerified: true,
     title: 'Monthly Creative Challenge: The Creature with Two Shadows',
     content:
@@ -180,9 +321,21 @@ const INITIAL_POSTS: CommunityPost[] = [
 
 export default function CommunityPage() {
   const [posts, setPosts] = React.useState<CommunityPost[]>(INITIAL_POSTS);
+  const [profiles, setProfiles] = React.useState<Record<string, UserProfile>>(INITIAL_PROFILES);
   const [activeTab, setActiveTab] = React.useState<'for-you' | 'spotlight' | 'tips' | 'prompts' | 'discussion'>('for-you');
   const [searchQuery, setSearchQuery] = React.useState('');
   
+  // Custom Profile Picture State for Current User ("My Family")
+  const [myProfilePic, setMyProfilePic] = React.useState<string | null>(null);
+
+  // Profile Modal State
+  const [selectedProfileHandle, setSelectedProfileHandle] = React.useState<string | null>(null);
+  const [profileActiveTab, setProfileActiveTab] = React.useState<'posts' | 'replies' | 'media' | 'likes'>('posts');
+
+  // Add / Change Profile Picture Modal State
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = React.useState(false);
+  const profileFileInputRef = React.useRef<HTMLInputElement | null>(null);
+
   // New Tweet Compose State
   const [tweetText, setTweetText] = React.useState('');
   const [newCategory, setNewCategory] = React.useState<'spotlight' | 'tips' | 'prompts' | 'discussion'>('discussion');
@@ -196,6 +349,60 @@ export default function CommunityPage() {
 
   // Who to follow state
   const [followedUsers, setFollowedUsers] = React.useState<Record<string, boolean>>({});
+
+  // Load custom profile picture from localStorage on mount
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedPic = localStorage.getItem('selam-kids-profile-pic');
+      if (savedPic) {
+        setMyProfilePic(savedPic);
+        setProfiles((prev) => ({
+          ...prev,
+          '@my_family': {
+            ...prev['@my_family'],
+            avatar: savedPic,
+          },
+        }));
+      }
+    }
+  }, []);
+
+  const handleUpdateProfilePic = (picUrl: string | null) => {
+    setMyProfilePic(picUrl);
+    if (picUrl) {
+      localStorage.setItem('selam-kids-profile-pic', picUrl);
+    } else {
+      localStorage.removeItem('selam-kids-profile-pic');
+    }
+    setProfiles((prev) => ({
+      ...prev,
+      '@my_family': {
+        ...prev['@my_family'],
+        avatar: picUrl || undefined,
+      },
+    }));
+    setIsPhotoModalOpen(false);
+  };
+
+  const handleProfilePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Photo file size exceeds 5MB limit.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result as string;
+      handleUpdateProfilePic(result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleOpenProfile = (handle: string) => {
+    setSelectedProfileHandle(handle);
+    setProfileActiveTab('posts');
+  };
 
   const toggleFollow = (username: string) => {
     setFollowedUsers((prev) => ({
@@ -274,6 +481,7 @@ export default function CommunityPage() {
       authorHandle: '@my_family',
       authorRole: 'Young Author Family',
       authorInitial: 'M',
+      authorAvatar: myProfilePic || undefined,
       avatarBg: 'from-emerald-500 via-teal-500 to-emerald-600',
       isVerified: true,
       content: tweetText.trim(),
@@ -323,6 +531,7 @@ export default function CommunityPage() {
             id: Date.now().toString(),
             author: 'My Family',
             handle: '@my_family',
+            avatar: myProfilePic || undefined,
             avatarBg: 'from-emerald-500 via-teal-500 to-emerald-600',
             text: replyText.trim(),
             time: 'Just now',
@@ -353,6 +562,11 @@ export default function CommunityPage() {
 
     return matchesTab && matchesSearch;
   });
+
+  const activeProfile = selectedProfileHandle ? profiles[selectedProfileHandle] : null;
+  const activeProfilePosts = selectedProfileHandle
+    ? posts.filter((p) => p.authorHandle === selectedProfileHandle)
+    : [];
 
   return (
     <div className="min-h-screen bg-slate-50/70 dark:bg-[#070314] text-slate-900 dark:text-slate-100 flex justify-center -mx-4 -my-4 sm:-mx-6 sm:-my-6 lg:-mx-8 lg:-my-8 transition-colors">
@@ -423,15 +637,40 @@ export default function CommunityPage() {
               TWEET COMPOSER ("What is happening?!")
               ======================================================================= */}
           <div className="p-4 border-b border-purple-100 dark:border-purple-900/40 flex gap-3">
-            {/* User Avatar with Selam Kids Brand Ring */}
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 via-teal-500 to-emerald-600 ring-2 ring-emerald-300 dark:ring-emerald-700/60 shadow-md shadow-emerald-500/20 flex items-center justify-center font-black text-slate-950 shrink-0 text-sm select-none">
-              M
+            {/* User Avatar - CLICK TO VIEW PROFILE & ADD PROFILE PIC */}
+            <div className="relative group shrink-0">
+              <button
+                type="button"
+                onClick={() => handleOpenProfile('@my_family')}
+                title="Click to view profile & add profile picture"
+                className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 via-teal-500 to-emerald-600 ring-2 ring-emerald-300 dark:ring-emerald-700/60 shadow-md shadow-emerald-500/20 flex items-center justify-center font-black text-slate-950 text-sm overflow-hidden cursor-pointer hover:scale-105 active:scale-95 transition-all select-none"
+              >
+                {myProfilePic ? (
+                  <img
+                    src={myProfilePic}
+                    alt="My Profile Picture"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span>M</span>
+                )}
+              </button>
+
+              {/* Small Camera badge overlay */}
+              <button
+                type="button"
+                onClick={() => setIsPhotoModalOpen(true)}
+                title="Add / Change Profile Picture"
+                className="absolute -bottom-1 -right-1 p-1 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-md border border-white dark:border-[#0c0522] transition-transform hover:scale-110 cursor-pointer"
+              >
+                <Camera className="h-2.5 w-2.5" />
+              </button>
             </div>
 
             {/* Compose Area */}
             <div className="flex-1 min-w-0">
-              {/* Audience pill */}
-              <div className="mb-2">
+              {/* Audience pill & My Profile shortcut */}
+              <div className="mb-2 flex items-center justify-between">
                 <button
                   type="button"
                   onClick={() => setShowCategoryPicker(!showCategoryPicker)}
@@ -447,6 +686,14 @@ export default function CommunityPage() {
                       ? 'Writing Prompt'
                       : 'Everyone can reply'}
                   </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleOpenProfile('@my_family')}
+                  className="text-xs font-bold text-slate-500 dark:text-purple-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                >
+                  View My Profile
                 </button>
               </div>
 
@@ -577,254 +824,313 @@ export default function CommunityPage() {
                 <p className="text-xs">Be the first to share a post in this category!</p>
               </div>
             ) : (
-              filteredPosts.map((post) => (
-                <article
-                  key={post.id}
-                  className="p-4 sm:p-5 border-b border-purple-100/80 dark:border-purple-900/40 hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors cursor-pointer"
-                >
-                  <div className="flex gap-3">
-                    {/* Author Avatar with gradient */}
-                    <div
-                      className={`w-10 h-10 rounded-full bg-gradient-to-tr ${post.avatarBg} shadow-sm flex items-center justify-center font-black text-white shrink-0 text-sm select-none`}
-                    >
-                      {post.authorInitial}
-                    </div>
+              filteredPosts.map((post) => {
+                const isAuthorMe = post.authorHandle === '@my_family';
+                const displayAvatar = isAuthorMe ? (myProfilePic || post.authorAvatar) : post.authorAvatar;
 
-                    {/* Main Tweet Body */}
-                    <div className="flex-1 min-w-0">
-                      {/* Header: Name, Verified Badge, Handle, Dot, Time, More */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-                          <span className="font-display font-black text-sm text-slate-900 dark:text-white truncate hover:underline">
-                            {post.authorName}
-                          </span>
-
-                          {post.isVerified && (
-                            <CheckCircle2 className="h-4 w-4 text-emerald-500 fill-emerald-500 text-white shrink-0" />
-                          )}
-
-                          <span className="text-xs text-slate-500 dark:text-purple-300/70 truncate">
-                            {post.authorHandle}
-                          </span>
-
-                          <span className="text-xs text-slate-400 dark:text-purple-400/50">·</span>
-
-                          <span className="text-xs text-slate-500 dark:text-purple-300/70 shrink-0">
-                            {post.timeAgo}
-                          </span>
-
-                          {/* Category Badge with brand styling */}
-                          <span className={`ml-1 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${post.categoryBadgeStyle}`}>
-                            {post.categoryLabel}
-                          </span>
-                        </div>
-
-                        <button
-                          type="button"
-                          className="p-1 rounded-full text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10 transition-colors"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                        </button>
-                      </div>
-
-                      {/* Milestone Badge if present */}
-                      {post.childInfo && (
-                        <div className="mt-1.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-amber-400/15 text-amber-800 dark:text-amber-300 text-xs font-bold border border-amber-400/30">
-                          <Award className="h-3.5 w-3.5 text-amber-500 shrink-0" />
-                          <span>{post.childInfo}</span>
-                        </div>
-                      )}
-
-                      {/* Tweet Content */}
-                      <p className="mt-2 text-sm text-slate-800 dark:text-purple-100 leading-relaxed font-normal whitespace-pre-line">
-                        {post.content}
-                      </p>
-
-                      {/* Attached Media / Image in Selam Kids rounded frame */}
-                      {post.imageUrl && (
-                        <div className="mt-3 rounded-2xl overflow-hidden border border-purple-200 dark:border-purple-800/60 bg-slate-50 dark:bg-purple-950/30 max-h-[380px] shadow-sm">
+                return (
+                  <article
+                    key={post.id}
+                    className="p-4 sm:p-5 border-b border-purple-100/80 dark:border-purple-900/40 hover:bg-purple-50/40 dark:hover:bg-purple-950/20 transition-colors"
+                  >
+                    <div className="flex gap-3">
+                      {/* Author Avatar - CLICKABLE TO VIEW PROFILE */}
+                      <button
+                        type="button"
+                        onClick={() => handleOpenProfile(post.authorHandle)}
+                        title={`View ${post.authorName}'s Profile`}
+                        className={`w-10 h-10 rounded-full bg-gradient-to-tr ${post.avatarBg} shadow-sm flex items-center justify-center font-black text-white shrink-0 text-sm select-none cursor-pointer hover:scale-105 active:scale-95 transition-transform overflow-hidden ring-2 ring-transparent hover:ring-emerald-400`}
+                      >
+                        {displayAvatar ? (
                           <img
-                            src={post.imageUrl}
-                            alt={post.title || 'Attached artwork'}
-                            className="w-full h-auto max-h-[380px] object-cover hover:scale-[1.01] transition-transform"
-                            loading="lazy"
+                            src={displayAvatar}
+                            alt={post.authorName}
+                            className="w-full h-full object-cover"
                           />
-                        </div>
-                      )}
+                        ) : (
+                          <span>{post.authorInitial}</span>
+                        )}
+                      </button>
 
-                      {/* Twitter Action Bar: Reply, Repost, Like, Views, Bookmark, Share */}
-                      <div className="flex items-center justify-between mt-3 pt-1 text-slate-500 dark:text-purple-300/70 max-w-md">
-                        {/* Reply */}
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveReplyPostId(
-                              activeReplyPostId === post.id ? null : post.id
-                            );
-                          }}
-                          className="group flex items-center gap-1.5 hover:text-emerald-500 transition-colors cursor-pointer text-xs"
-                        >
-                          <span className="p-2 rounded-full group-hover:bg-emerald-500/10 transition-colors">
-                            <MessageCircle className="h-4 w-4" />
-                          </span>
-                          <span>{post.commentsCount > 0 ? post.commentsCount : ''}</span>
-                        </button>
-
-                        {/* Repost (Retweet) */}
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleRepost(post.id);
-                          }}
-                          className={`group flex items-center gap-1.5 transition-colors cursor-pointer text-xs ${
-                            post.userReposted
-                              ? 'text-emerald-500 font-bold'
-                              : 'hover:text-emerald-500'
-                          }`}
-                        >
-                          <span className="p-2 rounded-full group-hover:bg-emerald-500/10 transition-colors">
-                            <Repeat2 className="h-4 w-4" />
-                          </span>
-                          <span>{post.reposts > 0 ? post.reposts : ''}</span>
-                        </button>
-
-                        {/* Like (Heart) */}
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleLike(post.id);
-                          }}
-                          className={`group flex items-center gap-1.5 transition-colors cursor-pointer text-xs ${
-                            post.userLiked
-                              ? 'text-rose-500 font-bold'
-                              : 'hover:text-rose-500'
-                          }`}
-                        >
-                          <span className="p-2 rounded-full group-hover:bg-rose-500/10 transition-colors">
-                            <Heart
-                              className={`h-4 w-4 ${
-                                post.userLiked ? 'fill-rose-500 text-rose-500' : ''
-                              }`}
-                            />
-                          </span>
-                          <span>{post.likes > 0 ? post.likes : ''}</span>
-                        </button>
-
-                        {/* Views */}
-                        <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-purple-400/50">
-                          <span className="p-2">
-                            <BarChart2 className="h-4 w-4" />
-                          </span>
-                          <span>{post.views}</span>
-                        </div>
-
-                        {/* Bookmark & Share */}
-                        <div className="flex items-center gap-1">
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleBookmark(post.id);
-                            }}
-                            className={`p-2 rounded-full transition-colors cursor-pointer ${
-                              post.bookmarked
-                                ? 'text-amber-500'
-                                : 'hover:text-amber-500 hover:bg-amber-500/10'
-                            }`}
-                          >
-                            <Bookmark
-                              className={`h-4 w-4 ${
-                                post.bookmarked ? 'fill-amber-500' : ''
-                              }`}
-                            />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (navigator.share) {
-                                navigator.share({
-                                  title: post.title || 'Selam Kids Post',
-                                  text: post.content,
-                                  url: window.location.href,
-                                });
-                              }
-                            }}
-                            className="p-2 rounded-full hover:text-emerald-500 hover:bg-emerald-500/10 transition-colors cursor-pointer"
-                          >
-                            <Share className="h-4 w-4" />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* =============================================================
-                          THREAD REPLIES SECTION (Twitter Thread layout)
-                          ============================================================= */}
-                      {activeReplyPostId === post.id && (
-                        <div className="mt-4 pt-3 border-t border-purple-100 dark:border-purple-900/40 space-y-3 animate-in fade-in duration-150">
-                          {/* Existing Replies */}
-                          {post.comments.map((comment) => (
-                            <div key={comment.id} className="flex gap-2.5 pt-1">
-                              <div
-                                className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarBg} flex items-center justify-center font-bold text-white shrink-0 text-xs shadow-sm`}
-                              >
-                                {comment.author.charAt(0)}
-                              </div>
-                              <div className="flex-1 min-w-0 bg-purple-50/50 dark:bg-purple-950/40 rounded-2xl p-3 border border-purple-100 dark:border-purple-900/40">
-                                <div className="flex items-center justify-between text-xs mb-1">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="font-bold text-slate-900 dark:text-white">
-                                      {comment.author}
-                                    </span>
-                                    <span className="text-slate-400 dark:text-purple-300/60">
-                                      {comment.handle}
-                                    </span>
-                                    <span className="text-slate-400 dark:text-purple-400/50">·</span>
-                                    <span className="text-slate-400 dark:text-purple-300/60">
-                                      {comment.time}
-                                    </span>
-                                  </div>
-                                </div>
-                                <p className="text-xs text-slate-700 dark:text-purple-200 leading-relaxed font-normal">
-                                  {comment.text}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
-
-                          {/* Reply Input Form */}
-                          <div className="flex items-center gap-2 pt-2">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center font-black text-slate-950 shrink-0 text-xs">
-                              M
-                            </div>
-                            <input
-                              type="text"
-                              value={replyText}
-                              onChange={(e) => setReplyText(e.target.value)}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter') handleAddReply(post.id);
-                              }}
-                              placeholder="Post your reply..."
-                              className="flex-1 rounded-full bg-slate-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/60 focus:border-emerald-500 px-4 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-300/50 focus:outline-none"
-                            />
+                      {/* Main Tweet Body */}
+                      <div className="flex-1 min-w-0">
+                        {/* Header: Name (CLICKABLE), Verified Badge, Handle (CLICKABLE), Dot, Time, More */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1.5 flex-wrap min-w-0">
                             <button
                               type="button"
-                              onClick={() => handleAddReply(post.id)}
-                              disabled={!replyText.trim()}
-                              className="btn-3d rounded-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-slate-950 font-black text-xs px-4 py-2 transition-all border border-emerald-300"
+                              onClick={() => handleOpenProfile(post.authorHandle)}
+                              className="font-display font-black text-sm text-slate-900 dark:text-white truncate hover:underline hover:text-emerald-600 dark:hover:text-emerald-400 cursor-pointer text-left"
                             >
-                              Reply
+                              {post.authorName}
+                            </button>
+
+                            {post.isVerified && (
+                              <CheckCircle2 className="h-4 w-4 text-emerald-500 fill-emerald-500 text-white shrink-0" />
+                            )}
+
+                            <button
+                              type="button"
+                              onClick={() => handleOpenProfile(post.authorHandle)}
+                              className="text-xs text-slate-500 dark:text-purple-300/70 truncate hover:underline cursor-pointer"
+                            >
+                              {post.authorHandle}
+                            </button>
+
+                            <span className="text-xs text-slate-400 dark:text-purple-400/50">·</span>
+
+                            <span className="text-xs text-slate-500 dark:text-purple-300/70 shrink-0">
+                              {post.timeAgo}
+                            </span>
+
+                            {/* Category Badge with brand styling */}
+                            <span className={`ml-1 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border ${post.categoryBadgeStyle}`}>
+                              {post.categoryLabel}
+                            </span>
+                          </div>
+
+                          <button
+                            type="button"
+                            className="p-1 rounded-full text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10 transition-colors"
+                          >
+                            <MoreHorizontal className="h-4 w-4" />
+                          </button>
+                        </div>
+
+                        {/* Milestone Badge if present */}
+                        {post.childInfo && (
+                          <div className="mt-1.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-amber-400/15 text-amber-800 dark:text-amber-300 text-xs font-bold border border-amber-400/30">
+                            <Award className="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                            <span>{post.childInfo}</span>
+                          </div>
+                        )}
+
+                        {/* Tweet Content */}
+                        <p className="mt-2 text-sm text-slate-800 dark:text-purple-100 leading-relaxed font-normal whitespace-pre-line">
+                          {post.content}
+                        </p>
+
+                        {/* Attached Media / Image in Selam Kids rounded frame */}
+                        {post.imageUrl && (
+                          <div className="mt-3 rounded-2xl overflow-hidden border border-purple-200 dark:border-purple-800/60 bg-slate-50 dark:bg-purple-950/30 max-h-[380px] shadow-sm">
+                            <img
+                              src={post.imageUrl}
+                              alt={post.title || 'Attached artwork'}
+                              className="w-full h-auto max-h-[380px] object-cover hover:scale-[1.01] transition-transform"
+                              loading="lazy"
+                            />
+                          </div>
+                        )}
+
+                        {/* Twitter Action Bar: Reply, Repost, Like, Views, Bookmark, Share */}
+                        <div className="flex items-center justify-between mt-3 pt-1 text-slate-500 dark:text-purple-300/70 max-w-md">
+                          {/* Reply */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveReplyPostId(
+                                activeReplyPostId === post.id ? null : post.id
+                              );
+                            }}
+                            className="group flex items-center gap-1.5 hover:text-emerald-500 transition-colors cursor-pointer text-xs"
+                          >
+                            <span className="p-2 rounded-full group-hover:bg-emerald-500/10 transition-colors">
+                              <MessageCircle className="h-4 w-4" />
+                            </span>
+                            <span>{post.commentsCount > 0 ? post.commentsCount : ''}</span>
+                          </button>
+
+                          {/* Repost (Retweet) */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRepost(post.id);
+                            }}
+                            className={`group flex items-center gap-1.5 transition-colors cursor-pointer text-xs ${
+                              post.userReposted
+                                ? 'text-emerald-500 font-bold'
+                                : 'hover:text-emerald-500'
+                            }`}
+                          >
+                            <span className="p-2 rounded-full group-hover:bg-emerald-500/10 transition-colors">
+                              <Repeat2 className="h-4 w-4" />
+                            </span>
+                            <span>{post.reposts > 0 ? post.reposts : ''}</span>
+                          </button>
+
+                          {/* Like (Heart) */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleLike(post.id);
+                            }}
+                            className={`group flex items-center gap-1.5 transition-colors cursor-pointer text-xs ${
+                              post.userLiked
+                                ? 'text-rose-500 font-bold'
+                                : 'hover:text-rose-500'
+                            }`}
+                          >
+                            <span className="p-2 rounded-full group-hover:bg-rose-500/10 transition-colors">
+                              <Heart
+                                className={`h-4 w-4 ${
+                                  post.userLiked ? 'fill-rose-500 text-rose-500' : ''
+                                }`}
+                              />
+                            </span>
+                            <span>{post.likes > 0 ? post.likes : ''}</span>
+                          </button>
+
+                          {/* Views */}
+                          <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-purple-400/50">
+                            <span className="p-2">
+                              <BarChart2 className="h-4 w-4" />
+                            </span>
+                            <span>{post.views}</span>
+                          </div>
+
+                          {/* Bookmark & Share */}
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleBookmark(post.id);
+                              }}
+                              className={`p-2 rounded-full transition-colors cursor-pointer ${
+                                post.bookmarked
+                                  ? 'text-amber-500'
+                                  : 'hover:text-amber-500 hover:bg-amber-500/10'
+                              }`}
+                            >
+                              <Bookmark
+                                className={`h-4 w-4 ${
+                                  post.bookmarked ? 'fill-amber-500' : ''
+                                }`}
+                              />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (navigator.share) {
+                                  navigator.share({
+                                    title: post.title || 'Selam Kids Post',
+                                    text: post.content,
+                                    url: window.location.href,
+                                  });
+                                }
+                              }}
+                              className="p-2 rounded-full hover:text-emerald-500 hover:bg-emerald-500/10 transition-colors cursor-pointer"
+                            >
+                              <Share className="h-4 w-4" />
                             </button>
                           </div>
                         </div>
-                      )}
+
+                        {/* =============================================================
+                            THREAD REPLIES SECTION (Twitter Thread layout)
+                            ============================================================= */}
+                        {activeReplyPostId === post.id && (
+                          <div className="mt-4 pt-3 border-t border-purple-100 dark:border-purple-900/40 space-y-3 animate-in fade-in duration-150">
+                            {/* Existing Replies */}
+                            {post.comments.map((comment) => {
+                              const isCommentMe = comment.handle === '@my_family';
+                              const commentAvatar = isCommentMe ? (myProfilePic || comment.avatar) : comment.avatar;
+
+                              return (
+                                <div key={comment.id} className="flex gap-2.5 pt-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenProfile(comment.handle)}
+                                    className={`w-8 h-8 rounded-full bg-gradient-to-tr ${comment.avatarBg} flex items-center justify-center font-bold text-white shrink-0 text-xs shadow-sm overflow-hidden cursor-pointer hover:scale-105 transition-transform`}
+                                  >
+                                    {commentAvatar ? (
+                                      <img
+                                        src={commentAvatar}
+                                        alt={comment.author}
+                                        className="w-full h-full object-cover"
+                                      />
+                                    ) : (
+                                      <span>{comment.author.charAt(0)}</span>
+                                    )}
+                                  </button>
+                                  <div className="flex-1 min-w-0 bg-purple-50/50 dark:bg-purple-950/40 rounded-2xl p-3 border border-purple-100 dark:border-purple-900/40">
+                                    <div className="flex items-center justify-between text-xs mb-1">
+                                      <div className="flex items-center gap-1.5">
+                                        <button
+                                          type="button"
+                                          onClick={() => handleOpenProfile(comment.handle)}
+                                          className="font-bold text-slate-900 dark:text-white hover:underline text-left"
+                                        >
+                                          {comment.author}
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => handleOpenProfile(comment.handle)}
+                                          className="text-slate-400 dark:text-purple-300/60 hover:underline"
+                                        >
+                                          {comment.handle}
+                                        </button>
+                                        <span className="text-slate-400 dark:text-purple-400/50">·</span>
+                                        <span className="text-slate-400 dark:text-purple-300/60">
+                                          {comment.time}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <p className="text-xs text-slate-700 dark:text-purple-200 leading-relaxed font-normal">
+                                      {comment.text}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+
+                            {/* Reply Input Form */}
+                            <div className="flex items-center gap-2 pt-2">
+                              <button
+                                type="button"
+                                onClick={() => handleOpenProfile('@my_family')}
+                                className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center font-black text-slate-950 shrink-0 text-xs overflow-hidden cursor-pointer"
+                              >
+                                {myProfilePic ? (
+                                  <img
+                                    src={myProfilePic}
+                                    alt="My Avatar"
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <span>M</span>
+                                )}
+                              </button>
+                              <input
+                                type="text"
+                                value={replyText}
+                                onChange={(e) => setReplyText(e.target.value)}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') handleAddReply(post.id);
+                                }}
+                                placeholder="Post your reply..."
+                                className="flex-1 rounded-full bg-slate-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-800/60 focus:border-emerald-500 px-4 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-300/50 focus:outline-none"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => handleAddReply(post.id)}
+                                disabled={!replyText.trim()}
+                                className="btn-3d rounded-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 text-slate-950 font-black text-xs px-4 py-2 transition-all border border-emerald-300"
+                              >
+                                Reply
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))
+                  </article>
+                );
+              })
             )}
           </div>
         </main>
@@ -915,6 +1221,7 @@ export default function CommunityPage() {
                   handle: '@coach_marcus',
                   role: 'Educator',
                   initial: 'M',
+                  avatar: '/images/characters/cloud-guy.png',
                   bg: 'from-emerald-600 to-teal-700',
                 },
                 {
@@ -929,27 +1236,40 @@ export default function CommunityPage() {
                   handle: '@selam_creators',
                   role: 'Author Squad',
                   initial: 'S',
+                  avatar: '/images/logo.png',
                   bg: 'from-purple-600 to-indigo-700',
                 },
               ].map((user) => {
                 const isFollowed = !!followedUsers[user.handle];
                 return (
                   <div key={user.handle} className="flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-2 min-w-0">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenProfile(user.handle)}
+                      className="flex items-center gap-2 min-w-0 text-left cursor-pointer group"
+                    >
                       <div
-                        className={`w-9 h-9 rounded-full bg-gradient-to-tr ${user.bg} shadow-sm flex items-center justify-center font-bold text-white shrink-0 text-xs`}
+                        className={`w-9 h-9 rounded-full bg-gradient-to-tr ${user.bg} shadow-sm flex items-center justify-center font-bold text-white shrink-0 text-xs overflow-hidden group-hover:ring-2 group-hover:ring-emerald-400 transition-all`}
                       >
-                        {user.initial}
+                        {user.avatar ? (
+                          <img
+                            src={user.avatar}
+                            alt={user.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span>{user.initial}</span>
+                        )}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-bold text-slate-900 dark:text-white truncate hover:underline hover:text-emerald-600 dark:hover:text-emerald-400 cursor-pointer transition-colors">
+                        <p className="font-bold text-slate-900 dark:text-white truncate group-hover:underline group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                           {user.name}
                         </p>
                         <p className="text-[11px] text-slate-400 dark:text-purple-300/60 truncate">
                           {user.handle}
                         </p>
                       </div>
-                    </div>
+                    </button>
 
                     <button
                       type="button"
@@ -981,6 +1301,406 @@ export default function CommunityPage() {
         </aside>
 
       </div>
+
+      {/* =========================================================================
+          X / TWITTER STYLE USER PROFILE MODAL
+          ========================================================================= */}
+      {activeProfile && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-3 sm:p-6 bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-2xl bg-white dark:bg-[#0c0522] rounded-3xl border-2 border-purple-200 dark:border-purple-800/80 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
+            
+            {/* Modal Top Header (Back/Close button, Name, Story count) */}
+            <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-white/95 dark:bg-[#0c0522]/95 backdrop-blur-md border-b border-purple-100 dark:border-purple-900/40">
+              <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => setSelectedProfileHandle(null)}
+                  className="p-2 rounded-full hover:bg-purple-50 dark:hover:bg-purple-900/40 text-slate-700 dark:text-purple-300 transition-colors"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </button>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <h2 className="font-display font-black text-lg text-slate-900 dark:text-white leading-tight">
+                      {activeProfile.name}
+                    </h2>
+                    {activeProfile.isVerified && (
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 fill-emerald-500 text-white" />
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-purple-400">
+                    {activeProfilePosts.length} posts · {activeProfile.storiesCount} stories written
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelectedProfileHandle(null)}
+                className="p-2 rounded-full hover:bg-purple-50 dark:hover:bg-purple-900/40 text-slate-500 dark:text-purple-400 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Scrollable Profile Body */}
+            <div className="flex-1 overflow-y-auto no-scrollbar">
+              {/* Cover Banner */}
+              <div
+                className={`relative w-full h-36 sm:h-44 bg-gradient-to-r ${activeProfile.bannerGradient}`}
+              >
+                <div className="absolute inset-0 stars-pattern opacity-30 pointer-events-none" />
+              </div>
+
+              {/* Profile Details Container */}
+              <div className="px-5 sm:px-6 pb-4">
+                {/* Avatar and Action Buttons Row */}
+                <div className="flex items-end justify-between -mt-14 sm:-mt-16 mb-4">
+                  {/* Large Profile Avatar */}
+                  <div className="relative group">
+                    <div
+                      className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr ${activeProfile.avatarBg} border-4 border-white dark:border-[#0c0522] shadow-xl flex items-center justify-center font-black text-white text-3xl sm:text-4xl overflow-hidden select-none`}
+                    >
+                      {activeProfile.handle === '@my_family' && myProfilePic ? (
+                        <img
+                          src={myProfilePic}
+                          alt={activeProfile.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : activeProfile.avatar ? (
+                        <img
+                          src={activeProfile.avatar}
+                          alt={activeProfile.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span>{activeProfile.initial}</span>
+                      )}
+                    </div>
+
+                    {/* Camera icon badge if viewing own profile */}
+                    {activeProfile.handle === '@my_family' && (
+                      <button
+                        type="button"
+                        onClick={() => setIsPhotoModalOpen(true)}
+                        title="Click to Add / Change Profile Picture"
+                        className="absolute bottom-1 right-1 p-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 border-2 border-white dark:border-[#0c0522] shadow-lg transition-transform hover:scale-110 cursor-pointer"
+                      >
+                        <Camera className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div>
+                    {activeProfile.handle === '@my_family' ? (
+                      <button
+                        type="button"
+                        onClick={() => setIsPhotoModalOpen(true)}
+                        className="btn-3d flex items-center gap-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-display font-black text-xs sm:text-sm px-4 sm:px-5 py-2 border border-emerald-300 shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
+                      >
+                        <Camera className="h-4 w-4" />
+                        <span>Add / Change Profile Pic</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => toggleFollow(activeProfile.handle)}
+                        className={`btn-3d rounded-full px-5 py-2 font-display font-black text-xs sm:text-sm transition-all cursor-pointer ${
+                          followedUsers[activeProfile.handle]
+                            ? 'border border-purple-200 dark:border-purple-700 bg-purple-50 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300'
+                            : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 border border-emerald-300 shadow-md'
+                        }`}
+                      >
+                        {followedUsers[activeProfile.handle] ? 'Following' : 'Follow'}
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* Name, Handle, Role Badge */}
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1.5">
+                    <h3 className="font-display font-black text-xl text-slate-900 dark:text-white">
+                      {activeProfile.name}
+                    </h3>
+                    {activeProfile.isVerified && (
+                      <CheckCircle2 className="h-4 w-4 text-emerald-500 fill-emerald-500 text-white" />
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-500 dark:text-purple-300/70 font-mono">
+                      {activeProfile.handle}
+                    </span>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                      {activeProfile.role}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Milestone Badge if present */}
+                {activeProfile.childInfo && (
+                  <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-400/15 text-amber-800 dark:text-amber-300 text-xs font-bold border border-amber-400/30">
+                    <Award className="h-4 w-4 text-amber-500 shrink-0" />
+                    <span>{activeProfile.childInfo}</span>
+                  </div>
+                )}
+
+                {/* Bio */}
+                <p className="mt-3 text-sm text-slate-800 dark:text-purple-100 leading-relaxed font-normal">
+                  {activeProfile.bio}
+                </p>
+
+                {/* Meta details: Location, Joined Date, Website */}
+                <div className="flex items-center gap-4 flex-wrap mt-3 text-xs text-slate-500 dark:text-purple-400/70">
+                  <div className="flex items-center gap-1">
+                    <MapPin className="h-3.5 w-3.5" />
+                    <span>{activeProfile.location}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Calendar className="h-3.5 w-3.5" />
+                    <span>{activeProfile.joinedDate}</span>
+                  </div>
+                  {activeProfile.website && (
+                    <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 hover:underline">
+                      <LinkIcon className="h-3.5 w-3.5" />
+                      <span>{activeProfile.website}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Following / Followers Stats */}
+                <div className="flex items-center gap-5 mt-3 pt-2 text-xs">
+                  <div>
+                    <span className="font-bold text-slate-900 dark:text-white">
+                      {activeProfile.following}
+                    </span>{' '}
+                    <span className="text-slate-500 dark:text-purple-400/70">Following</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-slate-900 dark:text-white">
+                      {activeProfile.followers}
+                    </span>{' '}
+                    <span className="text-slate-500 dark:text-purple-400/70">Followers</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Profile Tabs: Posts, Replies, Media, Likes */}
+              <div className="flex items-center border-b border-purple-100 dark:border-purple-900/40 border-t">
+                {[
+                  { id: 'posts', label: 'Posts' },
+                  { id: 'replies', label: 'Replies' },
+                  { id: 'media', label: 'Media' },
+                  { id: 'likes', label: 'Likes' },
+                ].map((tab) => {
+                  const isActive = profileActiveTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setProfileActiveTab(tab.id as any)}
+                      className="relative flex-1 py-3 text-center text-xs sm:text-sm font-bold transition-colors hover:bg-purple-50/50 dark:hover:bg-purple-900/20"
+                    >
+                      <span
+                        className={
+                          isActive
+                            ? 'font-black text-slate-950 dark:text-white'
+                            : 'text-slate-500 dark:text-purple-300/70'
+                        }
+                      >
+                        {tab.label}
+                      </span>
+                      {isActive && (
+                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-full bg-emerald-500 shadow-[0_2px_8px_rgba(16,185,129,0.5)]" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Posts by this Profile */}
+              <div>
+                {activeProfilePosts.length === 0 ? (
+                  <div className="p-8 text-center text-slate-400 dark:text-purple-300/50 text-xs">
+                    No posts published yet by {activeProfile.name}.
+                  </div>
+                ) : (
+                  activeProfilePosts.map((post) => (
+                    <article
+                      key={post.id}
+                      className="p-4 sm:p-5 border-b border-purple-100/80 dark:border-purple-900/40 hover:bg-purple-50/30 dark:hover:bg-purple-950/20 transition-colors"
+                    >
+                      <div className="flex gap-3">
+                        <div
+                          className={`w-9 h-9 rounded-full bg-gradient-to-tr ${post.avatarBg} flex items-center justify-center font-black text-white shrink-0 text-xs overflow-hidden`}
+                        >
+                          {post.authorHandle === '@my_family' && myProfilePic ? (
+                            <img src={myProfilePic} alt="avatar" className="w-full h-full object-cover" />
+                          ) : post.authorAvatar ? (
+                            <img src={post.authorAvatar} alt="avatar" className="w-full h-full object-cover" />
+                          ) : (
+                            <span>{post.authorInitial}</span>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-display font-black text-sm text-slate-900 dark:text-white">
+                              {post.authorName}
+                            </span>
+                            <span className="text-xs text-slate-500 dark:text-purple-400/60">
+                              {post.authorHandle} · {post.timeAgo}
+                            </span>
+                          </div>
+                          <p className="mt-1 text-xs sm:text-sm text-slate-800 dark:text-purple-100 leading-relaxed">
+                            {post.content}
+                          </p>
+                          {post.imageUrl && (
+                            <div className="mt-2.5 rounded-xl overflow-hidden border border-purple-200 dark:border-purple-800/60 max-h-56">
+                              <img src={post.imageUrl} alt="post" className="w-full h-auto object-cover max-h-56" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  ))
+                )}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          ADD / CHANGE PROFILE PICTURE MODAL
+          ========================================================================= */}
+      {isPhotoModalOpen && (
+        <div className="fixed inset-0 z-[10001] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="relative w-full max-w-md bg-white dark:bg-[#0c0522] rounded-3xl border-2 border-emerald-400/60 dark:border-emerald-500/50 p-6 shadow-2xl space-y-5 animate-in zoom-in-95">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-purple-100 dark:border-purple-900/40 pb-3">
+              <div className="flex items-center gap-2">
+                <Camera className="h-5 w-5 text-emerald-500" />
+                <h3 className="font-display font-black text-lg text-slate-900 dark:text-white">
+                  Profile Picture
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsPhotoModalOpen(false)}
+                className="p-1.5 rounded-full hover:bg-purple-50 dark:hover:bg-purple-900/40 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Current Avatar Preview */}
+            <div className="flex flex-col items-center justify-center py-2">
+              <div className="relative w-24 h-24 rounded-full bg-gradient-to-tr from-emerald-400 via-teal-500 to-emerald-600 ring-4 ring-emerald-300 dark:ring-emerald-600/60 shadow-xl overflow-hidden flex items-center justify-center font-black text-white text-3xl select-none">
+                {myProfilePic ? (
+                  <img
+                    src={myProfilePic}
+                    alt="Current Profile Picture"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span>M</span>
+                )}
+              </div>
+              <p className="mt-2 text-xs font-bold text-slate-600 dark:text-purple-300">
+                {myProfilePic ? 'Custom Photo Active' : 'Default Initial Avatar'}
+              </p>
+            </div>
+
+            {/* Option 1: Upload from Device */}
+            <div className="space-y-2">
+              <label className="block text-xs font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
+                Option 1: Upload from Phone / Computer
+              </label>
+              <input
+                ref={profileFileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleProfilePhotoUpload}
+              />
+              <button
+                type="button"
+                onClick={() => profileFileInputRef.current?.click()}
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border-2 border-dashed border-emerald-400/80 bg-emerald-50/50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100/70 dark:hover:bg-emerald-900/50 text-xs font-bold transition-all cursor-pointer"
+              >
+                <ImagePlus className="h-4 w-4" />
+                <span>Choose Photo file (PNG, JPG, WebP)</span>
+              </button>
+            </div>
+
+            {/* Option 2: Choose Selam Kids Character */}
+            <div className="space-y-2">
+              <label className="block text-xs font-black uppercase tracking-wider text-slate-700 dark:text-purple-200">
+                Option 2: Pick an Ethiopian Companion Beast
+              </label>
+              <div className="grid grid-cols-4 gap-2.5">
+                {PRESET_CHARACTERS.map((char) => {
+                  const isSelected = myProfilePic === char.image;
+                  return (
+                    <button
+                      key={char.id}
+                      type="button"
+                      onClick={() => handleUpdateProfilePic(char.image)}
+                      title={char.name}
+                      className={`group relative rounded-2xl p-1.5 border-2 transition-all flex flex-col items-center gap-1 cursor-pointer hover:scale-105 active:scale-95 ${
+                        isSelected
+                          ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 shadow-md ring-2 ring-emerald-400'
+                          : 'border-purple-100 dark:border-purple-800/60 bg-slate-50 dark:bg-purple-950/40 hover:border-emerald-400'
+                      }`}
+                    >
+                      <div className="relative w-11 h-11">
+                        <Image
+                          src={char.image}
+                          alt={char.name}
+                          fill
+                          sizes="44px"
+                          className="object-contain"
+                        />
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-700 dark:text-purple-200 truncate w-full text-center">
+                        {char.name.split(' ')[0]}
+                      </span>
+                      {isSelected && (
+                        <span className="absolute top-1 right-1 h-3.5 w-3.5 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center">
+                          <Check className="h-2.5 w-2.5 stroke-[3]" />
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Reset / Remove Photo */}
+            {myProfilePic && (
+              <div className="pt-2 border-t border-purple-100 dark:border-purple-900/40 flex justify-between items-center">
+                <button
+                  type="button"
+                  onClick={() => handleUpdateProfilePic(null)}
+                  className="text-xs font-bold text-rose-500 hover:text-rose-600 transition-colors cursor-pointer"
+                >
+                  Remove Photo (Reset to Default)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsPhotoModalOpen(false)}
+                  className="text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white"
+                >
+                  Done
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

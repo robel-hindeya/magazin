@@ -117,7 +117,7 @@ export const AUTHENTIC_POSTERS: MagazinePosterItem[] = [
 const CAROUSEL_ITEMS: MagazinePosterItem[] = [...AUTHENTIC_POSTERS, ...AUTHENTIC_POSTERS];
 
 export interface MagazineCoverSliderProps {
-  title?: string;
+  title?: React.ReactNode;
   subtitle?: string;
   subtitleClassName?: string;
 }
@@ -349,7 +349,19 @@ export function MagazineCoverSlider({
         onTouchStart={(e) => e.stopPropagation()}
       >
         <h2 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-slate-900 dark:text-white tracking-tight leading-tight">
-          {title}
+          {typeof title === 'string' && /(magazine|magazin)/i.test(title) ? (
+            title.split(/(magazine|magazin)/i).map((part, i) =>
+              /^(magazine|magazin)$/i.test(part) ? (
+                <span key={i} className="text-emerald-500 dark:text-emerald-400">
+                  {part}
+                </span>
+              ) : (
+                part
+              )
+            )
+          ) : (
+            title
+          )}
         </h2>
         {subtitle && (
           <p className={`mt-3 text-base sm:text-xl text-black dark:text-white font-semibold tracking-wide ${subtitleClassName}`}>

@@ -302,23 +302,21 @@ export function TikTokProfile({
           TIKTOK PROFILE HERO SECTION (Selam Kids Brand Colors)
           ===================================================================== */}
       <div className="pt-8 pb-4 px-4 flex flex-col items-center text-center">
-        {/* Large Avatar with Selam Kids Brand Gradient Ring */}
+        {/* Large Avatar (Clean, no border color) */}
         <div className="relative group cursor-pointer mb-3" onClick={() => setIsEditProfileOpen(true)}>
-          <div className="h-26 w-26 sm:h-28 sm:w-28 rounded-full p-[3.5px] bg-gradient-to-tr from-emerald-400 via-yellow-400 to-purple-600 shadow-xl shadow-emerald-500/20 transition-transform duration-300 group-hover:scale-105 animate-pulse-glow">
-            <div className="relative h-full w-full rounded-full overflow-hidden bg-purple-50 dark:bg-[#1a0d3d] border-2 border-white dark:border-[#0f0728]">
-              <Image
-                src={currentAvatarSrc}
-                alt={selectedCharacter.name}
-                fill
-                sizes="112px"
-                className="object-contain p-2"
-                priority
-              />
-            </div>
+          <div className="relative h-26 w-26 sm:h-28 sm:w-28 rounded-full overflow-hidden bg-purple-50 dark:bg-[#1a0d3d] transition-transform duration-300 group-hover:scale-105 shadow-md">
+            <Image
+              src={currentAvatarSrc}
+              alt={selectedCharacter.name}
+              fill
+              sizes="112px"
+              className="object-contain p-2"
+              priority
+            />
           </div>
 
           {/* Camera / Plus Badge on Avatar */}
-          <div className="absolute bottom-1 right-1 h-7 w-7 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center border-2 border-white dark:border-[#0f0728] shadow-md group-hover:scale-110 transition-transform">
+          <div className="absolute bottom-1 right-1 h-7 w-7 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
             <Camera className="h-3.5 w-3.5 fill-slate-950" />
           </div>
         </div>
@@ -331,12 +329,6 @@ export function TikTokProfile({
         <p className="text-xs font-extrabold text-purple-700 dark:text-purple-300 mt-0.5">
           {userHandle}
         </p>
-
-        {/* Role Pill */}
-        <div className="mt-2 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-display font-black bg-gradient-to-r from-emerald-100 to-purple-100 dark:from-emerald-950/60 dark:to-purple-950/60 text-emerald-900 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-700/60 shadow-sm">
-          <Sparkles className="h-3 w-3 text-amber-500 fill-amber-500" />
-          <span>{kid.reading_level || 'Grade 3'} Explorer • {selectedCharacter.name} Guardian</span>
-        </div>
 
         {/* ===================================================================
             TIKTOK 3 STATS BAR (Following, Followers, Likes / Orbs)
@@ -894,16 +886,14 @@ export function TikTokProfile({
             {/* Change Photo / Beast Carousel in Edit Sheet */}
             <div className="text-center py-2">
               <div className="relative inline-block mb-2">
-                <div className="h-20 w-20 rounded-full p-[3px] bg-gradient-to-tr from-emerald-400 via-yellow-400 to-purple-600 shadow-md shadow-emerald-500/20">
-                  <div className="relative h-full w-full rounded-full overflow-hidden bg-purple-50 dark:bg-purple-950/60">
-                    <Image
-                      src={selectedCharacter.imageUrl}
-                      alt={selectedCharacter.name}
-                      fill
-                      sizes="80px"
-                      className="object-contain p-1.5"
-                    />
-                  </div>
+                <div className="relative h-20 w-20 rounded-full overflow-hidden bg-purple-50 dark:bg-purple-950/60 shadow-md">
+                  <Image
+                    src={selectedCharacter.imageUrl}
+                    alt={selectedCharacter.name}
+                    fill
+                    sizes="80px"
+                    className="object-contain p-1.5"
+                  />
                 </div>
               </div>
               <p className="text-xs font-black text-purple-700 dark:text-purple-300">
@@ -1008,16 +998,14 @@ export function TikTokProfile({
 
             <div className="text-center py-3">
               <div className="relative inline-block mb-3">
-                <div className="h-20 w-20 rounded-full p-[3px] bg-gradient-to-tr from-emerald-400 via-yellow-400 to-purple-600 shadow-md shadow-emerald-500/20">
-                  <div className="relative h-full w-full rounded-full overflow-hidden bg-purple-50 dark:bg-purple-950/60">
-                    <Image
-                      src={currentAvatarSrc}
-                      alt={selectedCharacter.name}
-                      fill
-                      sizes="80px"
-                      className="object-contain p-1.5"
-                    />
-                  </div>
+                <div className="relative h-20 w-20 rounded-full overflow-hidden bg-purple-50 dark:bg-purple-950/60 shadow-md">
+                  <Image
+                    src={currentAvatarSrc}
+                    alt={selectedCharacter.name}
+                    fill
+                    sizes="80px"
+                    className="object-contain p-1.5"
+                  />
                 </div>
               </div>
               <h4 className="font-display font-black text-sm text-slate-900 dark:text-white">

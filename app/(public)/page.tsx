@@ -67,12 +67,12 @@ export default function HomePage() {
       <section id="story" className="w-full bg-transparent py-24 text-slate-900 dark:text-white relative overflow-hidden transition-colors">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center flex flex-col items-center">
-              <h2 className="font-display font-black text-4xl sm:text-5xl leading-tight text-slate-900 dark:text-white text-center">
+            <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+              <h2 className="font-display font-black text-4xl sm:text-5xl leading-tight text-slate-900 dark:text-white">
                 Classic Animal Tales and Stories
               </h2>
 
-              <div className="mt-8 flex justify-center">
+              <div className="mt-8 flex justify-center lg:justify-start">
                 <Link href="/auth/register?role=KID">
                   <Button variant="emerald" size="lg" className="font-black text-base bg-emerald-500 hover:bg-emerald-400 text-slate-950">
                     Read the Stories &rarr;
@@ -110,7 +110,7 @@ export default function HomePage() {
                 When hungry predators disguise a trap as a grand wedding celebration, can clever instincts save the guests from becoming the main course?
               </div>
 
-              <div className="mt-6 flex items-center justify-center">
+              <div className="mt-6 flex items-center justify-center lg:justify-end">
                 <Link href="/auth/register?role=KID">
                   <Button variant="emerald" size="sm" className="font-black bg-emerald-500 hover:bg-emerald-400 text-slate-950">
                     Continue Reading &rarr;

@@ -28,8 +28,20 @@ import {
   UserCheck,
   UserPlus,
   Check,
+  Youtube,
+  Play,
+  Maximize2,
+  Film,
 } from 'lucide-react';
 import Image from 'next/image';
+
+// Extract YouTube video ID from various YouTube URL formats (watch, share youtu.be, shorts, embed)
+function getYouTubeVideoId(url?: string): string | null {
+  if (!url) return null;
+  const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?|shorts)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regExp);
+  return match ? match[1] : null;
+}
 
 interface CommunityPost {
   id: string;
@@ -47,6 +59,7 @@ interface CommunityPost {
   categoryBadgeStyle: string;
   childInfo?: string;
   imageUrl?: string;
+  youtubeUrl?: string;
   likes: number;
   userLiked: boolean;
   reposts: number;
@@ -202,6 +215,85 @@ const INITIAL_PROFILES: Record<string, UserProfile> = {
 
 const INITIAL_POSTS: CommunityPost[] = [
   {
+    id: 'yt-1',
+    authorName: 'Ye Ethiopia Lijoch TV',
+    authorHandle: '@yeethiopialijoch',
+    authorRole: 'Educator',
+    authorInitial: 'Y',
+    avatarBg: 'from-amber-500 to-rose-500',
+    isVerified: true,
+    title: 'አንበሳና አይጥ - Ethiopian Animated Kids Story (Lion and Mouse)',
+    content:
+      'Watch today\'s featured Ethiopian animated tale: "The Lion and the Mouse" (አንበሳና አይጥ)! A heartwarming animated story teaching kindness, friendship, and wisdom for our young authors. 🦁🐭✨\n\nEnjoy the video together with your kids below!',
+    category: 'spotlight',
+    categoryLabel: 'Story Spotlight',
+    categoryBadgeStyle: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
+    youtubeUrl: 'https://www.youtube.com/watch?v=ICk03t9WTcE',
+    likes: 142,
+    userLiked: true,
+    reposts: 35,
+    userReposted: false,
+    views: '12.4K',
+    bookmarked: true,
+    commentsCount: 2,
+    timeAgo: '45m',
+    comments: [
+      {
+        id: 'c-yt-1',
+        author: 'Sarah Jenkins',
+        handle: '@sarah_jenkins',
+        avatarBg: 'from-purple-600 to-indigo-600',
+        text: 'Leo loved watching this! It inspired his new drawing this afternoon.',
+        time: '30m',
+        likes: 5,
+      },
+      {
+        id: 'c-yt-2',
+        author: 'David Chen',
+        handle: '@davidchen_dad',
+        avatarBg: 'from-teal-500 to-emerald-600',
+        text: 'The animation and moral are so wonderful for bedtime storytelling.',
+        time: '15m',
+        likes: 3,
+      },
+    ],
+  },
+  {
+    id: 'yt-2',
+    authorName: 'Selam Kids Animated Theater',
+    authorHandle: '@selamkids_theater',
+    authorRole: 'Educator',
+    authorInitial: 'S',
+    avatarBg: 'from-emerald-500 to-teal-600',
+    isVerified: true,
+    title: 'ሰባቱ የፍየል ልጆች - The Seven Little Goats (Ethiopian Fairy Tale)',
+    content:
+      'Classic folklore adventure: "The Seven Little Goats" (ሰባቱ የፍየል ልጆች)! A fun and educational animation about staying attentive, working together, and family love. 🐐🏡\n\nClick "Open in Website" to watch right here on Selam Kids!',
+    category: 'spotlight',
+    categoryLabel: 'Video Story',
+    categoryBadgeStyle: 'bg-red-500/15 text-red-600 dark:text-red-400 border-red-500/30',
+    youtubeUrl: 'https://www.youtube.com/watch?v=rBkHQMDbjEY',
+    likes: 98,
+    userLiked: false,
+    reposts: 21,
+    userReposted: false,
+    views: '8.7K',
+    bookmarked: false,
+    commentsCount: 1,
+    timeAgo: '2h',
+    comments: [
+      {
+        id: 'c-yt-3',
+        author: 'Ye Ethiopia Lijoch TV',
+        handle: '@yeethiopialijoch',
+        avatarBg: 'from-amber-500 to-rose-500',
+        text: 'A timeless story that every child remembers with joy!',
+        time: '1h',
+        likes: 4,
+      },
+    ],
+  },
+  {
     id: '1',
     authorName: 'Sarah Jenkins',
     authorHandle: '@sarah_jenkins',
@@ -322,8 +414,31 @@ const INITIAL_POSTS: CommunityPost[] = [
 export default function CommunityPage() {
   const [posts, setPosts] = React.useState<CommunityPost[]>(INITIAL_POSTS);
   const [profiles, setProfiles] = React.useState<Record<string, UserProfile>>(INITIAL_PROFILES);
-  const [activeTab, setActiveTab] = React.useState<'for-you' | 'spotlight' | 'tips' | 'prompts' | 'discussion'>('for-you');
+  const [activeTab, setActiveTab] = React.useState<
+    'for-you' | 'videos' | 'spotlight' | 'tips' | 'prompts' | 'discussion'
+  >('for-you');
   const [searchQuery, setSearchQuery] = React.useState('');
+
+  // Website In-App Video Player Modal State ("Watch in Website Player")
+  const [activeModalVideo, setActiveModalVideo] = React.useState<{
+    id: string;
+    youtubeId: string;
+    title: string;
+    authorName: string;
+    authorHandle: string;
+    content: string;
+  } | null>(null);
+
+  // Close Video Modal on Escape key
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && activeModalVideo) {
+        setActiveModalVideo(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeModalVideo]);
   
   // Custom Profile Picture State for Current User ("My Family")
   const [myProfilePic, setMyProfilePic] = React.useState<string | null>(null);
@@ -340,6 +455,8 @@ export default function CommunityPage() {
   const [tweetText, setTweetText] = React.useState('');
   const [newCategory, setNewCategory] = React.useState<'spotlight' | 'tips' | 'prompts' | 'discussion'>('discussion');
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
+  const [youtubeUrl, setYoutubeUrl] = React.useState('');
+  const [showYoutubeInput, setShowYoutubeInput] = React.useState(false);
   const [showCategoryPicker, setShowCategoryPicker] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -473,7 +590,9 @@ export default function CommunityPage() {
 
   const handleCreateTweet = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!tweetText.trim()) return;
+    if (!tweetText.trim() && !youtubeUrl.trim() && !imagePreview) return;
+
+    const detectedYt = youtubeUrl.trim() || (getYouTubeVideoId(tweetText) ? tweetText : undefined);
 
     const newPost: CommunityPost = {
       id: Date.now().toString(),
@@ -484,9 +603,10 @@ export default function CommunityPage() {
       authorAvatar: myProfilePic || undefined,
       avatarBg: 'from-emerald-500 via-teal-500 to-emerald-600',
       isVerified: true,
-      content: tweetText.trim(),
+      content: tweetText.trim() || (detectedYt ? 'Watch this story video together!' : ''),
       category: newCategory,
       imageUrl: imagePreview || undefined,
+      youtubeUrl: detectedYt,
       categoryLabel:
         newCategory === 'spotlight'
           ? 'Story Spotlight'
@@ -516,6 +636,8 @@ export default function CommunityPage() {
 
     setPosts([newPost, ...posts]);
     setTweetText('');
+    setYoutubeUrl('');
+    setShowYoutubeInput(false);
     setImagePreview(null);
     setShowCategoryPicker(false);
     if (fileInputRef.current) fileInputRef.current.value = '';
@@ -551,8 +673,13 @@ export default function CommunityPage() {
   };
 
   const filteredPosts = posts.filter((p) => {
+    const hasVideo = !!p.youtubeUrl || !!getYouTubeVideoId(p.content);
     const matchesTab =
-      activeTab === 'for-you' || p.category === activeTab;
+      activeTab === 'for-you'
+        ? true
+        : activeTab === 'videos'
+        ? hasVideo
+        : p.category === activeTab;
     const matchesSearch =
       !searchQuery.trim() ||
       p.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -600,9 +727,10 @@ export default function CommunityPage() {
             </div>
 
             {/* Twitter-style Navigation Tabs with Bottom Underline Indicator */}
-            <div className="flex items-center overflow-x-auto no-scrollbar border-t border-purple-100/70 dark:border-purple-900/30">
+            <div className="flex items-center overflow-x-auto no-scrollbar border-t border-purple-100/70 dark:border-purple-900/30 px-3 sm:px-6 gap-1 sm:gap-2">
               {[
                 { id: 'for-you', label: 'For you' },
+                { id: 'videos', label: '🎥 Videos' },
                 { id: 'spotlight', label: 'Story Spotlight' },
                 { id: 'tips', label: 'Parent Tips' },
                 { id: 'prompts', label: 'Prompts' },
@@ -613,7 +741,7 @@ export default function CommunityPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as any)}
-                    className="relative flex-1 min-w-[100px] py-3.5 px-3 text-center text-xs sm:text-sm font-bold transition-colors hover:bg-purple-50/50 dark:hover:bg-purple-900/20 cursor-pointer whitespace-nowrap"
+                    className="relative flex-1 min-w-[110px] sm:min-w-[130px] py-4 sm:py-5 px-3 sm:px-5 text-center text-xs sm:text-sm font-bold transition-colors hover:bg-purple-50/50 dark:hover:bg-purple-900/20 cursor-pointer whitespace-nowrap"
                   >
                     <span
                       className={
@@ -625,7 +753,7 @@ export default function CommunityPage() {
                       {tab.label}
                     </span>
                     {isActive && (
-                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 sm:w-16 h-1 rounded-full bg-emerald-500 shadow-[0_2px_10px_rgba(16,185,129,0.5)]" />
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-14 sm:w-18 h-1 rounded-full bg-emerald-500 shadow-[0_2px_10px_rgba(16,185,129,0.5)]" />
                     )}
                   </button>
                 );
@@ -636,14 +764,14 @@ export default function CommunityPage() {
           {/* =======================================================================
               TWEET COMPOSER ("What is happening?!")
               ======================================================================= */}
-          <div className="p-4 border-b border-purple-100 dark:border-purple-900/40 flex gap-3">
+          <div className="p-5 sm:p-7 pt-7 sm:pt-9 border-b border-purple-100 dark:border-purple-900/40 flex gap-4 sm:gap-5">
             {/* User Avatar - CLICK TO VIEW PROFILE & ADD PROFILE PIC */}
-            <div className="relative group shrink-0">
+            <div className="relative group shrink-0 pt-0.5">
               <button
                 type="button"
                 onClick={() => handleOpenProfile('@my_family')}
                 title="Click to view profile & add profile picture"
-                className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 via-teal-500 to-emerald-600 ring-2 ring-emerald-300 dark:ring-emerald-700/60 shadow-md shadow-emerald-500/20 flex items-center justify-center font-black text-slate-950 text-sm overflow-hidden cursor-pointer hover:scale-105 active:scale-95 transition-all select-none"
+                className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gradient-to-tr from-emerald-400 via-teal-500 to-emerald-600 ring-2 ring-emerald-300 dark:ring-emerald-700/60 shadow-md shadow-emerald-500/20 flex items-center justify-center font-black text-slate-950 text-sm overflow-hidden cursor-pointer hover:scale-105 active:scale-95 transition-all select-none"
               >
                 {myProfilePic ? (
                   <img
@@ -668,15 +796,15 @@ export default function CommunityPage() {
             </div>
 
             {/* Compose Area */}
-            <div className="flex-1 min-w-0">
-              {/* Audience pill & My Profile shortcut */}
-              <div className="mb-2 flex items-center justify-between">
+            <div className="flex-1 min-w-0 space-y-4">
+              {/* Audience pill & My Profile shortcut with generous breathing space */}
+              <div className="flex items-center justify-between pb-1.5 pt-0.5">
                 <button
                   type="button"
                   onClick={() => setShowCategoryPicker(!showCategoryPicker)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors shadow-xs"
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50/80 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors shadow-xs"
                 >
-                  <Globe className="h-3 w-3 text-emerald-500" />
+                  <Globe className="h-3.5 w-3.5 text-emerald-500" />
                   <span>
                     {newCategory === 'spotlight'
                       ? 'Story Spotlight'
@@ -691,7 +819,7 @@ export default function CommunityPage() {
                 <button
                   type="button"
                   onClick={() => handleOpenProfile('@my_family')}
-                  className="text-xs font-bold text-slate-500 dark:text-purple-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                  className="text-xs font-bold text-slate-500 dark:text-purple-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors px-3 py-1.5 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/30"
                 >
                   View My Profile
                 </button>
@@ -699,7 +827,7 @@ export default function CommunityPage() {
 
               {/* Category selector dropdown if toggled */}
               {showCategoryPicker && (
-                <div className="mb-3 flex flex-wrap gap-1.5 p-2 rounded-2xl bg-purple-50/70 dark:bg-[#13092e] border border-purple-200/80 dark:border-purple-800/60 animate-in fade-in">
+                <div className="flex flex-wrap gap-2 p-3 rounded-2xl bg-purple-50/70 dark:bg-[#13092e] border border-purple-200/80 dark:border-purple-800/60 animate-in fade-in">
                   {[
                     { id: 'spotlight', label: '🌟 Story Spotlight' },
                     { id: 'tips', label: '💡 Parent Tip' },
@@ -713,10 +841,10 @@ export default function CommunityPage() {
                         setNewCategory(cat.id as any);
                         setShowCategoryPicker(false);
                       }}
-                      className={`text-xs px-2.5 py-1 rounded-full font-bold transition-all ${
+                      className={`text-xs px-3 py-1.5 rounded-full font-bold transition-all ${
                         newCategory === cat.id
                           ? 'bg-emerald-500 text-slate-950 font-black shadow-xs'
-                          : 'bg-white dark:bg-purple-950/80 text-slate-700 dark:text-purple-200 border border-purple-200 dark:border-purple-800/50'
+                          : 'bg-white dark:bg-purple-950/80 text-slate-700 dark:text-purple-200 border border-purple-200 dark:border-purple-800/50 hover:bg-purple-100 dark:hover:bg-purple-900/60'
                       }`}
                     >
                       {cat.label}
@@ -725,14 +853,120 @@ export default function CommunityPage() {
                 </div>
               )}
 
-              {/* Textarea */}
-              <textarea
-                value={tweetText}
-                onChange={(e) => setTweetText(e.target.value)}
-                placeholder="What is happening in your family's writing adventure?!"
-                rows={2}
-                className="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-300/50 text-base sm:text-lg focus:outline-none resize-none font-medium leading-relaxed"
-              />
+              {/* Textarea with comfortable height and breathing room */}
+              <div className="py-2.5">
+                <textarea
+                  value={tweetText}
+                  onChange={(e) => setTweetText(e.target.value)}
+                  placeholder="What is happening in your family's writing adventure?!"
+                  rows={3}
+                  className="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-300/50 text-base sm:text-lg focus:outline-none resize-none font-medium leading-relaxed"
+                />
+              </div>
+
+              {/* YouTube Link Input & Live Preview */}
+              {(showYoutubeInput || youtubeUrl) && (
+                <div className="my-3 p-3.5 rounded-2xl bg-red-50/70 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 space-y-2.5 animate-in fade-in">
+                  <div className="flex items-center justify-between text-xs font-bold text-red-700 dark:text-red-300">
+                    <span className="flex items-center gap-1.5">
+                      <Youtube className="h-4 w-4 text-red-500" />
+                      Add YouTube Video Link
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setYoutubeUrl('');
+                        setShowYoutubeInput(false);
+                      }}
+                      className="p-1 rounded-full hover:bg-red-200/50 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 transition-colors"
+                    >
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="url"
+                      value={youtubeUrl}
+                      onChange={(e) => setYoutubeUrl(e.target.value)}
+                      placeholder="Paste YouTube link (e.g. https://www.youtube.com/watch?v=...)"
+                      className="flex-1 px-3 py-2 rounded-xl text-xs bg-white dark:bg-[#0c0522] border border-red-200 dark:border-red-800/60 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-purple-300/40 focus:outline-none focus:ring-2 focus:ring-red-400"
+                    />
+                    {youtubeUrl && (
+                      <button
+                        type="button"
+                        onClick={() => setYoutubeUrl('')}
+                        className="text-xs text-red-600 dark:text-red-400 hover:underline px-1 font-bold"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Sample Ethiopian Kids Stories shortcuts */}
+                  <div className="flex items-center gap-2 flex-wrap pt-0.5">
+                    <span className="text-[11px] text-slate-500 dark:text-purple-300/70 font-semibold">Try sample story:</span>
+                    <button
+                      type="button"
+                      onClick={() => setYoutubeUrl('https://www.youtube.com/watch?v=ICk03t9WTcE')}
+                      className="text-[11px] px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0c0522] border border-red-200 dark:border-red-900/60 hover:border-red-400 text-slate-700 dark:text-purple-200 font-bold transition-colors"
+                    >
+                      🦁 Lion & Mouse
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setYoutubeUrl('https://www.youtube.com/watch?v=rBkHQMDbjEY')}
+                      className="text-[11px] px-2.5 py-0.5 rounded-full bg-white dark:bg-[#0c0522] border border-red-200 dark:border-red-900/60 hover:border-red-400 text-slate-700 dark:text-purple-200 font-bold transition-colors"
+                    >
+                      🐐 Seven Little Goats
+                    </button>
+                  </div>
+
+                  {/* Live Embedded Preview with Website Player option */}
+                  {(() => {
+                    const previewId = getYouTubeVideoId(youtubeUrl);
+                    if (!previewId) return null;
+                    return (
+                      <div className="mt-2 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-bold text-red-600 dark:text-red-400 flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                            Video Ready to Share
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setActiveModalVideo({
+                                id: 'preview',
+                                youtubeId: previewId,
+                                title: tweetText.trim() || 'My Video Story Preview',
+                                authorName: 'My Family',
+                                authorHandle: '@my_family',
+                                content:
+                                  tweetText.trim() ||
+                                  'Previewing this video story in website theater player before posting.',
+                              })
+                            }
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition-all shadow-xs cursor-pointer"
+                          >
+                            <Maximize2 className="h-3 w-3" />
+                            <span>Watch in Website Player</span>
+                          </button>
+                        </div>
+                        <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-red-300 dark:border-red-800/80 bg-black shadow-md">
+                          <iframe
+                            src={`https://www.youtube-nocookie.com/embed/${previewId}`}
+                            title="YouTube Video Preview"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="w-full h-full border-0"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
 
               {/* Attached Image Preview */}
               {imagePreview && (
@@ -775,6 +1009,18 @@ export default function CommunityPage() {
                   </button>
                   <button
                     type="button"
+                    onClick={() => setShowYoutubeInput((prev) => !prev)}
+                    title="Add YouTube Video"
+                    className={`p-2 rounded-full transition-colors cursor-pointer flex items-center gap-1 ${
+                      showYoutubeInput || youtubeUrl
+                        ? 'bg-red-500/20 text-red-500 dark:text-red-400 ring-1 ring-red-400/50'
+                        : 'hover:bg-red-50 dark:hover:bg-red-950/40 text-red-500 dark:text-red-400'
+                    }`}
+                  >
+                    <Youtube className="h-5 w-5" />
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => setTweetText((prev) => prev + ' 🌟')}
                     title="Emoji"
                     className="p-2 rounded-full hover:bg-emerald-50 dark:hover:bg-purple-900/40 transition-colors cursor-pointer"
@@ -799,10 +1045,10 @@ export default function CommunityPage() {
                   )}
                   <button
                     type="button"
-                    disabled={!tweetText.trim() && !imagePreview}
+                    disabled={!tweetText.trim() && !imagePreview && !youtubeUrl.trim()}
                     onClick={() => handleCreateTweet()}
                     className={`btn-3d rounded-full px-5 py-2 font-display font-black text-xs sm:text-sm transition-all active:scale-95 shadow-md ${
-                      tweetText.trim() || imagePreview
+                      tweetText.trim() || imagePreview || youtubeUrl.trim()
                         ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 border border-emerald-300 shadow-emerald-500/25 cursor-pointer'
                         : 'bg-emerald-500/30 text-slate-950/40 border border-emerald-500/20 cursor-not-allowed'
                     }`}
@@ -921,6 +1167,56 @@ export default function CommunityPage() {
                             />
                           </div>
                         )}
+
+                        {/* Embedded Playable YouTube Video with Website Player Option */}
+                        {(() => {
+                          const youtubeId = getYouTubeVideoId(post.youtubeUrl || post.content);
+                          if (!youtubeId) return null;
+                          return (
+                            <div className="mt-3 rounded-2xl overflow-hidden border-2 border-purple-200/90 dark:border-purple-800/80 bg-black shadow-lg">
+                              {/* Video Card Header Bar */}
+                              <div className="flex items-center justify-between px-3.5 py-2 bg-gradient-to-r from-slate-950 via-[#160738] to-slate-950 text-white border-b border-purple-800/60">
+                                <div className="flex items-center gap-2 min-w-0">
+                                  <div className="p-1 rounded-md bg-red-600 text-white shrink-0">
+                                    <Play className="h-3 w-3 fill-white" />
+                                  </div>
+                                  <span className="text-xs font-black truncate text-purple-100">
+                                    {post.title || 'Selam Kids Video Story'}
+                                  </span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setActiveModalVideo({
+                                      id: post.id,
+                                      youtubeId,
+                                      title: post.title || 'Selam Kids Video Story',
+                                      authorName: post.authorName,
+                                      authorHandle: post.authorHandle,
+                                      content: post.content,
+                                    })
+                                  }
+                                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition-all hover:scale-105 shadow-xs cursor-pointer shrink-0"
+                                  title="Open video in website player"
+                                >
+                                  <Maximize2 className="h-3 w-3" />
+                                  <span>Open in Website</span>
+                                </button>
+                              </div>
+
+                              {/* Playable Video Frame */}
+                              <div className="relative aspect-video w-full bg-black">
+                                <iframe
+                                  src={`https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0`}
+                                  title={post.title || 'Community Video Story'}
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                  className="w-full h-full border-0"
+                                />
+                              </div>
+                            </div>
+                          );
+                        })()}
 
                         {/* Twitter Action Bar: Reply, Repost, Like, Views, Bookmark, Share */}
                         <div className="flex items-center justify-between mt-3 pt-1 text-slate-500 dark:text-purple-300/70 max-w-md">
@@ -1697,6 +1993,162 @@ export default function CommunityPage() {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          WEBSITE IN-APP VIDEO PLAYER MODAL (Theater Mode inside Selam Kids)
+          Opens the YouTube video directly inside the website with story details,
+          author info, related stories, and a prominent Return to Community button.
+          ========================================================================= */}
+      {activeModalVideo && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/85 backdrop-blur-md animate-in fade-in"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setActiveModalVideo(null);
+          }}
+        >
+          <div className="relative w-full max-w-4xl bg-white dark:bg-[#0c0522] rounded-3xl border-2 border-emerald-500/40 dark:border-purple-800 shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+            {/* Modal Top Bar */}
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 bg-slate-100 dark:bg-[#130830] border-b border-purple-100 dark:border-purple-900/50">
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setActiveModalVideo(null)}
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-200/60 dark:bg-purple-900/50 hover:bg-emerald-500 hover:text-slate-950 text-slate-800 dark:text-purple-100 text-xs font-black transition-all cursor-pointer shadow-xs"
+                  title="Return to Community Page"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  <span>Return to Community</span>
+                </button>
+                <div className="hidden sm:flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-xs font-black text-slate-600 dark:text-purple-300 uppercase tracking-wider">
+                    Selam Kids In-Website Player
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-slate-500 dark:text-purple-400/80 truncate max-w-[180px] sm:max-w-xs">
+                  {activeModalVideo.authorName} ({activeModalVideo.authorHandle})
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setActiveModalVideo(null)}
+                  className="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-purple-900/60 text-slate-500 dark:text-purple-300 hover:text-rose-500 transition-colors cursor-pointer"
+                  title="Close Video"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Video Player (16:9 HD Theater Player) */}
+            <div className="relative aspect-video w-full bg-black shadow-inner">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${activeModalVideo.youtubeId}?autoplay=1&rel=0`}
+                title={activeModalVideo.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            </div>
+
+            {/* Video Details & Actions */}
+            <div className="p-4 sm:p-6 overflow-y-auto space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-purple-100 dark:border-purple-900/40">
+                <div>
+                  <h3 className="font-display font-black text-lg sm:text-xl text-slate-900 dark:text-white">
+                    {activeModalVideo.title}
+                  </h3>
+                  <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold mt-0.5">
+                    Shared by {activeModalVideo.authorName} • Selam Kids Community
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setActiveModalVideo(null)}
+                    className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition-all shadow-md cursor-pointer"
+                  >
+                    Back to Feed
+                  </button>
+                </div>
+              </div>
+
+              {/* Story Content / Description */}
+              <div className="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-[#130830]/80 border border-purple-100 dark:border-purple-900/40">
+                <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-purple-400 block mb-1">
+                  Story Details
+                </span>
+                <p className="text-sm text-slate-800 dark:text-purple-100 whitespace-pre-line leading-relaxed">
+                  {activeModalVideo.content}
+                </p>
+              </div>
+
+              {/* More Video Stories */}
+              <div>
+                <span className="text-xs font-black uppercase tracking-wider text-slate-600 dark:text-purple-300 block mb-2">
+                  More Video Stories in Community
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  {posts
+                    .filter(
+                      (p) =>
+                        (p.youtubeUrl || getYouTubeVideoId(p.content)) &&
+                        p.id !== activeModalVideo.id
+                    )
+                    .slice(0, 2)
+                    .map((otherPost) => {
+                      const otherYtId = getYouTubeVideoId(
+                        otherPost.youtubeUrl || otherPost.content
+                      );
+                      if (!otherYtId) return null;
+                      return (
+                        <button
+                          key={otherPost.id}
+                          type="button"
+                          onClick={() =>
+                            setActiveModalVideo({
+                              id: otherPost.id,
+                              youtubeId: otherYtId,
+                              title:
+                                otherPost.title ||
+                                'Ethiopian Kids Animated Story',
+                              authorName: otherPost.authorName,
+                              authorHandle: otherPost.authorHandle,
+                              content: otherPost.content,
+                            })
+                          }
+                          className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-800/50 hover:border-emerald-400 text-left transition-all cursor-pointer group"
+                        >
+                          <div className="w-16 h-11 rounded-lg bg-black overflow-hidden relative shrink-0">
+                            <img
+                              src={`https://img.youtube.com/vi/${otherYtId}/mqdefault.jpg`}
+                              alt={otherPost.title || 'Video'}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                            />
+                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                              <Play className="h-3 w-3 fill-white text-white" />
+                            </div>
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-xs font-black text-slate-900 dark:text-white truncate group-hover:text-emerald-500 transition-colors">
+                              {otherPost.title || 'Animated Tale'}
+                            </p>
+                            <p className="text-[11px] text-slate-500 dark:text-purple-300/70 truncate">
+                              {otherPost.authorName}
+                            </p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

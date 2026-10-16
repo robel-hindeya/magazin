@@ -200,11 +200,11 @@ export function LatestMagazineHero({
             </div>
           </div>
 
-          {/* Dedicated "Read Latest Issue" Button Directly Under Poster */}
-          <div className="w-full flex justify-center lg:justify-start">
+          {/* Dedicated "Read Latest Issue" Button Directly Under Poster (Visible on mobile, hidden on PC) */}
+          <div className="w-full flex justify-center lg:hidden">
             <button
               onClick={handleOpenLatest}
-              className="btn-3d btn-3d-yellow w-full max-w-[260px] sm:max-w-[290px] lg:max-w-[336px] inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl font-display font-black text-xs sm:text-sm text-slate-950 shadow-xl cursor-pointer hover:scale-105 active:scale-95 transition-transform"
+              className="btn-3d btn-3d-yellow w-full max-w-[260px] sm:max-w-[290px] inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl font-display font-black text-xs sm:text-sm text-slate-950 shadow-xl cursor-pointer hover:scale-105 active:scale-95 transition-transform"
             >
               <BookOpen className="h-4 w-4" />
               <span>Read Latest Issue</span>

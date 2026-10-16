@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { PARENT_PIN_COOKIE } from '@/backend/constants/roles';
 import { ParentGateModal } from '@/components/auth/parent-gate-modal';
-import { Lock, BookOpen, User, Gamepad2, Users, Library, PenTool } from 'lucide-react';
+import { Lock, BookOpen, User, Gamepad2, Users, Library, PenTool, Sparkles, Music } from 'lucide-react';
 
 export interface SidebarItem {
   label: string;
@@ -51,13 +51,17 @@ export function Sidebar({ title, subtitle, items, footer, className }: SidebarPr
   };
 
   // When in kids area (/users/kids), completely hide any parent dashboard items so kids see ONLY kids!
-  const isKidsArea = pathname.startsWith('/users/kids');
+  const isKidsArea = pathname.startsWith('/users/kids') || (!title && pathname.startsWith('/users/community'));
   const displayTitle = isKidsArea ? undefined : title;
   const displaySubtitle = isKidsArea ? undefined : subtitle;
   const displayItems: SidebarItem[] = isKidsArea
     ? [
         { label: 'Selam Kids Magazine', href: '/users/kids', icon: <BookOpen className="h-4 w-4 text-purple-400" /> },
         { label: 'Magazine List', href: '/users/kids/magazines', icon: <Library className="h-4 w-4 text-amber-400" /> },
+        { label: 'Story', href: '/users/kids/story', icon: <Sparkles className="h-4 w-4 text-emerald-400" /> },
+        { label: 'Melody World', href: '/melody-world', icon: <Music className="h-4 w-4 text-pink-400" /> },
+        { label: 'Games', href: '/games', icon: <Gamepad2 className="h-4 w-4 text-cyan-400" /> },
+        { label: 'Community', href: '/users/community', icon: <Users className="h-4 w-4 text-blue-400" /> },
         { label: 'Kids Daily', href: '/users/kids/daily', icon: <PenTool className="h-4 w-4 text-rose-400" /> },
         { label: 'Profile', href: '/users/kids/profile', icon: <User className="h-4 w-4 text-cyan-400" /> },
       ]

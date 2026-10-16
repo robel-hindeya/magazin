@@ -16,6 +16,7 @@ import {
   Library,
   PenTool,
   Sparkles,
+  Music,
 } from 'lucide-react';
 import { ROLES } from '@/backend/constants/roles';
 
@@ -41,7 +42,10 @@ export default async function UsersLayout({
     navItems = [
       { label: 'Selam Kids Magazine', href: '/users/kids', icon: <BookOpen className="h-4 w-4 text-purple-400" /> },
       { label: 'Magazine List', href: '/users/kids/magazines', icon: <Library className="h-4 w-4 text-amber-400" /> },
-      { label: 'Story Studio', href: '/users/kids/story', icon: <Sparkles className="h-4 w-4 text-emerald-400" /> },
+      { label: 'Story', href: '/users/kids/story', icon: <Sparkles className="h-4 w-4 text-emerald-400" /> },
+      { label: 'Melody World', href: '/melody-world', icon: <Music className="h-4 w-4 text-pink-400" /> },
+      { label: 'Games', href: '/games', icon: <Gamepad2 className="h-4 w-4 text-cyan-400" /> },
+      { label: 'Community', href: '/users/community', icon: <Users className="h-4 w-4 text-blue-400" /> },
       { label: 'Kids Daily', href: '/users/kids/daily', icon: <PenTool className="h-4 w-4 text-rose-400" /> },
       { label: 'Profile', href: '/users/kids/profile', icon: <User className="h-4 w-4 text-cyan-400" /> },
     ];

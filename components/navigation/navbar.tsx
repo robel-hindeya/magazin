@@ -21,7 +21,6 @@ import {
   Download,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Avatar } from '@/components/ui/avatar';
 import { AuthUser } from '@/types/auth';
 import { ROLES, UserRole } from '@/backend/constants/roles';
@@ -142,11 +141,11 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
     {
       id: 'story',
       title: 'Story',
-      desc: 'Write For Next Issue',
-      href: user ? '/users/kids/story' : '/auth/login',
+      desc: 'Illustrated Audio Tales',
+      href: user ? '/users/kids/story' : '/story',
       icon: Sparkles,
       iconBg: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/30',
-      badge: 'Contest',
+      badge: 'Tales',
       badgeBg: 'bg-purple-100 dark:bg-purple-950/70 text-purple-700 dark:text-purple-300',
     },
     {
@@ -191,23 +190,6 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
     },
   ];
 
-  const getRoleBadgeVariant = (role: UserRole) => {
-    switch (role) {
-      case ROLES.KID:
-        return 'kid';
-      case ROLES.FAMILY:
-        return 'family';
-      case ROLES.TEACHER:
-        return 'teacher';
-      case ROLES.ADMIN:
-        return 'admin';
-      case ROLES.SUPERADMIN:
-        return 'superadmin';
-      default:
-        return 'default';
-    }
-  };
-
   return (
     <>
       {/* =========================================================================
@@ -238,7 +220,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
                 </span>
               </div>
               <span className="text-[10px] font-extrabold uppercase tracking-widest text-purple-600 dark:text-purple-300">
-                Selam Kids Realm
+                Selam Realm
               </span>
             </div>
           </Link>
@@ -256,36 +238,6 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
                 >
                   <BookOpen className="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400" />
                   Magazin
-                </Link>
-                <Link
-                  href={user ? '/users/kids#story-editor-section' : '/#story'}
-                  className={cn(
-                    'flex items-center gap-1.5 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-y-0.5 transform',
-                    pathname === '/users/kids' && !pathname.includes('magazine') ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
-                  )}
-                >
-                  <Sparkles className="h-3.5 w-3.5 text-purple-500 dark:text-purple-400" />
-                  Story
-                </Link>
-                <Link
-                  href="/melody-world"
-                  className={cn(
-                    'flex items-center gap-1.5 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-y-0.5 transform',
-                    pathname.startsWith('/melody-world') ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
-                  )}
-                >
-                  <Music className="h-3.5 w-3.5 text-pink-500 dark:text-pink-400" />
-                  Melody World
-                </Link>
-                <Link
-                  href="/games"
-                  className={cn(
-                    'flex items-center gap-1.5 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400 hover:-translate-y-0.5 transform group',
-                    pathname.startsWith('/games') ? 'text-emerald-600 dark:text-emerald-400 font-black' : ''
-                  )}
-                >
-                  <Gamepad2 className="h-4 w-4 text-cyan-500 dark:text-cyan-400 group-hover:rotate-12 transition-transform" />
-                  <span>Games</span>
                 </Link>
               </>
             )}
@@ -342,13 +294,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
               </div>
             )}
 
-            {user ? (
-              <div className="flex items-center gap-3">
-                <Badge variant={getRoleBadgeVariant(user.role)} className="shadow-sm">
-                  {user.role}
-                </Badge>
-              </div>
-            ) : (
+            {!user && (
               <div className="flex items-center gap-3">
                 <Link href="/auth/login">
                   <Button

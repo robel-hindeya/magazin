@@ -73,7 +73,7 @@ export default function HomePage() {
               </h2>
 
               <div className="mt-8 flex justify-center lg:justify-start">
-                <Link href="/auth/register?role=KID">
+                <Link href="/story">
                   <Button variant="emerald" size="lg" className="font-black text-base bg-emerald-500 hover:bg-emerald-400 text-slate-950">
                     Read the Stories &rarr;
                   </Button>
@@ -111,7 +111,7 @@ export default function HomePage() {
               </div>
 
               <div className="mt-6 flex items-center justify-center lg:justify-end">
-                <Link href="/auth/register?role=KID">
+                <Link href="/story">
                   <Button variant="emerald" size="sm" className="font-black bg-emerald-500 hover:bg-emerald-400 text-slate-950">
                     Continue Reading &rarr;
                   </Button>

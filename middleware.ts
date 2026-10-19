@@ -6,6 +6,8 @@ import { ROLE_REDIRECTS, ROLES, UserRole } from '@/backend/constants/roles';
 const PUBLIC_PATHS = [
   '/',
   '/games',
+  '/melody-world',
+  '/story',
   '/about',
   '/contact',
   '/auth/login',

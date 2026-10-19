@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { WonderZoneSection } from '@/components/landing/wonder-zone-section';
+import { EthiopianInstrumentsSection } from '@/components/melody/ethiopian-instruments-section';
+import { ethiopianAudio } from '@/components/melody/ethiopian-audio-synth';
 
 interface ChimeKey {
   note: string;
@@ -290,7 +292,7 @@ export function MelodyWorldExperience() {
         </h1>
 
         <p className="mt-4 text-base sm:text-xl text-slate-600 dark:text-purple-200 max-w-3xl mx-auto font-medium leading-relaxed">
-          Tap the enchanted animal sound chimes, listen to musical chords, pop melodic vocabulary bubbles, and earn glowing star points!
+          Discover authentic <strong>Ethiopian cultural music instruments & materials</strong>, play enchanting sound chimes, listen to traditional melodies, and collect glowing star points!
         </p>
 
         {/* Floating Melody HUD / Scoreboard */}
@@ -308,7 +310,11 @@ export function MelodyWorldExperience() {
           </div>
 
           <button
-            onClick={() => setAudioMuted(!audioMuted)}
+            onClick={() => {
+              const nextMuted = !audioMuted;
+              setAudioMuted(nextMuted);
+              ethiopianAudio.setMuted(nextMuted);
+            }}
             className="flex items-center gap-2 rounded-2xl bg-white/90 dark:bg-[#150a36]/90 border-2 border-slate-200 dark:border-purple-700/80 px-5 py-3 shadow-md backdrop-blur-md hover:border-pink-400 text-slate-700 dark:text-purple-200 font-display font-bold text-xs transition-all active:scale-95 cursor-pointer"
           >
             {audioMuted ? (
@@ -334,8 +340,29 @@ export function MelodyWorldExperience() {
             <Play className={`h-4 w-4 ${isPlayingAuto ? 'animate-spin' : 'fill-slate-950'}`} />
             {isPlayingAuto ? 'Playing Selam Tune...' : 'Auto-Play Melody Tune'}
           </Button>
+
+          <a href="#ethiopian-instruments">
+            <Button
+              variant="outline"
+              size="lg"
+              className="font-black text-xs sm:text-sm h-12 px-6 gap-2 border-amber-400/80 text-amber-500 dark:text-amber-300 hover:bg-amber-400/10 shadow-md cursor-pointer"
+            >
+              <span>🇪🇹</span>
+              <span>Ethiopian Instruments (የባህል መሣሪያዎች)</span>
+            </Button>
+          </a>
         </div>
       </section>
+
+      {/* =========================================================================
+          FEATURED: ETHIOPIAN CULTURAL MUSIC MATERIALS & SOUNDS
+          (Krar, Masenqo, Kebero, Washint, Begena, Tsenatsil, Embilta)
+          ========================================================================= */}
+      <div id="ethiopian-instruments" className="relative w-full border-t border-b border-amber-500/20 bg-gradient-to-b from-amber-500/5 via-purple-950/20 to-transparent">
+        <EthiopianInstrumentsSection
+          onEarnPoints={(pts) => setMusicalOrbs((prev) => prev + pts)}
+        />
+      </div>
 
       {/* =========================================================================
           INTERACTIVE PIANO CHIMES INSTRUMENT

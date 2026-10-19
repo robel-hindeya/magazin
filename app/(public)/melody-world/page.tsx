@@ -4,9 +4,9 @@ import { MelodyWorldExperience } from '@/components/melody/melody-world-experien
 import { LoadingSpinner } from '@/components/ui/loading';
 
 export const metadata: Metadata = {
-  title: 'Melody World - Music, Sounds & Wonder Playground | Selam Kids',
+  title: 'Melody World - Ethiopian Cultural Music Materials & Sounds | Selam Kids',
   description:
-    'Step into Melody World! Play musical chimes, discover interactive character sounds, pop vocabulary bubbles, and collect glowing star points at Selam Kids.',
+    'Discover and play traditional Ethiopian cultural music instruments: Krar, Masenqo, Kebero, Washint, Begena, Tsenatsil, and Embilta. See full craftsmanship anatomy and listen to authentic Ethiopian melodies at Selam Kids.',
 };
 
 export default function MelodyWorldPage() {

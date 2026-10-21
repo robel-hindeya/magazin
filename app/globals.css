@@ -392,3 +392,130 @@ h1, h2, h3, h4, h5, h6, .font-display {
   animation: bubbleFloat 4s ease-in-out infinite;
 }
 
+/* Character Motion Animations for 3-Second Page Refresh & Transitions */
+@keyframes characterRunBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1, 1) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-8px) scale(0.96, 1.04) rotate(-3deg);
+  }
+  40% {
+    transform: translateY(-24px) scale(0.92, 1.08) rotate(3deg);
+  }
+  60% {
+    transform: translateY(-16px) scale(0.98, 1.02) rotate(-2deg);
+  }
+  80% {
+    transform: translateY(2px) scale(1.06, 0.94) rotate(1deg);
+  }
+}
+
+@keyframes characterShadowScale {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  40% {
+    transform: scale(0.65);
+    opacity: 0.25;
+  }
+  80% {
+    transform: scale(1.18);
+    opacity: 0.7;
+  }
+}
+
+@keyframes dustPuffLeft {
+  0% {
+    transform: translateX(0) scale(0.5);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(-35px) scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes starOrbit {
+  0% {
+    transform: rotate(0deg) translateY(-38px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateY(-38px) rotate(-360deg);
+  }
+}
+
+@keyframes starOrbitReverse {
+  0% {
+    transform: rotate(360deg) translateY(-46px) rotate(-360deg);
+  }
+  100% {
+    transform: rotate(0deg) translateY(-46px) rotate(0deg);
+  }
+}
+
+@keyframes speedLine {
+  0% {
+    transform: translateX(120%) scaleX(0.4);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(-120%) scaleX(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes rainbowShimmerBar {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-character-run {
+  animation: characterRunBounce 0.65s cubic-bezier(0.36, 0, 0.66, -0.56) infinite;
+}
+
+.animate-character-shadow {
+  animation: characterShadowScale 0.65s ease-in-out infinite;
+}
+
+.animate-dust-puff-1 {
+  animation: dustPuffLeft 0.55s ease-out infinite;
+}
+
+.animate-dust-puff-2 {
+  animation: dustPuffLeft 0.55s ease-out 0.25s infinite;
+}
+
+.animate-star-orbit-1 {
+  animation: starOrbit 2.4s linear infinite;
+}
+
+.animate-star-orbit-2 {
+  animation: starOrbitReverse 3.1s linear infinite;
+}
+
+.animate-speed-line-1 {
+  animation: speedLine 1s ease-in-out infinite;
+}
+
+.animate-speed-line-2 {
+  animation: speedLine 1.4s ease-in-out 0.4s infinite;
+}
+
+.animate-rainbow-shimmer {
+  background-size: 200% 200%;
+  animation: rainbowShimmerBar 2s linear infinite;
+}
+
+

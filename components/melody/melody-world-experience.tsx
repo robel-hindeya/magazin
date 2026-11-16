@@ -453,7 +453,7 @@ export function MelodyWorldExperience() {
           <Link href="/#magazines">
             <Button variant="outline" size="lg" className="font-black text-sm h-12 px-6 gap-2">
               <BookOpen className="h-4 w-4" />
-              Explore Magazin Issues
+              Explore Magazine Issues
             </Button>
           </Link>
           <Link href="/games">

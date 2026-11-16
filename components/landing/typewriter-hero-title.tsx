@@ -10,7 +10,7 @@ interface TypewriterHeroTitleProps {
 
 export function TypewriterHeroTitle({
   prefix = 'Selam Kids World!',
-  phrases = ['Magazin and Games'],
+  phrases = ['Magazine and Games'],
   className = '',
 }: TypewriterHeroTitleProps) {
   const [phraseIndex, setPhraseIndex] = useState(0);

@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { InteractiveHeroCharacters } from '@/components/landing/interactive-hero-characters';
 import { TypewriterHeroTitle } from '@/components/landing/typewriter-hero-title';
+import { ScrollDownButton } from '@/components/landing/scroll-down-button';
 import { MagazineCoverSlider } from '@/components/landing/magazine-cover-slider';
 import { LandingFooter } from '@/components/landing/footer';
 
@@ -31,7 +32,7 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
           <TypewriterHeroTitle
             prefix="Selam Kids World!"
-            phrases={['Magazin and Games']}
+            phrases={['Magazine and Games']}
           />
 
           {/* Chunky CTA Button */}
@@ -48,6 +49,9 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
+
+        {/* Scroll Down Indicator at bottom edge */}
+        <ScrollDownButton targetId="magazines" />
       </section>
 
       {/* =========================================================================

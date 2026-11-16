@@ -237,7 +237,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
                   )}
                 >
                   <BookOpen className="h-3.5 w-3.5 text-emerald-500 dark:text-emerald-400" />
-                  Magazin
+                  Magazine
                 </Link>
               </>
             )}

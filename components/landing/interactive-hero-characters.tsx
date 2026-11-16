@@ -29,9 +29,9 @@ const HERO_CHARACTERS: HeroCharacter[] = [
     image: '/images/characters/walia-ibex.png',
     quote: 'Scale the highest peaks of your imagination! Every cliff leads to a new story!',
     power: 'Mountain Summit Vocabulary',
-    positionClass: 'top-6 left-3 sm:left-6 lg:left-10',
+    positionClass: 'top-3 sm:top-5 left-2 sm:left-6 lg:left-8 xl:left-12',
     bubbleClass: 'top-full left-0 sm:left-4 mt-2',
-    sizeClass: 'w-32 h-32 sm:w-44 sm:h-44 lg:w-52 lg:h-52',
+    sizeClass: 'w-44 h-44 sm:w-60 sm:h-60 lg:w-72 lg:h-72 xl:w-80 xl:h-80',
     glowColor: 'drop-shadow-[0_12px_28px_rgba(245,158,11,0.55)]',
     floatAnimationClass: 'animate-float-smooth-1',
     animationDelay: '0s',
@@ -44,9 +44,9 @@ const HERO_CHARACTERS: HeroCharacter[] = [
     image: '/images/characters/ethiopian-wolf.png',
     quote: 'Keep your thoughts swift and brave! Let your words track wondrous adventures!',
     power: 'Highland Agility & Focus',
-    positionClass: 'top-4 right-1/4 sm:right-1/3 -translate-y-2 hidden lg:block',
+    positionClass: 'top-2 sm:top-3 right-[26%] sm:right-[30%] lg:right-[32%] -translate-y-1 hidden lg:block',
     bubbleClass: 'top-full left-1/2 -translate-x-1/2 mt-2',
-    sizeClass: 'w-32 h-32 sm:w-44 sm:h-44 lg:w-48 lg:h-48',
+    sizeClass: 'w-40 h-40 sm:w-52 sm:h-52 lg:w-64 lg:h-64 xl:w-72 xl:h-72',
     glowColor: 'drop-shadow-[0_12px_28px_rgba(234,88,12,0.55)]',
     floatAnimationClass: 'animate-float-smooth-2',
     animationDelay: '1.2s',
@@ -59,9 +59,9 @@ const HERO_CHARACTERS: HeroCharacter[] = [
     image: '/images/characters/abyssinian-lion.png',
     quote: 'Roar with creative confidence! Every child is a mighty storytelling ruler!',
     power: 'Royal Creative Courage',
-    positionClass: 'top-6 right-3 sm:right-6 lg:right-12',
+    positionClass: 'top-3 sm:top-5 right-2 sm:right-6 lg:right-8 xl:right-12',
     bubbleClass: 'top-full right-0 sm:right-4 mt-2',
-    sizeClass: 'w-32 h-32 sm:w-44 sm:h-44 lg:w-52 lg:h-52',
+    sizeClass: 'w-44 h-44 sm:w-60 sm:h-60 lg:w-72 lg:h-72 xl:w-80 xl:h-80',
     glowColor: 'drop-shadow-[0_12px_28px_rgba(245,158,11,0.6)]',
     floatAnimationClass: 'animate-float-smooth-3',
     animationDelay: '0.8s',
@@ -74,9 +74,9 @@ const HERO_CHARACTERS: HeroCharacter[] = [
     image: '/images/characters/gelada-baboon.png',
     quote: 'Speak straight from your heart! True tales carry the living rhythm of song!',
     power: 'Heartfelt Story Rhythm',
-    positionClass: 'bottom-8 left-4 sm:left-10 lg:left-20 hidden md:block',
+    positionClass: 'bottom-6 sm:bottom-8 left-3 sm:left-8 lg:left-12 xl:left-16 hidden md:block',
     bubbleClass: 'bottom-full left-0 mb-2',
-    sizeClass: 'w-28 h-28 sm:w-38 sm:h-38 lg:w-48 lg:h-48',
+    sizeClass: 'w-40 h-40 sm:w-56 sm:h-56 lg:w-64 lg:h-64 xl:w-72 xl:h-72',
     glowColor: 'drop-shadow-[0_12px_28px_rgba(251,191,36,0.55)]',
     floatAnimationClass: 'animate-float-smooth-1',
     animationDelay: '1.6s',
@@ -89,9 +89,9 @@ const HERO_CHARACTERS: HeroCharacter[] = [
     image: '/images/characters/mountain-nyala.png',
     quote: 'Listen to the whispering trees! Gentle words can summon the brightest magic!',
     power: 'Cloud Forest Wisdom',
-    positionClass: 'bottom-10 right-4 sm:right-10 lg:right-24 hidden md:block',
+    positionClass: 'bottom-6 sm:bottom-8 right-3 sm:right-8 lg:right-12 xl:right-16 hidden md:block',
     bubbleClass: 'bottom-full right-0 mb-2',
-    sizeClass: 'w-28 h-28 sm:w-38 sm:h-38 lg:w-48 lg:h-48',
+    sizeClass: 'w-40 h-40 sm:w-56 sm:h-56 lg:w-64 lg:h-64 xl:w-72 xl:h-72',
     glowColor: 'drop-shadow-[0_12px_28px_rgba(16,185,129,0.55)]',
     floatAnimationClass: 'animate-float-smooth-2',
     animationDelay: '0.5s',
@@ -292,7 +292,7 @@ export function InteractiveHeroCharacters() {
                   src={char.image}
                   alt={`${char.name} (${char.amharic})`}
                   fill
-                  sizes="(max-width: 768px) 160px, 240px"
+                  sizes="(max-width: 640px) 176px, (max-width: 1024px) 240px, (max-width: 1280px) 288px, 320px"
                   className={`object-contain pointer-events-none select-none transition-all duration-300 ${char.glowColor}`}
                   draggable={false}
                   priority

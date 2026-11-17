@@ -17,8 +17,11 @@ import {
   PenTool,
   Sparkles,
   Music,
+  Crown,
 } from 'lucide-react';
 import { ROLES } from '@/backend/constants/roles';
+import { SubscriptionService, SubscriptionStatus } from '@/backend/services/subscription.service';
+import { SubscriptionBanner } from '@/components/billing/subscription-banner';
 
 export default async function UsersLayout({
   children,
@@ -29,6 +32,18 @@ export default async function UsersLayout({
 
   if (!user) {
     redirect('/auth/login');
+  }
+
+  // Subscription gate: free trial first, then a paid period is required.
+  let subscription: SubscriptionStatus | null = null;
+  try {
+    subscription = await new SubscriptionService().getStatus(user);
+  } catch (error) {
+    // Fail open so a billing outage never locks families out of the app.
+    console.error('[billing] Could not load subscription status', error);
+  }
+  if (subscription && !subscription.hasAccess) {
+    redirect('/billing?expired=1');
   }
 
   // Define sidebar navigation items based on user role
@@ -82,6 +97,10 @@ export default async function UsersLayout({
     ];
   }
 
+  if (subscription && subscription.state !== 'EXEMPT') {
+    navItems.push({ label: 'Subscription', href: '/billing', icon: <Crown className="h-4 w-4 text-amber-400" /> });
+  }
+
   return (
     <div className="flex-1 flex flex-col lg:flex-row">
       <Sidebar
@@ -89,7 +108,10 @@ export default async function UsersLayout({
         subtitle={sidebarSubtitle}
         items={navItems}
       />
-      <div className="flex-1 p-4 sm:p-6 lg:p-8 bg-white dark:bg-[#070314]/90 overflow-y-auto transition-colors">{children}</div>
+      <div className="flex-1 p-4 sm:p-6 lg:p-8 bg-white dark:bg-[#070314]/90 overflow-y-auto transition-colors">
+        {subscription && <SubscriptionBanner status={subscription} />}
+        {children}
+      </div>
     </div>
   );
 }

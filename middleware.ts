@@ -21,6 +21,8 @@ const PUBLIC_PATHS = [
   '/api/auth/forgot-password',
   '/api/auth/reset-password',
   '/api/auth/parent-session',
+  // Chapa calls this server-to-server without a user session; it re-verifies every payment.
+  '/api/billing/chapa/callback',
 ];
 
 export async function middleware(request: NextRequest) {

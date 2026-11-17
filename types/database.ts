@@ -377,6 +377,71 @@ export interface Database {
         };
         Relationships: [];
       };
+      subscriptions: {
+        Row: {
+          user_id: string;
+          plan: string;
+          trial_started_at: string;
+          trial_ends_at: string;
+          current_period_start: string | null;
+          current_period_end: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          user_id: string;
+          plan?: string;
+          trial_started_at?: string;
+          trial_ends_at: string;
+          current_period_start?: string | null;
+          current_period_end?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          plan?: string;
+          trial_started_at?: string;
+          trial_ends_at?: string;
+          current_period_start?: string | null;
+          current_period_end?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      payments: {
+        Row: {
+          id: string;
+          user_id: string;
+          tx_ref: string;
+          provider: string;
+          provider_ref: string | null;
+          amount: number;
+          currency: string;
+          period_days: number;
+          status: string;
+          created_at: string;
+          verified_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          tx_ref: string;
+          provider?: string;
+          provider_ref?: string | null;
+          amount: number;
+          currency?: string;
+          period_days?: number;
+          status?: string;
+          created_at?: string;
+          verified_at?: string | null;
+        };
+        Update: {
+          provider_ref?: string | null;
+          status?: string;
+          verified_at?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

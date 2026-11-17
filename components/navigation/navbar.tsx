@@ -312,7 +312,7 @@ export function Navbar({ user, initialPoints = 75 }: NavbarProps) {
                     size="default"
                     className="text-xs sm:text-sm font-black tracking-wide"
                   >
-                    Start 7 Day Trial
+                    Start 14 Day Free Trial
                   </Button>
                 </Link>
               </div>

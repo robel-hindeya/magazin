@@ -209,6 +209,10 @@ export class PhoneAuthStore {
     return record;
   }
 
+  public findById(id: string): PhoneUserRecord | undefined {
+    return this.users.get(id);
+  }
+
   public findByIdentifier(identifier: string): PhoneUserRecord | undefined {
     this.seed();
     const raw = identifier.trim().toLowerCase();

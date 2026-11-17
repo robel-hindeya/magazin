@@ -43,7 +43,7 @@ export default function HomePage() {
                 size="xl"
                 className="h-16 px-10 text-lg font-black tracking-wide shadow-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950"
               >
-                Start 7 Day Trial
+                Start 14 Day Free Trial
                 <ArrowRight className="ml-2 h-5 w-5 text-slate-950" />
               </Button>
             </Link>

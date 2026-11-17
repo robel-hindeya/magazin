@@ -47,3 +47,6 @@ desktop.ini
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Local billing store (used when Supabase is not configured)
+.data/

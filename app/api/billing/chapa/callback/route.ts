@@ -3,6 +3,8 @@ import { SubscriptionService } from '@/backend/services/subscription.service';
 import { isValidWebhookSignature } from '@/backend/payments/chapa';
 import { logger } from '@/backend/utils/logger';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Chapa server-to-server notifications. Public (no user session).
  *  - GET  : the `callback_url` Chapa calls after checkout (?trx_ref=...&status=...)
@@ -29,7 +31,11 @@ async function confirm(txRef: string | null | undefined) {
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams;
-  return confirm(params.get('trx_ref') ?? params.get('tx_ref'));
+  return confirm(
+    params.get('trx_ref') ??
+    params.get('tx_ref') ??
+    params.get('reference')
+  );
 }
 
 export async function POST(request: NextRequest) {
@@ -39,12 +45,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, error: 'Invalid signature' }, { status: 401 });
   }
 
-  let payload: { tx_ref?: string; trx_ref?: string } = {};
+  let payload: Record<string, unknown> = {};
   try {
     payload = JSON.parse(rawBody);
   } catch {
     return NextResponse.json({ ok: false, error: 'Invalid JSON' }, { status: 400 });
   }
 
-  return confirm(payload.tx_ref ?? payload.trx_ref);
+  const data = (payload.data && typeof payload.data === 'object') ? (payload.data as Record<string, unknown>) : undefined;
+
+  const txRef =
+    (typeof payload.tx_ref === 'string' && payload.tx_ref) ||
+    (typeof payload.trx_ref === 'string' && payload.trx_ref) ||
+    (typeof payload.reference === 'string' && payload.reference) ||
+    (typeof data?.tx_ref === 'string' && data.tx_ref) ||
+    (typeof data?.trx_ref === 'string' && data.trx_ref) ||
+    (typeof data?.reference === 'string' && data.reference) ||
+    null;
+
+  return confirm(txRef);
 }

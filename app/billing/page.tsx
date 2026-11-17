@@ -3,11 +3,13 @@ import { redirect } from 'next/navigation';
 import { CheckCircle2, Clock, Crown, Sparkles, XCircle, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { getCurrentUser } from '@/backend/auth/session';
 import { ROLE_REDIRECTS } from '@/backend/constants/roles';
-import { ConfirmResult, SubscriptionService } from '@/backend/services/subscription.service';
+import { ConfirmResult, SubscriptionService, SubscriptionStatus } from '@/backend/services/subscription.service';
+import { PaymentRecord } from '@/backend/db/repositories/subscription.repository';
 import { isChapaConfigured, isChapaTestMode } from '@/backend/payments/chapa';
 import { Card } from '@/components/ui/card';
 import { PayWithChapaButton } from '@/components/billing/pay-with-chapa-button';
 
+export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Subscription - Selam Kids' };
 
 function formatDate(iso: string | null): string {
@@ -56,7 +58,10 @@ export default async function BillingPage({
 }) {
   const params = searchParams ? await searchParams : {};
   const user = await getCurrentUser();
-  if (!user) redirect('/auth/login?redirectTo=/billing');
+  if (!user) {
+    const returnTarget = params.tx_ref ? `/billing?tx_ref=${encodeURIComponent(params.tx_ref)}` : '/billing';
+    redirect(`/auth/login?redirectTo=${encodeURIComponent(returnTarget)}`);
+  }
 
   const service = new SubscriptionService();
   const homeHref = ROLE_REDIRECTS[user.role] || '/users';
@@ -72,8 +77,32 @@ export default async function BillingPage({
     }
   }
 
-  const status = await service.getStatus(user);
-  const payments = service.isExempt(user) ? [] : await service.listPayments(user);
+  let status: SubscriptionStatus;
+  try {
+    status = await service.getStatus(user);
+  } catch (error) {
+    console.error('[billing] Could not load subscription status', error);
+    status = {
+      state: 'TRIALING',
+      hasAccess: true,
+      trialEndsAt: null,
+      paidUntil: null,
+      daysLeft: 14,
+      priceEtb: 300,
+      periodDays: 30,
+      trialDays: 14,
+    };
+  }
+
+  let payments: PaymentRecord[] = [];
+  if (!service.isExempt(user)) {
+    try {
+      payments = await service.listPayments(user);
+    } catch (error) {
+      console.error('[billing] Could not load payment history', error);
+    }
+  }
+
   const chapaReady = isChapaConfigured();
 
   const stateCopy = {

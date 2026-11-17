@@ -64,9 +64,13 @@ export interface InitializeInput {
 }
 
 export async function initializeTransaction(input: InitializeInput): Promise<{ checkoutUrl: string }> {
+  // Ensure email is always provided because Chapa API requires email
+  const userEmail = (input.email && input.email.trim()) || 'billing@selamkids.com';
+
   const body: Record<string, unknown> = {
     amount: input.amount.toFixed(2),
     currency: input.currency,
+    email: userEmail,
     tx_ref: input.txRef,
     callback_url: input.callbackUrl,
     return_url: input.returnUrl,
@@ -76,7 +80,6 @@ export async function initializeTransaction(input: InitializeInput): Promise<{ c
       description: input.description,
     },
   };
-  if (input.email) body.email = input.email;
   if (input.phoneNumber) body.phone_number = input.phoneNumber;
   if (input.firstName) body.first_name = input.firstName;
   if (input.lastName) body.last_name = input.lastName;

@@ -111,12 +111,13 @@ export class SubscriptionService {
   }
 
   /** Creates a pending payment and returns the Chapa checkout page URL. */
-  async startCheckout(user: AuthUser): Promise<{ checkoutUrl: string; txRef: string }> {
+  async startCheckout(user: AuthUser, appUrlOverride?: string): Promise<{ checkoutUrl: string; txRef: string }> {
     if (!isChapaConfigured()) throw new PaymentsNotConfiguredError();
 
     const { priceEtb, periodDays, currency } = getBillingConfig();
     const txRef = `selam-${Date.now()}-${crypto.randomBytes(4).toString('hex')}`;
-    const appUrl = siteConfig.url.replace(/\/$/, '');
+    const targetAppUrl = appUrlOverride || siteConfig.url;
+    const appUrl = targetAppUrl.replace(/\/$/, '');
 
     await this.getOrStartSubscription(user.id);
     await this.repo.createPayment({
@@ -129,8 +130,7 @@ export class SubscriptionService {
     });
 
     const phoneUser = getPhoneAuthStore().findById(user.id);
-    // Generated @selamkids.com addresses are not real inboxes; only send real emails.
-    const email = user.email && !user.email.endsWith('@selamkids.com') ? user.email : undefined;
+    const email = user.email || `${user.id.slice(0, 8)}@selamkids.com`;
 
     const checkout = initializeTransaction({
       txRef,

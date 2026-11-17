@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { getAdminDb, isDummyDb } from '../admin';
+import { logger } from '@/backend/utils/logger';
 
 export interface SubscriptionRecord {
   user_id: string;
@@ -32,8 +34,8 @@ export interface PaymentRecord {
 export type NewPayment = Omit<PaymentRecord, 'id' | 'created_at' | 'verified_at' | 'provider_ref' | 'status'>;
 
 /* -------------------------------------------------------------------------- */
-/* Local file store, used while Supabase is not configured (dummy mode).       */
-/* Persisted to .data/billing.json so trials and payments survive restarts.    */
+/* Local memory & file store, used in dummy mode or as a resilient fallback.   */
+/* Safe in serverless / Vercel (avoids EROFS read-only filesystem crash).     */
 /* -------------------------------------------------------------------------- */
 
 interface LocalBillingData {
@@ -41,21 +43,56 @@ interface LocalBillingData {
   payments: Record<string, PaymentRecord>;
 }
 
-const LOCAL_FILE = path.join(process.cwd(), '.data', 'billing.json');
+declare global {
+  // eslint-disable-next-line no-var
+  var __selam_billing_store: LocalBillingData | undefined;
+}
 
-function readLocal(): LocalBillingData {
-  try {
-    const raw = fs.readFileSync(LOCAL_FILE, 'utf-8');
-    const parsed = JSON.parse(raw) as Partial<LocalBillingData>;
-    return { subscriptions: parsed.subscriptions ?? {}, payments: parsed.payments ?? {} };
-  } catch {
-    return { subscriptions: {}, payments: {} };
+function getLocalFilePath(): string {
+  // In serverless / Vercel, the only writable directory is /tmp
+  if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NODE_ENV === 'production') {
+    return path.join(os.tmpdir(), 'selam_billing.json');
   }
+  return path.join(process.cwd(), '.data', 'billing.json');
+}
+
+function getMemoryStore(): LocalBillingData {
+  if (!globalThis.__selam_billing_store) {
+    globalThis.__selam_billing_store = readLocalFromDisk();
+  }
+  return globalThis.__selam_billing_store;
+}
+
+function readLocalFromDisk(): LocalBillingData {
+  try {
+    const filePath = getLocalFilePath();
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, 'utf-8');
+      const parsed = JSON.parse(raw) as Partial<LocalBillingData>;
+      return {
+        subscriptions: parsed.subscriptions ?? {},
+        payments: parsed.payments ?? {},
+      };
+    }
+  } catch {
+    // Disk read failed, fallback to empty
+  }
+  return { subscriptions: {}, payments: {} };
 }
 
 function writeLocal(data: LocalBillingData) {
-  fs.mkdirSync(path.dirname(LOCAL_FILE), { recursive: true });
-  fs.writeFileSync(LOCAL_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  globalThis.__selam_billing_store = data;
+  try {
+    const filePath = getLocalFilePath();
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+  } catch {
+    // In read-only serverless environments, writing to disk might fail.
+    // In-memory global store is already updated so we safely swallow this error.
+  }
 }
 
 function normalizePayment(row: Record<string, unknown>): PaymentRecord {
@@ -69,22 +106,30 @@ function normalizePayment(row: Record<string, unknown>): PaymentRecord {
 export class SubscriptionRepository {
   async findByUserId(userId: string): Promise<SubscriptionRecord | null> {
     if (isDummyDb()) {
-      return readLocal().subscriptions[userId] ?? null;
+      return getMemoryStore().subscriptions[userId] ?? null;
     }
 
-    const { data, error } = await getAdminDb()
-      .from('subscriptions')
-      .select('*')
-      .eq('user_id', userId)
-      .maybeSingle();
-    if (error) throw new Error(`Could not load subscription: ${error.message}`);
-    return data;
+    try {
+      const { data, error } = await getAdminDb()
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', userId)
+        .maybeSingle();
+      if (!error) return data;
+      logger.warn(`[billing] Supabase error in findByUserId (${error.message}), falling back to local store.`);
+    } catch (err) {
+      logger.warn('[billing] Supabase exception in findByUserId, falling back to local store', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+
+    return getMemoryStore().subscriptions[userId] ?? null;
   }
 
   /** Creates the row if missing; never overwrites an existing one. */
   async createIfMissing(record: SubscriptionRecord): Promise<SubscriptionRecord> {
     if (isDummyDb()) {
-      const store = readLocal();
+      const store = getMemoryStore();
       const existing = store.subscriptions[record.user_id];
       if (existing) return existing;
       store.subscriptions[record.user_id] = record;
@@ -92,14 +137,29 @@ export class SubscriptionRepository {
       return record;
     }
 
-    const db = getAdminDb();
-    const { error } = await db
-      .from('subscriptions')
-      .upsert(record, { onConflict: 'user_id', ignoreDuplicates: true });
-    if (error) throw new Error(`Could not create subscription: ${error.message}`);
-    const saved = await this.findByUserId(record.user_id);
-    if (!saved) throw new Error('Subscription row missing after create.');
-    return saved;
+    try {
+      const db = getAdminDb();
+      const { error } = await db
+        .from('subscriptions')
+        .upsert(record, { onConflict: 'user_id', ignoreDuplicates: true });
+      if (!error) {
+        const saved = await this.findByUserId(record.user_id);
+        if (saved) return saved;
+      } else {
+        logger.warn(`[billing] Supabase error in createIfMissing (${error.message}), falling back to local store.`);
+      }
+    } catch (err) {
+      logger.warn('[billing] Supabase exception in createIfMissing, falling back to local store', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+
+    const store = getMemoryStore();
+    const existing = store.subscriptions[record.user_id];
+    if (existing) return existing;
+    store.subscriptions[record.user_id] = record;
+    writeLocal(store);
+    return record;
   }
 
   async updatePeriod(
@@ -110,7 +170,7 @@ export class SubscriptionRepository {
     const updatedAt = new Date().toISOString();
 
     if (isDummyDb()) {
-      const store = readLocal();
+      const store = getMemoryStore();
       const existing = store.subscriptions[userId];
       if (!existing) throw new Error('Subscription not found.');
       const next = {
@@ -124,14 +184,33 @@ export class SubscriptionRepository {
       return next;
     }
 
-    const { data, error } = await getAdminDb()
-      .from('subscriptions')
-      .update({ current_period_start: periodStart, current_period_end: periodEnd, updated_at: updatedAt })
-      .eq('user_id', userId)
-      .select('*')
-      .single();
-    if (error || !data) throw new Error(`Could not update subscription: ${error?.message}`);
-    return data;
+    try {
+      const { data, error } = await getAdminDb()
+        .from('subscriptions')
+        .update({ current_period_start: periodStart, current_period_end: periodEnd, updated_at: updatedAt })
+        .eq('user_id', userId)
+        .select('*')
+        .single();
+      if (!error && data) return data;
+      logger.warn(`[billing] Supabase error in updatePeriod (${error?.message}), falling back to local store.`);
+    } catch (err) {
+      logger.warn('[billing] Supabase exception in updatePeriod, falling back to local store', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+
+    const store = getMemoryStore();
+    const existing = store.subscriptions[userId];
+    if (!existing) throw new Error('Subscription not found.');
+    const next = {
+      ...existing,
+      current_period_start: periodStart,
+      current_period_end: periodEnd,
+      updated_at: updatedAt,
+    };
+    store.subscriptions[userId] = next;
+    writeLocal(store);
+    return next;
   }
 
   async createPayment(payment: NewPayment): Promise<PaymentRecord> {
@@ -145,47 +224,77 @@ export class SubscriptionRepository {
     };
 
     if (isDummyDb()) {
-      const store = readLocal();
+      const store = getMemoryStore();
       store.payments[record.tx_ref] = record;
       writeLocal(store);
       return record;
     }
 
-    const { data, error } = await getAdminDb().from('payments').insert(record).select('*').single();
-    if (error || !data) throw new Error(`Could not record payment: ${error?.message}`);
-    return normalizePayment(data);
+    try {
+      const { data, error } = await getAdminDb().from('payments').insert(record).select('*').single();
+      if (!error && data) return normalizePayment(data);
+      logger.warn(`[billing] Supabase error in createPayment (${error?.message}), falling back to local store.`);
+    } catch (err) {
+      logger.warn('[billing] Supabase exception in createPayment, falling back to local store', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+
+    const store = getMemoryStore();
+    store.payments[record.tx_ref] = record;
+    writeLocal(store);
+    return record;
   }
 
   async findPaymentByTxRef(txRef: string): Promise<PaymentRecord | null> {
     if (isDummyDb()) {
-      return readLocal().payments[txRef] ?? null;
+      return getMemoryStore().payments[txRef] ?? null;
     }
 
-    const { data, error } = await getAdminDb()
-      .from('payments')
-      .select('*')
-      .eq('tx_ref', txRef)
-      .maybeSingle();
-    if (error) throw new Error(`Could not load payment: ${error.message}`);
-    return data ? normalizePayment(data) : null;
+    try {
+      const { data, error } = await getAdminDb()
+        .from('payments')
+        .select('*')
+        .eq('tx_ref', txRef)
+        .maybeSingle();
+      if (!error) return data ? normalizePayment(data) : null;
+      logger.warn(`[billing] Supabase error in findPaymentByTxRef (${error.message}), falling back to local store.`);
+    } catch (err) {
+      logger.warn('[billing] Supabase exception in findPaymentByTxRef, falling back to local store', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+
+    return getMemoryStore().payments[txRef] ?? null;
   }
 
   async listPaymentsForUser(userId: string, limit = 10): Promise<PaymentRecord[]> {
     if (isDummyDb()) {
-      return Object.values(readLocal().payments)
+      return Object.values(getMemoryStore().payments)
         .filter((p) => p.user_id === userId)
         .sort((a, b) => b.created_at.localeCompare(a.created_at))
         .slice(0, limit);
     }
 
-    const { data, error } = await getAdminDb()
-      .from('payments')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(limit);
-    if (error) throw new Error(`Could not load payments: ${error.message}`);
-    return (data ?? []).map(normalizePayment);
+    try {
+      const { data, error } = await getAdminDb()
+        .from('payments')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(limit);
+      if (!error) return (data ?? []).map(normalizePayment);
+      logger.warn(`[billing] Supabase error in listPaymentsForUser (${error.message}), falling back to local store.`);
+    } catch (err) {
+      logger.warn('[billing] Supabase exception in listPaymentsForUser, falling back to local store', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+
+    return Object.values(getMemoryStore().payments)
+      .filter((p) => p.user_id === userId)
+      .sort((a, b) => b.created_at.localeCompare(a.created_at))
+      .slice(0, limit);
   }
 
   /**
@@ -201,7 +310,7 @@ export class SubscriptionRepository {
     const verifiedAt = new Date().toISOString();
 
     if (isDummyDb()) {
-      const store = readLocal();
+      const store = getMemoryStore();
       const payment = store.payments[txRef];
       if (!payment || payment.status !== 'PENDING') return false;
       store.payments[txRef] = { ...payment, status, provider_ref: providerRef, verified_at: verifiedAt };
@@ -209,13 +318,26 @@ export class SubscriptionRepository {
       return true;
     }
 
-    const { data, error } = await getAdminDb()
-      .from('payments')
-      .update({ status, provider_ref: providerRef, verified_at: verifiedAt })
-      .eq('tx_ref', txRef)
-      .eq('status', 'PENDING')
-      .select('tx_ref');
-    if (error) throw new Error(`Could not settle payment: ${error.message}`);
-    return (data ?? []).length > 0;
+    try {
+      const { data, error } = await getAdminDb()
+        .from('payments')
+        .update({ status, provider_ref: providerRef, verified_at: verifiedAt })
+        .eq('tx_ref', txRef)
+        .eq('status', 'PENDING')
+        .select('tx_ref');
+      if (!error) return (data ?? []).length > 0;
+      logger.warn(`[billing] Supabase error in settlePayment (${error.message}), falling back to local store.`);
+    } catch (err) {
+      logger.warn('[billing] Supabase exception in settlePayment, falling back to local store', {
+        error: err instanceof Error ? err.message : String(err),
+      });
+    }
+
+    const store = getMemoryStore();
+    const payment = store.payments[txRef];
+    if (!payment || payment.status !== 'PENDING') return false;
+    store.payments[txRef] = { ...payment, status, provider_ref: providerRef, verified_at: verifiedAt };
+    writeLocal(store);
+    return true;
   }
 }

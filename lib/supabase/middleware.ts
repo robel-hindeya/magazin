@@ -11,7 +11,7 @@ export async function updateSession(request: NextRequest) {
   // 1. Check for local session cookie first
   const localCookie = request.cookies.get(LOCAL_SESSION_COOKIE)?.value;
   if (localCookie) {
-    const localSession = decodeSession(localCookie);
+    const localSession = await decodeSession(localCookie);
     if (localSession) {
       return {
         supabaseResponse,

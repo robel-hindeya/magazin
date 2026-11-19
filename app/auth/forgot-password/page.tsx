@@ -14,7 +14,9 @@ export default function ForgotPasswordPage() {
   const [otpCode, setOtpCode] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
   const [showPassword, setShowPassword] = React.useState(false);
+  // Only filled in development, where the server shows the code instead of relying on Telegram.
   const [receivedOtp, setReceivedOtp] = React.useState<string | null>(null);
+  const [sentInfo, setSentInfo] = React.useState<{ message: string; help: string } | null>(null);
 
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
@@ -53,9 +55,10 @@ export default function ForgotPasswordPage() {
         throw new Error(data.error?.message || 'Failed to send OTP');
       }
 
-      setReceivedOtp(data.data?.otpCode || '123456');
+      setReceivedOtp(data.data?.devCode ?? null);
+      setSentInfo({ message: data.data?.message ?? '', help: data.data?.noTelegramHelp ?? '' });
       setStep('OTP');
-      setCountdown(45);
+      setCountdown(60);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -72,7 +75,7 @@ export default function ForgotPasswordPage() {
     const cleanOtp = otpCode.trim();
 
     if (!cleanOtp || cleanOtp.length < 4) {
-      setError('Please enter the verification code (OTP)');
+      setError('Please enter the 6-digit code from Telegram');
       return;
     }
 
@@ -124,12 +127,12 @@ export default function ForgotPasswordPage() {
           </div>
           <div>
             <CardTitle className="font-display font-black text-3xl tracking-wide text-slate-900 dark:text-white drop-shadow-sm">
-              {step === 'PHONE' ? 'Forgot Password?' : 'Enter OTP & New Password'}
+              {step === 'PHONE' ? 'Forgot Password?' : 'Enter Code & New Password'}
             </CardTitle>
             <CardDescription className="text-slate-500 dark:text-purple-200 font-medium text-sm mt-1">
               {step === 'PHONE'
-                ? 'Enter your phone number to receive an OTP verification code'
-                : `We sent a 6-digit code to ${countryCode} ${phoneNumber}`}
+                ? 'Enter your phone number and we will send a code to your Telegram'
+                : 'Check Telegram for your 6-digit code'}
             </CardDescription>
           </div>
         </CardHeader>
@@ -181,7 +184,7 @@ export default function ForgotPasswordPage() {
                   </div>
                 </div>
                 <p className="mt-1.5 text-[11px] text-slate-500 dark:text-purple-300 font-medium">
-                  We will send a one-time SMS verification code to your phone.
+                  The code is sent by our Telegram bot to the Telegram account connected to this number.
                 </p>
               </div>
 
@@ -196,11 +199,11 @@ export default function ForgotPasswordPage() {
                   {loading ? (
                     <span className="flex items-center gap-2">
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      Sending OTP...
+                      Sending code...
                     </span>
                   ) : (
                     <span className="flex items-center gap-2">
-                      Send OTP Code
+                      Send Code to Telegram
                       <ArrowRight className="h-5 w-5 text-slate-950" />
                     </span>
                   )}
@@ -228,23 +231,29 @@ export default function ForgotPasswordPage() {
                 </div>
               )}
 
-              {/* Simulated SMS Alert Banner */}
-              {receivedOtp && (
-                <div className="rounded-2xl border-2 border-emerald-400/60 bg-emerald-50 dark:bg-emerald-950/40 p-3 flex items-center gap-2.5 text-xs font-bold text-emerald-800 dark:text-emerald-300">
+              {sentInfo?.message && (
+                <div className="rounded-2xl border-2 border-emerald-400/60 bg-emerald-50 dark:bg-emerald-950/40 p-3 flex gap-2.5 text-xs font-bold text-emerald-800 dark:text-emerald-300">
                   <MessageSquare className="h-5 w-5 text-emerald-500 dark:text-emerald-400 shrink-0" />
-                  <div>
-                    <span>SMS Sent! Your Verification Code is: </span>
-                    <strong className="text-emerald-600 dark:text-emerald-400 font-black text-sm tracking-wider underline">
-                      {receivedOtp}
-                    </strong>
+                  <div className="space-y-1">
+                    <p>{sentInfo.message}</p>
+                    {sentInfo.help && (
+                      <p className="font-medium text-emerald-700/80 dark:text-emerald-300/80">{sentInfo.help}</p>
+                    )}
                   </div>
+                </div>
+              )}
+
+              {/* Development only: the server returns the code so the flow can be tested without Telegram */}
+              {receivedOtp && (
+                <div className="rounded-2xl border-2 border-dashed border-amber-400/70 bg-amber-50 dark:bg-amber-950/30 p-3 text-xs font-bold text-amber-800 dark:text-amber-300">
+                  Development mode, code: <strong className="font-black text-sm tracking-wider">{receivedOtp}</strong>
                 </div>
               )}
 
               {/* 1. OTP Code Input */}
               <div>
                 <label className="block text-xs font-display font-black uppercase tracking-wider text-slate-700 dark:text-purple-200 mb-1.5">
-                  6-Digit OTP Code
+                  6-Digit Code from Telegram
                 </label>
                 <input
                   type="text"
@@ -301,7 +310,7 @@ export default function ForgotPasswordPage() {
                     onClick={handleSendOtp}
                     className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline"
                   >
-                    Resend OTP
+                    Resend code
                   </button>
                 )}
               </div>
@@ -321,7 +330,7 @@ export default function ForgotPasswordPage() {
                     </span>
                   ) : (
                     <span className="flex items-center gap-2">
-                      Verify OTP & Login Again
+                      Reset Password & Sign In
                       <ArrowRight className="h-5 w-5 text-slate-950" />
                     </span>
                   )}

@@ -442,6 +442,54 @@ export interface Database {
         };
         Relationships: [];
       };
+      telegram_accounts: {
+        Row: {
+          telegram_id: number;
+          user_id: string;
+          user_email: string;
+          user_full_name: string;
+          user_role: string;
+          telegram_username: string | null;
+          telegram_first_name: string | null;
+          telegram_last_name: string | null;
+          telegram_photo_url: string | null;
+          chat_id: number | null;
+          notifications_enabled: boolean;
+          linked_at: string;
+          last_login_at: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          telegram_id: number;
+          user_id: string;
+          user_email: string;
+          user_full_name: string;
+          user_role: string;
+          telegram_username?: string | null;
+          telegram_first_name?: string | null;
+          telegram_last_name?: string | null;
+          telegram_photo_url?: string | null;
+          chat_id?: number | null;
+          notifications_enabled?: boolean;
+          linked_at?: string;
+          last_login_at?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          user_email?: string;
+          user_full_name?: string;
+          user_role?: string;
+          telegram_username?: string | null;
+          telegram_first_name?: string | null;
+          telegram_last_name?: string | null;
+          telegram_photo_url?: string | null;
+          chat_id?: number | null;
+          notifications_enabled?: boolean;
+          last_login_at?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

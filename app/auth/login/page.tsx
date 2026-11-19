@@ -7,6 +7,7 @@ import { ArrowRight, Phone, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { useAuth } from '@/hooks/use-auth';
+import { TelegramBotLoginButton } from '@/components/auth/telegram-bot-login-button';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,11 +43,6 @@ export default function LoginPage() {
     } catch {
       // Error handled by hook
     }
-  };
-
-  const handleQuickDemo = (phoneVal: string, passVal: string) => {
-    setPhoneNumber(phoneVal);
-    setPassword(passVal);
   };
 
   return (
@@ -161,6 +157,21 @@ export default function LoginPage() {
               )}
             </Button>
 
+            <div className="flex w-full items-center gap-3" aria-hidden="true">
+              <span className="h-px flex-1 bg-slate-200 dark:bg-purple-800/60" />
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-purple-400">
+                or
+              </span>
+              <span className="h-px flex-1 bg-slate-200 dark:bg-purple-800/60" />
+            </div>
+
+            <div className="w-full space-y-1.5">
+              <TelegramBotLoginButton intent="login" redirectTo={redirectTo} />
+              <p className="text-center text-[11px] text-slate-400 dark:text-purple-300/80 font-medium">
+                Opens our Telegram bot. New here? We&apos;ll create a parent account for you.
+              </p>
+            </div>
+
             <div className="text-center text-xs text-slate-500 dark:text-purple-300 font-medium pt-2 border-t border-slate-100 dark:border-purple-800/40 w-full">
               Don&apos;t have an account?{' '}
               <Link
@@ -169,36 +180,6 @@ export default function LoginPage() {
               >
                 Register with Phone &rarr;
               </Link>
-            </div>
-
-            {/* Quick Demo Credentials for Fast Testing */}
-            <div className="pt-2 w-full">
-              <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-purple-400 text-center mb-2">
-                Quick Demo Accounts (Click to Fill):
-              </p>
-              <div className="grid grid-cols-3 gap-1.5 text-center">
-                <button
-                  type="button"
-                  onClick={() => handleQuickDemo('+251911111111', 'Password123')}
-                  className="px-2 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/80 border border-purple-200 dark:border-purple-700/60 text-[11px] font-bold text-purple-700 dark:text-emerald-400 hover:bg-purple-100 transition-all cursor-pointer"
-                >
-                  Kid (+251 911...)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickDemo('+251922222222', 'Password123')}
-                  className="px-2 py-1.5 rounded-xl bg-purple-950/80 border border-purple-700/60 text-[11px] font-bold text-pink-300 hover:bg-purple-800/80 transition-all cursor-pointer"
-                >
-                  Family (+251 922...)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleQuickDemo('+251944444444', 'Password123')}
-                  className="px-2 py-1.5 rounded-xl bg-purple-950/80 border border-purple-700/60 text-[11px] font-bold text-cyan-300 hover:bg-purple-800/80 transition-all cursor-pointer"
-                >
-                  Admin (+251 944...)
-                </button>
-              </div>
             </div>
           </CardFooter>
         </form>

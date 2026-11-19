@@ -478,31 +478,6 @@ export function ParentGateModal({
             </button>
           )}
         </div>
-
-        {/* Quick Demo Helper */}
-        <div className="flex items-center justify-center gap-2 pt-1">
-          <span className="text-[10px] text-purple-400 uppercase tracking-wider font-extrabold">
-            Demo Helper:
-          </span>
-          <button
-            type="button"
-            onClick={() => {
-              if (step === 'setup_first') {
-                setPin('1234');
-                setStep('setup_confirm');
-              } else if (step === 'setup_confirm') {
-                setConfirmPin('1234');
-                handleSetupSubmit('1234', '1234');
-              } else {
-                setPin('1234');
-                handleVerifySubmit('1234');
-              }
-            }}
-            className="text-[11px] font-bold text-yellow-300 bg-yellow-400/10 hover:bg-yellow-400/20 px-2.5 py-1 rounded-lg border border-yellow-400/30 transition-all flex items-center gap-1"
-          >
-            Quick PIN (1234)
-          </button>
-        </div>
       </div>
     </div>
   );

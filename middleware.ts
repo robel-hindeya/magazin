@@ -20,7 +20,10 @@ const PUBLIC_PATHS = [
   '/api/auth/register',
   '/api/auth/forgot-password',
   '/api/auth/reset-password',
-  '/api/auth/parent-session',
+  // Telegram bot sign-in: start + status polling (the bot confirms identity via the webhook).
+  '/api/auth/telegram/bot-login',
+  // Telegram Bot API webhook; requests are checked against TELEGRAM_WEBHOOK_SECRET.
+  '/api/telegram/webhook',
   // Chapa calls this server-to-server without a user session; it re-verifies every payment.
   '/api/billing/chapa/callback',
 ];

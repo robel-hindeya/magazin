@@ -1,5 +1,10 @@
-import { NextRequest } from 'next/server';
-import { getServerDb } from '@/backend/db/server';
+import { NextRequest, after } from 'next/server';
+import { AppError, ValidationError } from '@/backend/errors/app-error';
+import { AuditLogRepository } from '@/backend/db/repositories/audit-log.repository';
+import { AUDIT_ACTION } from '@/backend/constants/status';
+import { checkRateLimit } from '@/backend/utils/security';
+import { alertLinkedTelegram } from '@/backend/services/telegram-auth.service';
+import { requestMeta } from '@/app/api/auth/telegram/request-meta';
 import { resetPasswordSchema } from '@/backend/validation/auth.schema';
 import { apiSuccess } from '@/backend/utils/response';
 import { handleApiError } from '@/backend/errors/api-error';
@@ -13,6 +18,11 @@ import { ROLE_REDIRECTS } from '@/backend/constants/roles';
 
 export async function POST(request: NextRequest) {
   try {
+    const meta = requestMeta(request);
+    if (!checkRateLimit(`reset-ip:${meta.ip}`, 10, 10 * 60 * 1000).allowed) {
+      throw new AppError('Too many attempts. Please wait a few minutes and try again.', 429, 'RATE_LIMITED');
+    }
+
     const body = await request.json();
     const validated = resetPasswordSchema.parse(body);
 
@@ -29,6 +39,18 @@ export async function POST(request: NextRequest) {
         validated.password
       );
 
+      await new AuditLogRepository().createLog({
+        user_id: updatedUser.id,
+        user_email: updatedUser.email,
+        user_role: updatedUser.role,
+        action: AUDIT_ACTION.PASSWORD_RESET,
+        resource: 'auth',
+        details: { method: 'telegram_code' },
+        ip_address: meta.ip,
+        user_agent: meta.userAgent,
+      });
+      after(() => alertLinkedTelegram(updatedUser, 'Password reset with a Telegram code', meta));
+
       // Provision session for immediate "login again"
       const localSession = createLocalSession({
         id: updatedUser.id,
@@ -36,7 +58,7 @@ export async function POST(request: NextRequest) {
         fullName: updatedUser.fullName,
         role: updatedUser.role,
       });
-      const token = encodeSession(localSession);
+      const token = await encodeSession(localSession);
 
       const response = apiSuccess({
         message: 'Password successfully updated! You are now logged in.',
@@ -59,20 +81,7 @@ export async function POST(request: NextRequest) {
       return response;
     }
 
-    // Fallback Supabase updateUser if standard email reset
-    try {
-      const supabase = await getServerDb();
-      await supabase.auth.updateUser({
-        password: validated.password,
-      });
-    } catch {
-      // Fallback
-    }
-
-    return apiSuccess({
-      message: 'Password successfully updated.',
-      redirectTo: '/auth/login',
-    });
+    throw new ValidationError('Please enter your phone number and the 6-digit code from Telegram.');
   } catch (error) {
     return handleApiError(error);
   }

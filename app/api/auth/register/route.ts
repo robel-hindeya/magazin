@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
       fullName,
       role,
     });
-    const token = encodeSession(localSession);
+    const token = await encodeSession(localSession);
 
     const response = apiCreated({
       user: {

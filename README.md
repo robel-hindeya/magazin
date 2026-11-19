@@ -193,6 +193,56 @@ Or apply the migration scripts directly in your Supabase SQL editor:
 
 ---
 
+## ✈️ Telegram Sign-in & Bot
+
+Parents and teachers can sign in with Telegram, and a bot sends them an alert for every new sign-in.
+
+**How it works**
+- *Continue with Telegram* goes through the bot, so it works on any domain, including localhost:
+  1. The website creates a one-time request that lasts 5 minutes. It's tied to the browser by an httpOnly cookie, and the website opens `t.me/<bot>?start=login_<id>`.
+  2. The bot shows the device, IP and time, with **✅ Confirm** and **✖️ Cancel** buttons.
+  3. Pressing Confirm reaches the server as a secret-checked webhook update, so the Telegram identity comes from Telegram, never from the browser.
+  4. The page that started the request (and only that page) polls `/api/auth/telegram/bot-login/status` and is signed in once.
+- A Telegram that isn't linked yet creates a new **FAMILY** account (`tg-<telegram id>`), so one Telegram account can never create two accounts.
+- Signed-in users connect or disconnect Telegram from **Settings** with the same Confirm flow. Kid accounts can't connect Telegram.
+- Bot commands: `/start`, `/login`, `/profile`, `/verify`, `/alerts`, `/unlink`, `/help`.
+- **Password reset:** `/auth/forgot-password` sends a one-time 6-digit code to the linked Telegram. It expires in 10 minutes, works once, and is burned after 5 wrong tries. Codes are never returned to the browser in production. In development the page shows the code so you can test without Telegram.
+- Links are stored in `.data/telegram.json`, or in Supabase `telegram_accounts` once a real Supabase project is configured (migration `20261118000000_telegram_accounts.sql`). Logins, links, unlinks and password resets are written to the audit log.
+
+**Phone accounts**
+- Saved to `.data/users.json` (or `/tmp` on serverless). Passwords and reset codes are stored as hashes (scrypt / SHA-256), never as plain text.
+- Login is limited to 8 tries per number per 15 minutes and 30 per IP per 10 minutes. A wrong number and a wrong password give the same message.
+- There are no demo accounts or one-click logins. The owner super admin comes from `SUPERADMIN_PHONE` + `SUPERADMIN_PASSWORD` (set them locally too, or you have no admin login).
+- ⚠️ On Vercel, `/tmp` is wiped when the server sleeps or redeploys, so accounts created there don't last. For a public launch, move storage to a real database.
+
+**Testing the bot locally**
+Telegram can't reach `localhost`, so run the dev server and, in a second terminal, `npm run bot:dev`. It polls Telegram and forwards messages to your local webhook. It removes any production webhook while it runs, so register it again afterwards (step 4).
+
+**Setup**
+1. In [@BotFather](https://t.me/BotFather), send `/newbot` and copy the token.
+2. Set these environment variables (in Vercel too):
+   - `TELEGRAM_BOT_TOKEN`: the token (server-only, never commit it)
+   - `NEXT_PUBLIC_TELEGRAM_BOT_USERNAME`: the bot's username without `@`
+   - `TELEGRAM_WEBHOOK_SECRET`: a random string (letters, digits, `_`, `-`)
+   - `SESSION_SECRET`: 32+ random characters used to sign session cookies
+3. Set `SUPERADMIN_PHONE` and `SUPERADMIN_PASSWORD` (8+ characters) for the owner admin account.
+4. Deploy. Then, signed in as super admin, register the webhook and command menu once:
+   `fetch('/api/superadmin/telegram', { method: 'POST' }).then(r => r.json())` in the browser console.
+   `GET /api/superadmin/telegram` shows the webhook status.
+
+**Endpoints**
+
+| Method | Path | Access | Purpose |
+|---|---|---|---|
+| POST | `/api/auth/telegram/bot-login` | public (`intent: "link"` needs a session) | Start a Telegram sign-in or link; returns the t.me link |
+| GET | `/api/auth/telegram/bot-login/status` | the browser that started it | Poll; signs in once the user confirms in the bot |
+| POST | `/api/telegram/webhook` | Telegram only (secret header) | Bot commands |
+| GET / POST | `/api/superadmin/telegram` | super admin | Webhook status / register webhook and commands |
+
+**Sessions:** the `selam_local_session` cookie is HMAC-signed and expires after 7 days. Forged or edited cookies are rejected. If `SESSION_SECRET` isn't set, a key derived from `SUPABASE_SERVICE_ROLE_KEY` is used.
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License.

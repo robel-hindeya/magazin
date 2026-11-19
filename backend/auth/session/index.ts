@@ -18,7 +18,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     const cookieStore = await cookies();
     const localCookie = cookieStore.get(LOCAL_SESSION_COOKIE)?.value;
     if (localCookie) {
-      const session = decodeSession(localCookie);
+      const session = await decodeSession(localCookie);
       if (session) {
         return {
           id: session.id,
